@@ -17,10 +17,24 @@ class Styles {
     scaffoldBackgroundColor: _backgroundColor,
     primarySwatch: MaterialColor(
       _primarySwatch.hashCode,
-      {900: _primarySwatch},
+      <int, Color>{
+        50: Color(0xFFFFF8E1),
+        100: Color(0xFFFFECB3),
+        200: Color(0xFFFFE082),
+        300: Color(0xFFFFD54F),
+        400: Color(0xFFFFCA28),
+        500: _primarySwatch,
+        600: Color(0xFFFFA000),
+        700: Color(0xFFFF8F00),
+        800: Color(0xFFFF6F00),
+        900: Color(0xFFFFD96B),
+      },
     ),
     accentColor: _secondarySwatch,
-    appBarTheme: AppBarTheme(titleTextStyle: navBarTitle),
+    appBarTheme: AppBarTheme(
+      titleTextStyle: navBarTitle,
+      backgroundColor: _backgroundColor,
+    ),
     snackBarTheme: snackyTheme,
   );
 
