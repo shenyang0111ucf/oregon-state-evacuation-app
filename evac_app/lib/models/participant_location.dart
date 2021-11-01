@@ -1,10 +1,10 @@
-class Location {
+class ParticipantLocation {
   final double latitude;
   final double longitude;
   final DateTime time;
   final double? elevation;
 
-  Location({
+  ParticipantLocation({
     required this.latitude,
     required this.longitude,
     required this.time,
@@ -19,7 +19,8 @@ class Location {
   }
 
   // https://pub.dev/packages/json_serializable (example)
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory ParticipantLocation.fromJson(Map<String, dynamic> json) =>
+      ParticipantLocation(
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
         time: DateTime.parse(json['time']),
