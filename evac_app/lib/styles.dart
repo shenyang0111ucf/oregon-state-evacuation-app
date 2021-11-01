@@ -8,8 +8,8 @@ class Styles {
   static final Color _backgroundColor = Color(0xFF241C35);
   static final Color _primarySwatch = Color(0xFFF9A826);
   static final Color _secondarySwatch = Color(0xFFFF6584);
-  static final Color _highlightSwatch = Color(0xFFFFFFFF);
-  static final Color _shadowSwatch = Color(0x33000000);
+  // static final Color _highlightSwatch = Color(0xFFFFFFFF);
+  // static final Color _shadowSwatch = Color(0x33000000);
   static final Color _textColorStrong = Color(0xFFFFFFFF);
 
   static final darkTheme = ThemeData(
