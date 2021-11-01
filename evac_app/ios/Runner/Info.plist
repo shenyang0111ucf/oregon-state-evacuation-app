@@ -41,5 +41,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Let our app track your location while you have it open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Let our app track your location anytime, so you can switch apps while performing a drill.</string>
 </dict>
 </plist>
