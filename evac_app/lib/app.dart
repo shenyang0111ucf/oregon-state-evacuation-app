@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/location_tracking/location_service.dart';
+import 'package:evac_app/location_tracking/location_permissions.dart';
 import 'package:flutter/material.dart';
 import './styles.dart';
+import 'models/participant_location.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatefulWidget {
@@ -13,6 +18,9 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   bool? _running;
+  LocationService? locationService;
+  StreamSubscription? subscription;
+  ParticipantLocation? currentLocation;
 
   @override
   void initState() {
@@ -20,12 +28,35 @@ class _AppState extends State<App> {
     super.initState();
   }
 
-  void toggleRunning() {
-    // TODO: call toggle to service
-
+  void setCurrentLocation(ParticipantLocation newLocation) {
     setState(() {
-      _running = !_running!;
+      currentLocation = newLocation;
     });
+  }
+
+  void toggleRunning() async {
+    if (!_running!) {
+      String result = await canUseLocation();
+      if (result == 'yes') {
+        print('location available');
+        locationService = LocationService();
+        subscription = LocationService.stream!
+            .listen((newLocation) => setCurrentLocation(newLocation));
+        setState(() {
+          _running = true;
+        });
+      } else {
+        print('location not available');
+      }
+    } else {
+      // locationService!.stopService();
+      subscription!.cancel();
+      locationService = null;
+      subscription = null;
+      setState(() {
+        _running = false;
+      });
+    }
   }
 
   @override
@@ -39,6 +70,7 @@ class _AppState extends State<App> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              (_running!) ? currentLocationText(context) : SizedBox(),
               runningToggleButton(context),
             ],
           ),
@@ -58,5 +90,9 @@ class _AppState extends State<App> {
       ),
       onPressed: toggleRunning,
     );
+  }
+
+  Widget currentLocationText(BuildContext context) {
+    return Text(currentLocation.toString());
   }
 }

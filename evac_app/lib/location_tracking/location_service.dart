@@ -1,20 +1,26 @@
+import 'dart:async';
+
 import 'package:evac_app/models/participant_location.dart';
 import 'package:location/location.dart';
 
-// thank you to https://www.filledstacks.com/snippet/build-a-flutter-location-service/ for the excellent tutorial.
-// also thank you to Yong Bakos and his CS 472 coursework for equivalent information
-
 class LocationService {
-  ParticipantLocation _currentLocation;
-
   var location = Location();
+  static Stream? stream;
 
-  Future<ParticipantLocation> getLocation() async {
+  LocationService() {
+    getLocation();
+    location.changeSettings(distanceFilter: 0.5);
+    // location.enableBackgroundMode(enable: true);
+    stream = location.onLocationChanged.map(
+        (locationData) => ParticipantLocation.fromLocationData(locationData));
+  }
+
+  void getLocation() async {
     try {
-      var participantLocation = await location.getLocation();
-      _currentLocation = ParticipantLocation(latitude: participantLocation.latitude ?? 0.0, longitude: longitude, time: time,)
-    } catch (e) {
-      print('Could not get location: ${e.toString()}');
+      var firstData = await location.getLocation();
+      print(firstData);
+    } on Exception catch (e) {
+      print('No good: ${e.toString()}');
     }
   }
 }

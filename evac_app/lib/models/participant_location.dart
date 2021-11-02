@@ -1,3 +1,5 @@
+import 'package:location/location.dart';
+
 class ParticipantLocation {
   final double latitude;
   final double longitude;
@@ -16,6 +18,16 @@ class ParticipantLocation {
     return '{${latitude.toString()}, ${longitude.toString()}, ${time.toIso8601String()}' +
         (elevation != null ? ', ${elevation.toString()}' : '') +
         '}';
+  }
+
+  factory ParticipantLocation.fromLocationData(LocationData loc) {
+    print(loc.altitude.toString());
+    return ParticipantLocation(
+      latitude: loc.latitude ?? 0.0,
+      longitude: loc.longitude ?? 0.0,
+      time: DateTime.fromMillisecondsSinceEpoch(loc.time?.toInt() ?? 0),
+      elevation: loc.altitude ?? 0.0,
+    );
   }
 
   // https://pub.dev/packages/json_serializable (example)
