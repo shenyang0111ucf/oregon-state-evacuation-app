@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/db/trajectory_database_manager.dart';
 import 'package:evac_app/location_tracking/location_service.dart';
 import 'package:evac_app/location_tracking/location_permissions.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,11 @@ class _AppState extends State<App> {
     }
   }
 
+  void createGpx() async {
+    final databaseManager = TrajectoryDatabaseManager.getInstance();
+    List<ParticipantLocation> dataSet = await databaseManager.getTrajectory();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -94,5 +100,18 @@ class _AppState extends State<App> {
 
   Widget currentLocationText(BuildContext context) {
     return Text(currentLocation.toString());
+  }
+
+  Widget createGpxButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: createGpx,
+      child: SizedBox(
+        child: Text(
+          'create .gpx',
+          textAlign: TextAlign.center,
+        ),
+        width: 120,
+      ),
+    );
   }
 }
