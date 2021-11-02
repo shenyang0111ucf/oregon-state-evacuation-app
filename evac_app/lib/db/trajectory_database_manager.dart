@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -20,11 +22,13 @@ class TrajectoryDatabaseManager {
   }
 
   Future<void> insert({required ParticipantLocation location}) async {
+    String locJson = jsonEncode(location.toJson());
+    print(locJson);
     await db.transaction((txn) async {
       try {
         await txn.rawInsert(
           _SQL_INSERT,
-          [location.toJson()],
+          [locJson],
         );
       } on DatabaseException catch (e) {
         print(e);
@@ -35,7 +39,7 @@ class TrajectoryDatabaseManager {
   Future<List<ParticipantLocation>> getTrajectory() async {
     List<Map> trajectoryDB = await db.rawQuery(_SQL_SELECT);
     final ingredients = trajectoryDB.map((r) {
-      return ParticipantLocation.fromJson(r['locationData']);
+      return ParticipantLocation.fromJson(jsonDecode(r['locationData']));
     }).toList();
     return ingredients;
   }

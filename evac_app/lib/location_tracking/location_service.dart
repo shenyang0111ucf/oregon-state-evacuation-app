@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:evac_app/models/participant_location.dart';
 import 'package:location/location.dart';
 
+// https://stackoverflow.com/questions/60628321/how-to-set-an-interval-to-the-flutter-location-receiving-data
+
 class LocationService {
   var location = Location();
   static Stream? stream;

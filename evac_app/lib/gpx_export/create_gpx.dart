@@ -15,7 +15,7 @@ class CreateGpx {
     for (var entry in dataSet) {
       sink.write(stringifyEntry(entry));
     }
-    sink.write(bodyPreamble);
+    sink.write(footer);
     sink.close();
   }
 
@@ -35,7 +35,7 @@ class CreateGpx {
   String header =
       '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n\n<gpx creator="Oregon State University - Evacuation Research App">\n  <metadata>\n    <link href="https://cce.oregonstate.edu/wang">\n      <text>Dr. Haizhong Wang</text>\n    </link>\n    <time>';
   String bodyPreamble =
-      '</time>\n  </metadata>\n  <trk>\n    <name>Participant Trajectory</name>\n    <trkseg>\n      ';
+      '</time>\n  </metadata>\n  <trk>\n    <name>Participant Trajectory</name>\n    <trkseg>\n';
   String entry0 = '      <trkpt lat="';
   String entry1 = '" lon="';
   String entry2 = '"><ele>';

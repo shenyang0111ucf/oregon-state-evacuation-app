@@ -29,7 +29,6 @@ class _AppState extends State<App> {
   int fileCounter = 0;
   bool canCreateGpx = true;
   bool canExportGpx = true;
-  final databaseManager = TrajectoryDatabaseManager.getInstance();
 
   @override
   void initState() {
@@ -38,6 +37,7 @@ class _AppState extends State<App> {
   }
 
   void setCurrentLocation(ParticipantLocation newLocation) async {
+    final databaseManager = TrajectoryDatabaseManager.getInstance();
     await databaseManager.insert(location: newLocation);
     setState(() {
       currentLocation = newLocation;
@@ -90,7 +90,8 @@ class _AppState extends State<App> {
     // https://firebase.flutter.dev/docs/storage/usage/#file-uploads
 
     final directory = await getApplicationDocumentsDirectory();
-    final filepath = directory.path + '/test' + fileCounter.toString() + '.gpx';
+    final fileName = '/test' + fileCounter.toString() + '.gpx';
+    final filepath = directory.path + fileName;
     var file = File(filepath);
     final port = 8081.toString();
     final address = '192.168.0.192';
@@ -100,15 +101,13 @@ class _AppState extends State<App> {
       body: await file.readAsString(),
       headers: {
         'Content-Type': 'application/xml',
-        'Content-Location': filepath,
+        'Content-Location': fileName,
       },
     );
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('good upload')));
+      print('good upload');
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('pas compris :(')));
+      print('pas compris :(');
     }
   }
 
@@ -184,6 +183,7 @@ class _AppState extends State<App> {
   Widget deleteDatabaseButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        final databaseManager = TrajectoryDatabaseManager.getInstance();
         databaseManager.wipeData();
       },
       child: SizedBox(
