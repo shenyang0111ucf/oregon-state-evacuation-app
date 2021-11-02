@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:evac_app/db/trajectory_database_manager.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:evac_app/components/evac_app_scaffold.dart';
@@ -28,6 +29,7 @@ class _AppState extends State<App> {
   int fileCounter = 0;
   bool canCreateGpx = true;
   bool canExportGpx = true;
+  final databaseManager = TrajectoryDatabaseManager.getInstance();
 
   @override
   void initState() {
@@ -35,7 +37,8 @@ class _AppState extends State<App> {
     super.initState();
   }
 
-  void setCurrentLocation(ParticipantLocation newLocation) {
+  void setCurrentLocation(ParticipantLocation newLocation) async {
+    await databaseManager.insert(location: newLocation);
     setState(() {
       currentLocation = newLocation;
     });
