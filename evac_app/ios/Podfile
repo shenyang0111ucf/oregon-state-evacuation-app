@@ -50,5 +50,6 @@ post_install do |installer|
         ## dart: PermissionGroup.notification
         'PERMISSION_NOTIFICATIONS=1',
       ]
+    end
   end
 end
