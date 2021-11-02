@@ -8,7 +8,6 @@ class CreateGpx {
     final databaseManager = TrajectoryDatabaseManager.getInstance();
     List<ParticipantLocation> dataSet = await databaseManager.getTrajectory();
 
-    // TODO: gpx format output
     var sink = file.openWrite();
     sink.write(header);
     sink.write(DateTime.now().toIso8601String());

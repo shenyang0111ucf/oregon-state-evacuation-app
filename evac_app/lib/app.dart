@@ -89,7 +89,6 @@ class _AppState extends State<App> {
   void exportGpx() async {
     // https://firebase.flutter.dev/docs/storage/usage/#file-uploads
 
-    // TODO: hardcode (? or popup form) export to server running on macbook.
     final directory = await getApplicationDocumentsDirectory();
     final filepath = directory.path + '/test' + fileCounter.toString() + '.gpx';
     var file = File(filepath);
@@ -126,6 +125,12 @@ class _AppState extends State<App> {
             children: [
               (_running!) ? currentLocationText(context) : SizedBox(),
               runningToggleButton(context),
+              SizedBox(height: 10),
+              createGpxButton(context),
+              SizedBox(height: 10),
+              exportGpxButton(context),
+              SizedBox(height: 10),
+              deleteDatabaseButton(context),
             ],
           ),
         ),
@@ -172,6 +177,21 @@ class _AppState extends State<App> {
           textAlign: TextAlign.center,
         ),
         width: 120,
+      ),
+    );
+  }
+
+  Widget deleteDatabaseButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        databaseManager.wipeData();
+      },
+      child: SizedBox(
+        child: Text(
+          'delete currently stored trajectory',
+          textAlign: TextAlign.center,
+        ),
+        width: 240,
       ),
     );
   }
