@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:evac_app/components/evac_app_scaffold.dart';
-import 'package:evac_app/db/trajectory_database_manager.dart';
+import 'package:evac_app/gpx_export/create_gpx.dart';
 import 'package:evac_app/location_tracking/location_service.dart';
 import 'package:evac_app/location_tracking/location_permissions.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import './styles.dart';
 import 'models/participant_location.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +25,9 @@ class _AppState extends State<App> {
   LocationService? locationService;
   StreamSubscription? subscription;
   ParticipantLocation? currentLocation;
+  int fileCounter = 0;
+  bool canCreateGpx = true;
+  bool canExportGpx = true;
 
   @override
   void initState() {
@@ -61,8 +67,47 @@ class _AppState extends State<App> {
   }
 
   void createGpx() async {
-    final databaseManager = TrajectoryDatabaseManager.getInstance();
-    List<ParticipantLocation> dataSet = await databaseManager.getTrajectory();
+    setState(() {
+      canCreateGpx = false;
+    });
+    final directory = await getApplicationDocumentsDirectory();
+    var file = File(directory.path + '/test' + fileCounter.toString() + '.gpx');
+    while (await file.exists()) {
+      print('having to increment file name...');
+      fileCounter++;
+      file = File(directory.path + '/test' + fileCounter.toString() + '.gpx');
+    }
+    await CreateGpx().fromList(file);
+    setState(() {
+      canCreateGpx = true;
+    });
+  }
+
+  void exportGpx() async {
+    // https://firebase.flutter.dev/docs/storage/usage/#file-uploads
+
+    // TODO: hardcode (? or popup form) export to server running on macbook.
+    final directory = await getApplicationDocumentsDirectory();
+    final filepath = directory.path + '/test' + fileCounter.toString() + '.gpx';
+    var file = File(filepath);
+    final port = 8081.toString();
+    final address = '192.168.0.192';
+    final baseURL = 'http://' + address + ':' + port;
+    final response = await http.post(
+      Uri.parse(baseURL + '/trajectories'),
+      body: await file.readAsString(),
+      headers: {
+        'Content-Type': 'application/xml',
+        'Content-Location': filepath,
+      },
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('good upload')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('pas compris :(')));
+    }
   }
 
   @override
@@ -104,10 +149,23 @@ class _AppState extends State<App> {
 
   Widget createGpxButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: createGpx,
+      onPressed: (canCreateGpx) ? createGpx : null,
       child: SizedBox(
         child: Text(
           'create .gpx',
+          textAlign: TextAlign.center,
+        ),
+        width: 120,
+      ),
+    );
+  }
+
+  Widget exportGpxButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: (canExportGpx) ? exportGpx : null,
+      child: SizedBox(
+        child: Text(
+          'export .gpx',
           textAlign: TextAlign.center,
         ),
         width: 120,

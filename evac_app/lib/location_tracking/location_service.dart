@@ -9,13 +9,13 @@ class LocationService {
 
   LocationService() {
     getLocation();
-    location.changeSettings(distanceFilter: 0.5);
     // location.enableBackgroundMode(enable: true);
     stream = location.onLocationChanged.map(
         (locationData) => ParticipantLocation.fromLocationData(locationData));
   }
 
   void getLocation() async {
+    await location.changeSettings(distanceFilter: 2);
     try {
       var firstData = await location.getLocation();
       print(firstData);
