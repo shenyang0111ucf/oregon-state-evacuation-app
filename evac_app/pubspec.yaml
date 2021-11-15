@@ -31,6 +31,7 @@ dependencies:
   google_fonts: ^2.1.0
   location: ^4.3.0
   permission_handler: ^8.1.6
+  survey_kit: ^0.0.12
   sqflite: ^2.0.0+4
   path_provider: ^2.0.4
 
