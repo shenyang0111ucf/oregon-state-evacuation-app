@@ -116,3 +116,4 @@ coverage/
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter
 
+!**/android/build.gradle

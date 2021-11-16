@@ -1,6 +1,8 @@
-import 'package:evac_app/components/evac_app_scaffold.dart';
 import 'package:flutter/material.dart';
-import './styles.dart';
+
+import 'package:evac_app/styles.dart';
+import 'package:evac_app/components/demos/location_demo.dart';
+import 'package:evac_app/components/evac_app_scaffold.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {
@@ -14,7 +16,7 @@ class App extends StatelessWidget {
       theme: Styles.darkTheme,
       home: EvacAppScaffold(
         title: title,
-        child: Center(),
+        child: LocationDemo(),
       ),
     );
   }
