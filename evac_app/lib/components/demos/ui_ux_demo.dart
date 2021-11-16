@@ -30,7 +30,7 @@ class _UiUxDemoState extends State<UiUxDemo> {
                   print(result.finishReason);
                 },
                 task: task,
-                themeData: Styles.darkTheme,
+                themeData: getTheme(context),
               );
             }
             return CircularProgressIndicator.adaptive();
