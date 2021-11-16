@@ -1,3 +1,5 @@
+import 'package:evac_app/components/demos/location_demo.dart';
+import 'package:evac_app/components/evac_app_scaffold.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,12 @@ class _UiUxDemoState extends State<UiUxDemo> {
                 child: SurveyKit(
                   onResult: (SurveyResult result) {
                     print(result.finishReason);
+                    for (var stepResult in result.results) {
+                      for (var questionResult in stepResult.results) {
+                        // Here are your question results
+                        print(questionResult.result);
+                      }
+                    }
                   },
                   task: task,
                   themeData: Styles.darkTheme.copyWith(
