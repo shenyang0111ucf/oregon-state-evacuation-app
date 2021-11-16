@@ -85,3 +85,11 @@ lib/generated_plugin_registrant.dart
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter
+evac_app/pubspec.yaml
+evac_app/pubspec.yaml
+evac_app/pubspec.lock
+evac_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+evac_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+evac_app/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+evac_app/ios/Podfile.lock
+evac_app/ios/Podfile

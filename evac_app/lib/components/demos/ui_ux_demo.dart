@@ -45,9 +45,24 @@ class _UiUxDemoState extends State<UiUxDemo> {
       id: TaskIdentifier(),
       steps: [
         InstructionStep(
-          title: 'Welcome to the\nQuickBird Studios\nHealth Survey',
-          text: 'Get ready for a bunch of super random questions!',
-          buttonText: 'Let\'s go!',
+          title: 'Welcome to\nEvacuation App',
+          text: 'Pre-Drill Survey',
+          buttonText: 'I\'m Ready!',
+        ),
+        QuestionStep(
+          title: 'Are you a new participant?',
+          answerFormat: BooleanAnswerFormat(
+            positiveAnswer: 'Yes',
+            negativeAnswer: 'No',
+            result: BooleanResult.POSITIVE,
+          ),
+        ),
+        QuestionStep(
+          title: 'How many drills have you previously completed?',
+          answerFormat: IntegerAnswerFormat(
+            defaultValue: 2,
+          ),
+          isOptional: true,
         ),
         QuestionStep(
           title: 'How old are you?',
@@ -58,25 +73,16 @@ class _UiUxDemoState extends State<UiUxDemo> {
           isOptional: true,
         ),
         QuestionStep(
-          title: 'Medication?',
-          text: 'Are you using any medication',
-          answerFormat: BooleanAnswerFormat(
-            positiveAnswer: 'Yes',
-            negativeAnswer: 'No',
-            result: BooleanResult.POSITIVE,
-          ),
-        ),
-        QuestionStep(
-          title: 'Tell us about you',
-          text:
-              'Tell us about yourself and why you want to improve your health.',
+          title: 'Anything else you would like to share?',
+          text: 'Tell us what made you interested in this research... etc',
           answerFormat: TextAnswerFormat(
             maxLines: 5,
             validationRegEx: "^(?!\s*\$).+",
           ),
         ),
         QuestionStep(
-          title: 'Select your body type',
+          title: 'Select your current level of preparedness',
+          text: '1 - Very unprepared \n5 - Very prepared',
           answerFormat: ScaleAnswerFormat(
             step: 1,
             minimumValue: 1,
@@ -86,6 +92,10 @@ class _UiUxDemoState extends State<UiUxDemo> {
             maximumValueDescription: '5',
           ),
         ),
+
+        // Maybe we can find a use for this format but I haven't thought of one
+        // for the survey just yet.
+        /*
         QuestionStep(
           title: 'Known allergies',
           text: 'Do you have any allergies that we should be aware of?',
@@ -98,17 +108,21 @@ class _UiUxDemoState extends State<UiUxDemo> {
             ],
           ),
         ),
+        */
+
         QuestionStep(
-          title: 'Done?',
-          text: 'We are done, do you mind to tell us more about yourself?',
+          title: 'Do you need to review your answers?',
+          //text: 'Are you ready to begin your drill?',
           answerFormat: SingleChoiceAnswerFormat(
             textChoices: [
-              TextChoice(text: 'Yes', value: 'Yes'),
               TextChoice(text: 'No', value: 'No'),
+              TextChoice(text: 'Yes', value: 'Yes'),
             ],
-            defaultSelection: TextChoice(text: 'No', value: 'No'),
+            defaultSelection: TextChoice(text: 'Yes', value: 'Yes'),
           ),
         ),
+
+        /*
         QuestionStep(
           title: 'When did you wake up?',
           answerFormat: TimeAnswerFormat(
@@ -126,10 +140,13 @@ class _UiUxDemoState extends State<UiUxDemo> {
             maxDate: DateTime.now(),
           ),
         ),
+        
+      */
+
         CompletionStep(
           stepIdentifier: StepIdentifier(id: '321'),
-          text: 'Thanks for taking the survey, we will contact you soon!',
-          title: 'Done!',
+          text: 'Thanks for taking the survey, your drill will begin soon!',
+          title: 'Finished!',
           buttonText: 'Submit survey',
         ),
       ],
