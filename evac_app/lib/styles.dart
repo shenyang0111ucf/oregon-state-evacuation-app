@@ -41,15 +41,6 @@ class Styles {
       backgroundColor: backgroundColor,
     ),
     snackBarTheme: snackyTheme,
-    colorScheme: ColorScheme.fromSwatch(
-      primarySwatch: _primarySwatch,
-    )
-    // .copyWith(
-    //   onPrimary: Styles.backgroundColor,
-    // ),
-    ,
-    outlinedButtonTheme: _outlinedButtonTheme,
-    textButtonTheme: _textButtonTheme,
   );
 
   static final normalText = GoogleFonts.getFont(
