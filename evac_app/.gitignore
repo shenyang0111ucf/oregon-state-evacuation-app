@@ -116,4 +116,6 @@ coverage/
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter
 
+pubspec.lock
+
 !**/android/build.gradle
