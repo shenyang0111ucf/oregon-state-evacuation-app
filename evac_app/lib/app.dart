@@ -1,9 +1,7 @@
-import 'package:evac_app/components/demos/ui_ux_demo.dart';
 import 'package:evac_app/components/demos/demo_launcher.dart';
 import 'package:flutter/material.dart';
 
 import 'package:evac_app/styles.dart';
-import 'package:evac_app/components/demos/location_demo.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 

@@ -11,7 +11,7 @@ class DemoLauncher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        child: Text('start it up'),
+        child: Text('start survey'),
         onPressed: () {
           // print('hmm');
           Navigator.of(context).push(MaterialPageRoute(
