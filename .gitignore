@@ -86,7 +86,6 @@ lib/generated_plugin_registrant.dart
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter
 evac_app/pubspec.yaml
-evac_app/pubspec.yaml
 evac_app/pubspec.lock
 evac_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 evac_app/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
