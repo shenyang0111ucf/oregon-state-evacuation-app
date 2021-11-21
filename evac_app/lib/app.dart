@@ -1,3 +1,4 @@
+import 'package:evac_app/components/demos/ui_ux_demo.dart';
 import 'package:flutter/material.dart';
 
 import 'package:evac_app/styles.dart';
@@ -16,7 +17,7 @@ class App extends StatelessWidget {
       theme: Styles.darkTheme,
       home: EvacAppScaffold(
         title: title,
-        child: LocationDemo(),
+        child: UiUxDemo(),
       ),
     );
   }
