@@ -29,6 +29,23 @@ class Styles {
     },
   );
 
+  static final MaterialColor _possibleOtherColors = MaterialColor(
+    Color(0xFFF9A826).hashCode,
+    <int, Color>{
+      00: Color(0xFF241C35),
+      01: Color(0xFFF9A826),
+      02: Color(0xFFFF6584),
+      10: Color(0xFF8FE388),
+      11: Color(0xFF58BC82),
+      20: Color(0xFFF2F2F2),
+      21: Color(0xFFE8D7FF),
+      30: Color(0xFF5EB1BF),
+      31: Color(0xFFCDEDF6),
+      40: Color(0xFF91171F),
+      41: Color(0xFF85FFC7),
+    },
+  );
+
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: backgroundColor,
