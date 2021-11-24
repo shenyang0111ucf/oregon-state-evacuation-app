@@ -360,9 +360,11 @@ packages:
   survey_kit:
     dependency: "direct main"
     description:
-      name: survey_kit
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "36cf27cce0ecdbebc93f2f28672c95f8c0864101"
+      url: "https://github.com/kaff-oregonstate/survey_kit"
+    source: git
     version: "0.0.12"
   synchronized:
     dependency: transitive

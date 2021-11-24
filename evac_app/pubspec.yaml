@@ -31,7 +31,12 @@ dependencies:
   google_fonts: ^2.1.0
   location: ^4.3.0
   permission_handler: ^8.1.6
-  survey_kit: ^0.0.12
+  # survey_kit: ^0.0.12
+  # survey_kit: 
+  #   path: ./lib/packages/survey_kit-0.0.12
+  survey_kit:
+    git:
+      url: https://github.com/kaff-oregonstate/survey_kit
   sqflite: ^2.0.0+4
   path_provider: ^2.0.4
 
