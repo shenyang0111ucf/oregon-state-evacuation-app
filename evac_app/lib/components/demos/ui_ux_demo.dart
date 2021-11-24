@@ -1,8 +1,6 @@
-import 'package:evac_app/components/demos/location_demo.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
-import 'package:evac_app/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:evac_app/styles.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 // borrowing heavily from https://github.com/quickbirdstudios/survey_kit/blob/main/example/lib/main.dart [accessed Nov 15 2021]
