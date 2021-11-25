@@ -1,5 +1,5 @@
-import 'package:evac_app/components/demos/location_demo.dart';
-import 'package:evac_app/components/demos/ui_ux_demo.dart';
+import 'package:evac_app/components/demos/v0_0_2/location_demo.dart';
+import 'package:evac_app/components/demos/v0_0_2/ui_ux_demo.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
 import 'package:evac_app/components/evac_app_scaffold_no_app_bar.dart';
 import 'package:flutter/material.dart';

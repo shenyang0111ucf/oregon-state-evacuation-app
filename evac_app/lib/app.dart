@@ -1,4 +1,4 @@
-import 'package:evac_app/components/demos/demo_launcher.dart';
+import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
 import 'package:flutter/material.dart';
 
 import 'package:evac_app/styles.dart';
