@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +10,8 @@ class Styles {
   static const Color primaryColor = Color(0xFFF9A826);
   static final Color _secondaryColor = Color(0xFFFF6584);
   static final Color _textColorStrong = Color(0xFFFFFFFF);
-  static final Color _disabledColor = Colors.grey[800]!;
+  static final Color _noInteractionMaterialColor = Colors.grey[800]!;
+  static final Color _snackbarBackground = Color(0xFF141414);
   // static final Color _highlightSwatch = Color(0xFFFFFFFF);
   // static final Color _shadowSwatch = Color(0x33000000);
 
@@ -57,14 +59,25 @@ class Styles {
       titleTextStyle: navBarTitle,
       backgroundColor: backgroundColor,
     ),
-    snackBarTheme: snackyTheme,
+    snackBarTheme: snackbar,
+  );
+
+  static final darkCupertinoTheme = Styles.darkTheme.copyWith(
+    cupertinoOverrideTheme: CupertinoThemeData(
+      brightness: Brightness.dark,
+      barBackgroundColor: Styles.backgroundColor,
+      textTheme: CupertinoTextThemeData(
+        textStyle: Styles.normalText.copyWith(fontSize: 24),
+      ),
+    ),
+    outlinedButtonTheme: Styles.outlinedButtonTheme,
+    textButtonTheme: Styles.textButtonTheme,
   );
 
   static final normalText = GoogleFonts.getFont(
     _fontNameDefault,
     color: _textColorStrong,
     fontWeight: FontWeight.w500,
-    fontSize: 12,
   );
 
   static final boldText = GoogleFonts.getFont(
@@ -85,9 +98,9 @@ class Styles {
     fontWeight: FontWeight.w800,
   );
 
-  static final snackyTheme = SnackBarThemeData(
-    actionTextColor: primaryColor,
-    backgroundColor: backgroundColor,
+  static final snackbar = SnackBarThemeData(
+    actionTextColor: _textColorStrong,
+    backgroundColor: _snackbarBackground,
     contentTextStyle: Styles.boldAccentText,
     shape: RoundedRectangleBorder(),
   );
@@ -101,7 +114,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return BorderSide(
-              color: _disabledColor,
+              color: _noInteractionMaterialColor,
             );
           }
           return BorderSide(
@@ -118,7 +131,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return normalText.copyWith(
-              color: _disabledColor,
+              color: _noInteractionMaterialColor,
             );
           }
           return normalText.copyWith(
