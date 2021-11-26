@@ -9,18 +9,21 @@ class DemoLauncher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        child: Text('start survey'),
-        onPressed: () {
-          // print('hmm');
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EvacAppScaffold(
-                  title: 'location demo', child: LocationDemo())));
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EvacAppScaffoldNoAppBar(
-                  title: 'ui ux demo', child: UiUxDemo())));
-        },
+    return EvacAppScaffold(
+      title: 'demo launcher',
+      child: Center(
+        child: ElevatedButton(
+          child: Text('start survey'),
+          onPressed: () {
+            // print('hmm');
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EvacAppScaffold(
+                    title: 'location demo', child: LocationDemo())));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EvacAppScaffoldNoAppBar(
+                    title: 'ui ux demo', child: UiUxDemo())));
+          },
+        ),
       ),
     );
   }
