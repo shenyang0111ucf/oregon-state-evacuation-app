@@ -1,4 +1,5 @@
 import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
+import 'package:evac_app/components/demos/v0_0_3/rough_outline.dart';
 import 'package:flutter/material.dart';
 
 import 'package:evac_app/styles.dart';
@@ -14,10 +15,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      home: EvacAppScaffold(
-        title: title,
-        child: DemoLauncher(),
-      ),
+      home: RoughOutline(),
+      // home: DemoLauncher(),
     );
   }
 }
