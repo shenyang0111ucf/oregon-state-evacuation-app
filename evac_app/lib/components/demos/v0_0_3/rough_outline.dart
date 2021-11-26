@@ -1,4 +1,3 @@
-import 'package:evac_app/components/demos/v0_0_2/ui_ux_demo.dart';
 import 'package:evac_app/components/demos/v0_0_3/confirm_drill.dart';
 import 'package:evac_app/components/demos/v0_0_3/landing_page.dart';
 import 'package:evac_app/components/demos/v0_0_3/pre_drill_survey.dart';

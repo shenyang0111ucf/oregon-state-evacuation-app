@@ -1,10 +1,8 @@
-import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
-import 'package:evac_app/components/demos/v0_0_3/rough_outline.dart';
+// import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
 import 'package:flutter/material.dart';
 
+import 'package:evac_app/components/demos/v0_0_3/rough_outline.dart';
 import 'package:evac_app/styles.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {
   const App({Key? key, required this.title}) : super(key: key);

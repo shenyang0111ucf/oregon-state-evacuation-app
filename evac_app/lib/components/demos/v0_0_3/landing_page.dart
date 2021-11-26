@@ -1,5 +1,4 @@
 import 'package:evac_app/components/evac_app_scaffold.dart';
-import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {
