@@ -25,6 +25,7 @@ class _LocationDemoState extends State<LocationDemo> {
   StreamSubscription? subscription;
   ParticipantLocation? currentLocation;
   int fileCounter = 0;
+  int exportCounter = 0;
   bool canCreateGpx = true;
   bool canExportGpx = true;
 
@@ -86,26 +87,28 @@ class _LocationDemoState extends State<LocationDemo> {
 
   void exportGpx() async {
     // https://firebase.flutter.dev/docs/storage/usage/#file-uploads
-
-    final directory = await getApplicationDocumentsDirectory();
-    final fileName = '/test' + fileCounter.toString() + '.gpx';
-    final filepath = directory.path + fileName;
-    var file = File(filepath);
-    final port = 8081.toString();
-    final address = '192.168.0.192';
-    final baseURL = 'http://' + address + ':' + port;
-    final response = await http.post(
-      Uri.parse(baseURL + '/trajectories'),
-      body: await file.readAsString(),
-      headers: {
-        'Content-Type': 'application/xml',
-        'Content-Location': fileName,
-      },
-    );
-    if (response.statusCode == 200) {
-      print('good upload');
-    } else {
-      print('pas compris :(');
+    while (exportCounter < fileCounter) {
+      final directory = await getApplicationDocumentsDirectory();
+      final fileName = '/test' + exportCounter.toString() + '.gpx';
+      final filepath = directory.path + fileName;
+      var file = File(filepath);
+      final port = 8081.toString();
+      final address = '192.168.0.192';
+      final baseURL = 'http://' + address + ':' + port;
+      final response = await http.post(
+        Uri.parse(baseURL + '/trajectories'),
+        body: await file.readAsString(),
+        headers: {
+          'Content-Type': 'application/xml',
+          'Content-Location': fileName,
+        },
+      );
+      if (response.statusCode == 200) {
+        print('good upload');
+      } else {
+        print('pas compris :(');
+      }
+      exportCounter++;
     }
   }
 
@@ -115,7 +118,7 @@ class _LocationDemoState extends State<LocationDemo> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          (_running!) ? currentLocationText(context) : SizedBox(),
+          (_running!) ? currentLocationText(context) : const SizedBox(),
           runningToggleButton(context),
           SizedBox(height: 10),
           createGpxButton(context),

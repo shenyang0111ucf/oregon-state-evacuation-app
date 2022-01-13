@@ -1,4 +1,5 @@
 // import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
+import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 import 'package:flutter/material.dart';
 
 import 'package:evac_app/components/demos/v0_0_3/rough_outline.dart';
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      home: RoughOutline(),
+      home: ElevationTests(),
       // home: DemoLauncher(),
     );
   }
