@@ -25,6 +25,7 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
         onResult: (SurveyResult result) async {
           await handleConfirmDrill(result);
         },
+        showProgress: false,
         task: NavigableTask(
           id: TaskIdentifier(),
           steps: [
