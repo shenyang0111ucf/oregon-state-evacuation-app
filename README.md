@@ -1,5 +1,7 @@
 # oregon-state-evacuation-app
 
-# David Kaff
-# Dingguo Tang
+Jasmine Snyder
 
+David Kaff
+
+Dingguo Tang
