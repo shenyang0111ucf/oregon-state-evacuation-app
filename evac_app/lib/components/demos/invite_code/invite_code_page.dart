@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
 
-class InviteCodePage extends StatelessWidget {
+class InviteCodePage extends StatefulWidget {
   const InviteCodePage({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
-
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: InviteCodePageWidget(),
-    );
-  }
+  State<InviteCodePage> createState() => _InviteCodePageState();
 }
 
-class InviteCodePageWidget extends StatefulWidget {
-  const InviteCodePageWidget({Key? key}) : super(key: key);
-
-  @override
-  State<InviteCodePageWidget> createState() => _InviteCodePageWidgetState();
-}
-
-class _InviteCodePageWidgetState extends State<InviteCodePageWidget> {
+class _InviteCodePageState extends State<InviteCodePage> {
   late TextEditingController _controller;
 
   @override
@@ -50,11 +36,9 @@ class _InviteCodePageWidgetState extends State<InviteCodePageWidget> {
               builder: (BuildContext context) {
                 final codeExp = RegExp(r'^[0-9]{6}$');
                 if (codeExp.hasMatch(value)) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(value)));
                   return AlertDialog(
                     title: const Text('Thanks!'),
-                    content: const Text('Thank you for joining us!'),
+                    content: Text('Thank you for joining us with code $value!'),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
