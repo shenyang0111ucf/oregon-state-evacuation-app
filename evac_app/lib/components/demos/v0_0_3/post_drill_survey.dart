@@ -7,25 +7,25 @@ import 'package:survey_kit/survey_kit.dart';
 
 // borrowing heavily from https://github.com/quickbirdstudios/survey_kit/blob/main/example/lib/main.dart [accessed Nov 15 2021]
 
-class PreDrillSurvey extends StatefulWidget {
-  PreDrillSurvey({
+class PostDrillSurvey extends StatefulWidget {
+  PostDrillSurvey({
     Key? key,
     required this.drillEvent,
   }) : super(key: key);
 
   final DrillEvent drillEvent;
-  static const valueKey = ValueKey('PreDrillSurvey');
+  static const valueKey = ValueKey('PostDrillSurvey');
   static const printResults = true;
 
   @override
-  _PreDrillSurveyState createState() => _PreDrillSurveyState();
+  _PostDrillSurveyState createState() => _PostDrillSurveyState();
 }
 
-class _PreDrillSurveyState extends State<PreDrillSurvey> {
+class _PostDrillSurveyState extends State<PostDrillSurvey> {
   @override
   Widget build(BuildContext context) {
     return EvacAppScaffoldNoAppBar(
-      title: 'pre drill survey',
+      title: 'post drill survey',
       child: Container(
         color: Styles.backgroundColor,
         child: Align(
@@ -41,7 +41,7 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
                   style: Styles.normalText,
                   child: SurveyKit(
                     onResult: (SurveyResult result) async {
-                      await handlePreDrillResult(result);
+                      await handlePostDrillResult(result);
                     },
                     task: task,
                     themeData: Styles.darkCupertinoTheme,
@@ -56,9 +56,9 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
     );
   }
 
-  void printPreDrillResults(SurveyResult result) {
+  void printPostDrillResults(SurveyResult result) {
     print(result.finishReason);
-    if (PreDrillSurvey.printResults) {
+    if (PostDrillSurvey.printResults) {
       for (var stepResult in result.results) {
         for (var questionResult in stepResult.results) {
           // Here are your question results
@@ -68,13 +68,13 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
     }
   }
 
-  Future<void> handlePreDrillResult(SurveyResult result) async {
-    printPreDrillResults(result);
+  Future<void> handlePostDrillResult(SurveyResult result) async {
+    printPostDrillResults(result);
     Navigator.pop(context, result);
   }
 
   Future<Task> getTask() {
-    var task = Task.fromJson(widget.drillEvent.preDrillSurveyJSON);
+    var task = Task.fromJson(widget.drillEvent.postDrillSurveyJSON);
     return Future.value(task);
   }
 }

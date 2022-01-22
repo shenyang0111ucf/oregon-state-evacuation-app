@@ -1,6 +1,7 @@
 import 'package:evac_app/components/demos/v0_0_3/confirm_drill.dart';
 import 'package:evac_app/components/demos/v0_0_3/during_drill.dart';
 import 'package:evac_app/components/demos/v0_0_3/landing_page.dart';
+import 'package:evac_app/components/demos/v0_0_3/post_drill_survey.dart';
 import 'package:evac_app/components/demos/v0_0_3/pre_drill_survey.dart';
 import 'package:evac_app/components/demos/v0_0_3/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
@@ -19,7 +20,8 @@ class _RoughOutlineState extends State<RoughOutline> {
   DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
   SurveyResult? _preDrillResults = null;
-  bool? _researcherStartReceived = null;
+  bool _researcherStartReceived = false;
+  bool _drillComplete = false;
 
   @override
   void initState() {
@@ -35,25 +37,31 @@ class _RoughOutlineState extends State<RoughOutline> {
           child: LandingPage(tryInviteCode: tryInviteCode),
           key: LandingPage.valueKey,
         ),
-        if (_drillEvent != null)
+        if (_drillComplete)
           MaterialPage(
-            child: ConfirmDrill(),
-            key: ConfirmDrill.valueKey,
+            child: PostDrillSurvey(drillEvent: _drillEvent!),
+            key: PostDrillSurvey.valueKey,
           )
-        else if (_confirmedDrill != null &&
-            _confirmedDrill! &&
-            _preDrillResults == null)
+        else if (_researcherStartReceived)
           MaterialPage(
-            child: PreDrillSurvey(),
-            key: PreDrillSurvey.valueKey,
+            child: DuringDrill(drillEvent: _drillEvent!),
+            key: DuringDrill.valueKey,
           )
         else if (_preDrillResults != null)
           MaterialPage(
             child: WaitScreen(),
           )
-        else if (_researcherStartReceived != null && _researcherStartReceived!)
+        else if (_confirmedDrill != null &&
+            _confirmedDrill! &&
+            _preDrillResults == null)
           MaterialPage(
-            child: DuringDrill(),
+            child: PreDrillSurvey(drillEvent: _drillEvent!),
+            key: PreDrillSurvey.valueKey,
+          )
+        else if (_drillEvent != null)
+          MaterialPage(
+            child: ConfirmDrill(),
+            key: ConfirmDrill.valueKey,
           ),
       ],
       onPopPage: (route, result) {
@@ -83,6 +91,18 @@ class _RoughOutlineState extends State<RoughOutline> {
 
           // store results in persistent storage
           twiddleThumbs();
+
+          // choose between "your drill starts in [x time]" page and "waiting for drill to start"
+          // if "waiting for drill to start" then start listening for signal from researcher
+          listenForStartSignal();
+        }
+
+        if (page.key == DuringDrill.valueKey) {
+          // do any storage after drill
+
+          setState(() {
+            _drillComplete = result;
+          });
         }
 
         return route.didPop(result);
@@ -92,12 +112,29 @@ class _RoughOutlineState extends State<RoughOutline> {
 
   void syncDrillEvent() {
     // after succesfully entering invite code within last 24 hours this function should be called anytime state is being initialized (could be due to a close or crash of the app) to reset to the previous position and if on the "modified landing page" display the recently completed event
+
+    // if choosing to store survey results elsewhere, sync those as well
+
     if (!twiddleThumbs()!) {
       // store it in local state
       setState(() {
         _drillEvent = DrillEvent.example();
       });
     }
+  }
+
+  void listenForStartSignal() async {
+    // listen
+    bool startSignal = await Future.delayed(
+      Duration(seconds: 8),
+      () {
+        return true;
+      },
+    );
+    // tell DrillPresenter signal arrived
+    setState(() {
+      _researcherStartReceived = startSignal;
+    });
   }
 
   Future<bool> getDrillEvent() async {
