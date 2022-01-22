@@ -77,40 +77,6 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
   Future<Task> getTask() {
     var drillEvent = DrillEvent.example();
     var task = Task.fromJson(drillEvent.preDrillSurveyJSON);
-    // var task = NavigableTask(
-    //   id: TaskIdentifier(),
-    //   steps: [
-    //     InstructionStep(
-    //       title: 'Welcome to the\nEvacuation Drill',
-    //       text: 'Up first: Pre-Drill Survey',
-    //       buttonText: 'I\'m Ready!',
-    //     ),
-    //     // for (var j in json) {create QuestionStep.fromJson(j)},
-    //     QuestionStep(
-    //       title: 'Is this a survey?',
-    //       answerFormat: BooleanAnswerFormat(
-    //         positiveAnswer: 'Yes',
-    //         negativeAnswer: 'No',
-    //         result: BooleanResult.POSITIVE,
-    //       ),
-    //     ),
-    //     // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
-    //     QuestionStep(
-    //       title: 'Can we track your location?',
-    //       answerFormat: BooleanAnswerFormat(
-    //         positiveAnswer: 'Yes',
-    //         negativeAnswer: 'No',
-    //         result: BooleanResult.POSITIVE,
-    //       ),
-    //     ),
-    //     CompletionStep(
-    //       stepIdentifier: StepIdentifier(id: '321'),
-    //       text: 'Thanks for taking the survey, your drill will begin soon!',
-    //       title: 'Finished!',
-    //       buttonText: 'Submit survey',
-    //     ),
-    //   ],
-    // );
     return Future.value(task);
   }
 }
