@@ -10,10 +10,8 @@ import 'package:survey_kit/survey_kit.dart';
 class PreDrillSurvey extends StatefulWidget {
   PreDrillSurvey({
     Key? key,
-    required this.storePreDrillResults,
   }) : super(key: key);
 
-  final Function storePreDrillResults;
   static const valueKey = ValueKey('PreDrillSurvey');
   static const printResults = true;
 
@@ -70,8 +68,7 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
 
   Future<void> handlePreDrillResult(SurveyResult result) async {
     printPreDrillResults(result);
-    await widget.storePreDrillResults(result);
-    return;
+    Navigator.pop(context, result);
   }
 
   Future<Task> getTask() {

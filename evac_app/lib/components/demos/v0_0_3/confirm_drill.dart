@@ -6,10 +6,8 @@ import 'package:survey_kit/survey_kit.dart';
 class ConfirmDrill extends StatefulWidget {
   const ConfirmDrill({
     Key? key,
-    required this.drillConfirmed,
   }) : super(key: key);
 
-  final Function drillConfirmed;
   static const valueKey = ValueKey('ConfirmDrill');
 
   @override
@@ -19,11 +17,17 @@ class ConfirmDrill extends StatefulWidget {
 class _ConfirmDrillState extends State<ConfirmDrill> {
   @override
   Widget build(BuildContext context) {
+    // TODO: rebuild this without surveykit
     return EvacAppScaffoldNoAppBar(
       title: 'pre drill survey',
       child: SurveyKit(
         onResult: (SurveyResult result) async {
-          await handleConfirmDrill(result);
+          // I'm just extracting the simple "true/false" from SurveyKit here, then returning that to the Navigator as I pop this page
+          if (result.results[0].results[0].result == BooleanResult.POSITIVE) {
+            Navigator.pop(context, true);
+          } else {
+            Navigator.pop(context, false);
+          }
         },
         showProgress: false,
         task: NavigableTask(
@@ -42,12 +46,5 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
         themeData: Styles.darkCupertinoTheme,
       ),
     );
-  }
-
-  Future<void> handleConfirmDrill(SurveyResult result) async {
-    // if (result is from good exit)
-    // if (result says yes to confirm)
-    await widget.drillConfirmed();
-    return;
   }
 }

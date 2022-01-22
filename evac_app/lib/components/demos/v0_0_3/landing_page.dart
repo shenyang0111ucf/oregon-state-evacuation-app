@@ -31,7 +31,7 @@ class LandingPage extends StatelessWidget {
               Builder(builder: (context) {
                 return ElevatedButton(
                     onPressed: () {
-                      tryCode(context);
+                      _tryCode(context);
                     },
                     child: Text(
                       "[enter valid invite code]",
@@ -43,7 +43,7 @@ class LandingPage extends StatelessWidget {
         ));
   }
 
-  Future<void> tryCode(BuildContext context) async {
+  Future<void> _tryCode(BuildContext context) async {
     // freeze interaction with:
     //   submit button
     //   edit numbers
