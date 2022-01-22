@@ -1,20 +1,23 @@
 // This may be subsumed during our transition to "bloc"
 
 class DrillEvent {
+  final DateTime startTime;
+  final String publicKey;
   final Map<String, dynamic> preDrillSurveyJSON;
   final Map<String, dynamic> postDrillSurveyJSON;
   String? preDrillResponses;
   String? postDrillResponses;
-  final String publicKey;
 
   DrillEvent({
+    required this.startTime,
+    required this.publicKey,
     required this.preDrillSurveyJSON,
     required this.postDrillSurveyJSON,
-    required this.publicKey,
   });
 
   DrillEvent.example()
-      : preDrillSurveyJSON = {
+      : startTime = DateTime.now(),
+        preDrillSurveyJSON = {
           'id': "123",
           'type': 'navigable',
           'steps': [
