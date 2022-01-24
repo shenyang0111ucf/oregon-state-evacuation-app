@@ -1,3 +1,5 @@
+import 'package:evac_app/components/pages/during_drill.dart';
+import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
 import 'package:evac_app/components/presenters/basic_drill_presenter.dart';
 import 'package:evac_app/styles.dart';
@@ -12,7 +14,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      home: BasicDrillPresenter(),
+      home: DuringDrill(
+        drillEvent: DrillEvent.example(),
+      ),
       // home: ElevationTests(),
     );
   }
