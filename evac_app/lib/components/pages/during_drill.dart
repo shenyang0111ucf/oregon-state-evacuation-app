@@ -21,17 +21,45 @@ class _DuringDrillState extends State<DuringDrill> {
   Widget build(BuildContext context) {
     return EvacAppScaffold(
       title: 'example drill',
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-          child: Text(
-            'complete drill',
-            style: Styles.boldText.copyWith(color: Colors.black),
-          ),
-        ),
-      ),
+      child: LayoutBuilder(builder: (BuildContext context, constraints) {
+        var height = constraints.maxHeight;
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: height * 0.4,
+              child: Center(
+                child: SizedBox(
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Text(
+                      'complete drill',
+                      style: Styles.boldText.copyWith(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: height * 0.3,
+              child: Container(
+                color: Colors.white24,
+                child: Container(),
+              ),
+            ),
+            Container(
+              height: height * 0.3,
+              child: Container(
+                color: Colors.white54,
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
