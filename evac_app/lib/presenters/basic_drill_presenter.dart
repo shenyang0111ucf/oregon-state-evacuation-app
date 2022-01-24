@@ -1,9 +1,9 @@
-import 'package:evac_app/components/pages/confirm_drill.dart';
-import 'package:evac_app/components/pages/during_drill.dart';
-import 'package:evac_app/components/pages/landing_page.dart';
-import 'package:evac_app/components/pages/post_drill_survey.dart';
-import 'package:evac_app/components/pages/pre_drill_survey.dart';
-import 'package:evac_app/components/pages/wait_screen.dart';
+import 'package:evac_app/pages/confirm_drill.dart';
+import 'package:evac_app/pages/during_drill.dart';
+import 'package:evac_app/pages/landing_page.dart';
+import 'package:evac_app/pages/post_drill_survey.dart';
+import 'package:evac_app/pages/pre_drill_survey.dart';
+import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';

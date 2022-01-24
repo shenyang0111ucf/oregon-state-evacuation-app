@@ -1,7 +1,7 @@
-import 'package:evac_app/components/pages/during_drill.dart';
+import 'package:evac_app/pages/during_drill.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
-import 'package:evac_app/components/presenters/basic_drill_presenter.dart';
+import 'package:evac_app/presenters/basic_drill_presenter.dart';
 import 'package:evac_app/styles.dart';
 // import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 

@@ -98,6 +98,27 @@ class Styles {
     fontWeight: FontWeight.w800,
   );
 
+  static final timerText = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w800,
+    fontSize: 90,
+  );
+
+  static final duringDrillDashLabel = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w400,
+    fontSize: 20,
+  );
+
+  static final duringDrillDashData = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w800,
+    fontSize: 48,
+  );
+
   static final snackbar = SnackBarThemeData(
     actionTextColor: _textColorStrong,
     backgroundColor: _snackbarBackground,
