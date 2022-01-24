@@ -1,21 +1,21 @@
-import 'package:evac_app/components/demos/v0_0_3/confirm_drill.dart';
-import 'package:evac_app/components/demos/v0_0_3/during_drill.dart';
-import 'package:evac_app/components/demos/v0_0_3/landing_page.dart';
-import 'package:evac_app/components/demos/v0_0_3/post_drill_survey.dart';
-import 'package:evac_app/components/demos/v0_0_3/pre_drill_survey.dart';
-import 'package:evac_app/components/demos/v0_0_3/wait_screen.dart';
+import 'package:evac_app/components/pages/confirm_drill.dart';
+import 'package:evac_app/components/pages/during_drill.dart';
+import 'package:evac_app/components/pages/landing_page.dart';
+import 'package:evac_app/components/pages/post_drill_survey.dart';
+import 'package:evac_app/components/pages/pre_drill_survey.dart';
+import 'package:evac_app/components/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';
 
-class RoughOutline extends StatefulWidget {
-  const RoughOutline({Key? key}) : super(key: key);
+class BasicDrillPresenter extends StatefulWidget {
+  const BasicDrillPresenter({Key? key}) : super(key: key);
 
   @override
-  _RoughOutlineState createState() => _RoughOutlineState();
+  _BasicDrillPresenterState createState() => _BasicDrillPresenterState();
 }
 
-class _RoughOutlineState extends State<RoughOutline> {
+class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   String? _researcherFirestoreDetails = null;
   DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
