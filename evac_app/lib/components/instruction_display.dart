@@ -12,19 +12,25 @@ class InstructionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 40,
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-          child: Text(
-            'complete drill',
-            style: Styles.boldText.copyWith(color: Colors.black),
-          ),
-        ),
-      ),
-    );
+    return Container();
+    // return LayoutBuilder(builder: builder)
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Center(
+  //     child: SizedBox(
+  //       height: 40,
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           Navigator.pop(context, true);
+  //         },
+  //         child: Text(
+  //           'complete drill',
+  //           style: Styles.boldText.copyWith(color: Colors.black),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
