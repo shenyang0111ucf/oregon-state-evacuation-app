@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +10,8 @@ class Styles {
   static const Color primaryColor = Color(0xFFF9A826);
   static final Color _secondaryColor = Color(0xFFFF6584);
   static final Color _textColorStrong = Color(0xFFFFFFFF);
-  static final Color _disabledColor = Colors.grey[800]!;
+  static final Color _noInteractionMaterialColor = Colors.grey[800]!;
+  static final Color _snackbarBackground = Color(0xFF141414);
   // static final Color _highlightSwatch = Color(0xFFFFFFFF);
   // static final Color _shadowSwatch = Color(0x33000000);
 
@@ -29,6 +31,23 @@ class Styles {
     },
   );
 
+  static final MaterialColor _possibleOtherColors = MaterialColor(
+    Color(0xFFF9A826).hashCode,
+    <int, Color>{
+      00: Color(0xFF241C35),
+      01: Color(0xFFF9A826),
+      02: Color(0xFFFF6584),
+      10: Color(0xFF8FE388),
+      11: Color(0xFF58BC82),
+      20: Color(0xFFF2F2F2),
+      21: Color(0xFFE8D7FF),
+      30: Color(0xFF5EB1BF),
+      31: Color(0xFFCDEDF6),
+      40: Color(0xFF91171F),
+      41: Color(0xFF85FFC7),
+    },
+  );
+
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: backgroundColor,
@@ -40,14 +59,25 @@ class Styles {
       titleTextStyle: navBarTitle,
       backgroundColor: backgroundColor,
     ),
-    snackBarTheme: snackyTheme,
+    snackBarTheme: snackbar,
+  );
+
+  static final darkCupertinoTheme = Styles.darkTheme.copyWith(
+    cupertinoOverrideTheme: CupertinoThemeData(
+      brightness: Brightness.dark,
+      barBackgroundColor: Styles.backgroundColor,
+      textTheme: CupertinoTextThemeData(
+        textStyle: Styles.normalText.copyWith(fontSize: 24),
+      ),
+    ),
+    outlinedButtonTheme: Styles.outlinedButtonTheme,
+    textButtonTheme: Styles.textButtonTheme,
   );
 
   static final normalText = GoogleFonts.getFont(
     _fontNameDefault,
     color: _textColorStrong,
     fontWeight: FontWeight.w500,
-    fontSize: 12,
   );
 
   static final boldText = GoogleFonts.getFont(
@@ -68,14 +98,35 @@ class Styles {
     fontWeight: FontWeight.w800,
   );
 
-  static final snackyTheme = SnackBarThemeData(
-    actionTextColor: primaryColor,
-    backgroundColor: backgroundColor,
+  static final timerText = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w800,
+    fontSize: 90,
+  );
+
+  static final duringDrillDashLabel = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w400,
+    fontSize: 20,
+  );
+
+  static final duringDrillDashData = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w800,
+    fontSize: 48,
+  );
+
+  static final snackbar = SnackBarThemeData(
+    actionTextColor: _textColorStrong,
+    backgroundColor: _snackbarBackground,
     contentTextStyle: Styles.boldAccentText,
     shape: RoundedRectangleBorder(),
   );
 
-  static final _outlinedButtonTheme = OutlinedButtonThemeData(
+  static final outlinedButtonTheme = OutlinedButtonThemeData(
     style: ButtonStyle(
       minimumSize: MaterialStateProperty.all(
         Size(150.0, 60.0),
@@ -84,7 +135,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return BorderSide(
-              color: _disabledColor,
+              color: _noInteractionMaterialColor,
             );
           }
           return BorderSide(
@@ -101,7 +152,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return normalText.copyWith(
-              color: _disabledColor,
+              color: _noInteractionMaterialColor,
             );
           }
           return normalText.copyWith(
@@ -112,7 +163,7 @@ class Styles {
     ),
   );
 
-  static final _textButtonTheme = TextButtonThemeData(
+  static final textButtonTheme = TextButtonThemeData(
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(

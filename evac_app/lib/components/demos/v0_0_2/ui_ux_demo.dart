@@ -1,5 +1,6 @@
-import 'package:evac_app/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:evac_app/styles.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 // borrowing heavily from https://github.com/quickbirdstudios/survey_kit/blob/main/example/lib/main.dart [accessed Nov 15 2021]
@@ -25,12 +26,31 @@ class _UiUxDemoState extends State<UiUxDemo> {
                 snapshot.hasData &&
                 snapshot.data != null) {
               final task = snapshot.data!;
-              return SurveyKit(
-                onResult: (SurveyResult result) {
-                  print(result.finishReason);
-                },
-                task: task,
-                themeData: getTheme(context),
+              return DefaultTextStyle(
+                style: Styles.normalText,
+                child: SurveyKit(
+                  onResult: (SurveyResult result) {
+                    print(result.finishReason);
+                    for (var stepResult in result.results) {
+                      for (var questionResult in stepResult.results) {
+                        // Here are your question results
+                        print(questionResult.result);
+                      }
+                    }
+                  },
+                  task: task,
+                  themeData: Styles.darkTheme.copyWith(
+                    cupertinoOverrideTheme: CupertinoThemeData(
+                      brightness: Brightness.dark,
+                      barBackgroundColor: Styles.backgroundColor,
+                      textTheme: CupertinoTextThemeData(
+                        textStyle: Styles.normalText.copyWith(fontSize: 24),
+                      ),
+                    ),
+                    outlinedButtonTheme: Styles.outlinedButtonTheme,
+                    textButtonTheme: Styles.textButtonTheme,
+                  ),
+                ),
               );
             }
             return CircularProgressIndicator.adaptive();
@@ -167,90 +187,5 @@ class _UiUxDemoState extends State<UiUxDemo> {
       ),
     );
     return Future.value(task);
-  }
-
-  ThemeData getTheme(BuildContext context) {
-    return Theme.of(context).copyWith(
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: MaterialColor(
-          Styles.primaryColor.hashCode,
-          <int, Color>{
-            50: Color(0xFFFFF8E1),
-            100: Color(0xFFFFECB3),
-            200: Color(0xFFFFE082),
-            300: Color(0xFFFFD54F),
-            400: Color(0xFFFFCA28),
-            500: Styles.primaryColor,
-            600: Color(0xFFFFA000),
-            700: Color(0xFFFF8F00),
-            800: Color(0xFFFF6F00),
-            900: Color(0xFFFFD96B),
-          },
-        ),
-      ).copyWith(
-        onPrimary: Styles.backgroundColor,
-      ),
-      primaryColor: Styles.primaryColor,
-      backgroundColor: Styles.backgroundColor,
-      // appBarTheme: const AppBarTheme(
-      //   color: Styles.backgroundColor,
-      //   iconTheme: IconThemeData(
-      //     color: Styles.primaryColor,
-      //   ),
-      //   textTheme: TextTheme(
-      //     button: TextStyle(
-      //       color: Styles.primaryColor,
-      //     ),
-      //   ),
-      // ),
-      // iconTheme: const IconThemeData(
-      //   color: Styles.primaryColor,
-      // ),
-      // outlinedButtonTheme: OutlinedButtonThemeData(
-      //   style: ButtonStyle(
-      //     minimumSize: MaterialStateProperty.all(
-      //       Size(150.0, 60.0),
-      //     ),
-      //     side: MaterialStateProperty.resolveWith(
-      //       (Set<MaterialState> state) {
-      //         if (state.contains(MaterialState.disabled)) {
-      //           return BorderSide(
-      //             color: Colors.grey,
-      //           );
-      //         }
-      //         return BorderSide(
-      //           color: Styles.primaryColor,
-      //         );
-      //       },
-      //     ),
-      //     shape: MaterialStateProperty.all(
-      //       RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(8.0),
-      //       ),
-      //     ),
-      //     textStyle: MaterialStateProperty.resolveWith(
-      //       (Set<MaterialState> state) {
-      //         if (state.contains(MaterialState.disabled)) {
-      //           return Theme.of(context).textTheme.button?.copyWith(
-      //                 color: Colors.grey,
-      //               );
-      //         }
-      //         return Theme.of(context).textTheme.button?.copyWith(
-      //               color: Styles.primaryColor,
-      //             );
-      //       },
-      //     ),
-      //   ),
-      // ),
-      // textButtonTheme: TextButtonThemeData(
-      //   style: ButtonStyle(
-      //     textStyle: MaterialStateProperty.all(
-      //       Theme.of(context).textTheme.button?.copyWith(
-      //             color: Styles.primaryColor,
-      //           ),
-      //     ),
-      //   ),
-      // ),
-    );
   }
 }

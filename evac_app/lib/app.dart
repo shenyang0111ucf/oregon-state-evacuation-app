@@ -1,10 +1,9 @@
-import 'package:evac_app/components/demos/ui_ux_demo.dart';
+import 'package:evac_app/pages/during_drill.dart';
+import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
-
+import 'package:evac_app/presenters/basic_drill_presenter.dart';
 import 'package:evac_app/styles.dart';
-import 'package:evac_app/components/demos/location_demo.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 
 class App extends StatelessWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -15,10 +14,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      home: EvacAppScaffold(
-        title: title,
-        child: UiUxDemo(),
-      ),
+      // home: DuringDrill(
+      //   drillEvent: DrillEvent.example(),
+      // ),
+      home: BasicDrillPresenter(),
+      // home: ElevationTests(),
     );
   }
 }
