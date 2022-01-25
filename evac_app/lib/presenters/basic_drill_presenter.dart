@@ -23,6 +23,14 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
+  // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
+  // SurveyResult? _preDrillResults = SurveyResult(
+  //     id: Identifier(id: 'blah'),
+  //     startDate: DateTime.now(),
+  //     endDate: DateTime.now(),
+  //     finishReason: FinishReason.COMPLETED,
+  //     results: []);
+
   @override
   void initState() {
     super.initState();

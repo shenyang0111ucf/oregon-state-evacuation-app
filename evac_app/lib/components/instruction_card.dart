@@ -26,6 +26,7 @@ class InstructionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext biggerContext = context;
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         height: constraints.maxHeight,
@@ -47,16 +48,13 @@ class InstructionCard extends StatelessWidget {
               ),
               SizedBox(height: 30),
               Expanded(
-                child: Scrollbar(
-                  isAlwaysShown: true,
-                  child: SingleChildScrollView(
-                      child: Text(
-                    instructionText,
-                    style: Styles.boldText.copyWith(
-                      fontSize: 32,
-                    ),
-                  )),
-                ),
+                child: SingleChildScrollView(
+                    child: Text(
+                  instructionText,
+                  style: Styles.boldText.copyWith(
+                    fontSize: 32,
+                  ),
+                )),
               ),
               (finalCard != null && finalCard!)
                   ? SizedBox(height: 30)
@@ -84,7 +82,7 @@ class InstructionCard extends StatelessWidget {
                                         Navigator.pop(context);
                                         // call upper level function to stop location tracking, etc, then that function calls:
                                         if (completeDrill != null)
-                                          completeDrill!(context);
+                                          completeDrill!(biggerContext);
                                       },
                                       child: const Text('Yes, Complete'),
                                     ),

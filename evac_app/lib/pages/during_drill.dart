@@ -36,7 +36,7 @@ class _DuringDrillState extends State<DuringDrill> {
     // stop tracking location
     // async generate .gpx
     // pop navigator
-    Navigator.pop(context);
+    Navigator.pop(context, true);
   }
 
   @override
