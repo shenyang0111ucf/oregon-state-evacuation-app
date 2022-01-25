@@ -167,9 +167,19 @@ class Styles {
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(
-          color: Styles.primaryColor,
+          color: primaryColor,
         ),
       ),
     ),
   );
+
+  static final landingPageButton = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(Colors.white),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(9.6),
+      ))
+      // decoration: BoxDecoration(
+      //                                 borderRadius: BorderRadius.circular(9.6),
+      //                                 color: Colors.white),
+      );
 }

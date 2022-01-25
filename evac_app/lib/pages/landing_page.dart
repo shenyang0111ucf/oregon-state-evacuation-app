@@ -1,6 +1,7 @@
 import 'package:evac_app/pages/invite_code_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:evac_app/styles.dart';
 
 class LandingPage extends StatelessWidget {
   LandingPage({
@@ -79,25 +80,27 @@ class LandingPage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Container(
-                                height: 62.4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(9.6),
-                                    color: Colors.white),
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                        padding: EdgeInsets.only(
-                                            left: 28.8, right: 28.8),
-                                        child: FittedBox(
-                                            child: Text(
-                                          "Enter Invite Code",
-                                          style: GoogleFonts.lato(
-                                              fontWeight: FontWeight.w800,
-                                              color: Colors.black),
-                                        ))
-                                        //})),
-                                        )))
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 28.8, right: 28.8),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _tryCode(context);
+                                },
+                                style: Styles.landingPageButton,
+                                child: SizedBox(
+                                  height: 62.4,
+                                  child: Center(
+                                    child: Text(
+                                      "Enter Invite Code",
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
                           ])
                     ]),
               ),
@@ -106,5 +109,12 @@ class LandingPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _tryCode(BuildContext context) async {
+    var success = await tryInviteCode();
+    if (!success) {
+      // pop up
+    }
   }
 }
