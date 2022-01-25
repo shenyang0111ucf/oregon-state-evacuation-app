@@ -68,7 +68,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           )
         else if (_drillEvent != null)
           MaterialPage(
-            child: ConfirmDrill(),
+            child: ConfirmDrill(drillEvent: _drillEvent!),
             key: ConfirmDrill.valueKey,
           ),
       ],
@@ -77,15 +77,21 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
         // if returning from ConfirmDrill Page
         if (page.key == ConfirmDrill.valueKey) {
-          setState(() {
-            _confirmedDrill = result;
-          });
+          if (result) {
+            setState(() {
+              _confirmedDrill = result;
+            });
 
-          // store results in persistent storage
-          twiddleThumbs();
+            // store results in persistent storage
+            twiddleThumbs();
 
-          // Contact firestore, create user entry.
-          twiddleThumbs();
+            // Contact firestore, create user entry.
+            twiddleThumbs();
+          } else {
+            setState(() {
+              _drillEvent = null;
+            });
+          }
         }
 
         if (page.key == PreDrillSurvey.valueKey) {
@@ -111,6 +117,23 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           setState(() {
             _drillComplete = result;
           });
+        }
+
+        if (page.key == PostDrillSurvey.valueKey) {
+          if (result != null) {
+            // store all results
+            // export
+
+            // reset state
+            setState(() {
+              _researcherFirestoreDetails = null;
+              _drillEvent = null;
+              _confirmedDrill = null;
+              _preDrillResults = null;
+              _researcherStartReceived = false;
+              _drillComplete = false;
+            });
+          }
         }
 
         return route.didPop(result);

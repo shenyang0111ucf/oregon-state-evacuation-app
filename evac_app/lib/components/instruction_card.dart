@@ -7,21 +7,21 @@ class InstructionCard extends StatelessWidget {
     required this.width,
     required this.index,
     required this.instructionText,
-    this.finalCard,
+    this.finalCard = false,
     this.completeDrill,
   }) : super(key: key);
 
   const InstructionCard.example({
     required this.completeDrill,
     required this.width,
-    this.finalCard,
+    this.finalCard = false,
   })  : index = 1,
         instructionText = 'Get to high ground.';
 
   final double width;
   final int index;
   final String instructionText;
-  final bool? finalCard;
+  final bool finalCard;
   final Function? completeDrill;
 
   @override
@@ -56,10 +56,8 @@ class InstructionCard extends StatelessWidget {
                   ),
                 )),
               ),
-              (finalCard != null && finalCard!)
-                  ? SizedBox(height: 30)
-                  : Container(),
-              (finalCard != null && finalCard!)
+              (finalCard) ? SizedBox(height: 30) : Container(),
+              (finalCard)
                   ? Center(
                       child: ElevatedButton(
                         onPressed: () async {

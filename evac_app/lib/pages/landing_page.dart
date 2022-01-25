@@ -87,7 +87,7 @@ class LandingPage extends StatelessWidget {
                                 onPressed: () {
                                   _tryCode(context);
                                 },
-                                style: Styles.landingPageButton,
+                                style: Styles.button,
                                 child: SizedBox(
                                   height: 62.4,
                                   child: Center(

@@ -49,18 +49,18 @@ class Styles {
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: backgroundColor,
-    primarySwatch: _primarySwatch,
-    primaryColor: primaryColor,
-    accentColor: _secondaryColor,
-    backgroundColor: backgroundColor,
-    appBarTheme: AppBarTheme(
-      titleTextStyle: navBarTitle,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: backgroundColor,
+      primarySwatch: _primarySwatch,
+      primaryColor: primaryColor,
+      accentColor: _secondaryColor,
       backgroundColor: backgroundColor,
-    ),
-    snackBarTheme: snackbar,
-  );
+      appBarTheme: AppBarTheme(
+        titleTextStyle: navBarTitle,
+        backgroundColor: backgroundColor,
+      ),
+      snackBarTheme: snackbar,
+      textTheme: TextTheme(headline2: surveyHeader));
 
   static final darkCupertinoTheme = Styles.darkTheme.copyWith(
     cupertinoOverrideTheme: CupertinoThemeData(
@@ -90,6 +90,13 @@ class Styles {
     _fontNameDefault,
     color: primaryColor,
     fontWeight: FontWeight.w800,
+  );
+
+  static final surveyHeader = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: primaryColor,
+    fontWeight: FontWeight.w800,
+    fontSize: 32,
   );
 
   static final navBarTitle = GoogleFonts.getFont(
@@ -139,7 +146,7 @@ class Styles {
             );
           }
           return BorderSide(
-            color: primaryColor,
+            color: Colors.white,
           );
         },
       ),
@@ -156,7 +163,7 @@ class Styles {
             );
           }
           return normalText.copyWith(
-            color: primaryColor,
+            color: Colors.white,
           );
         },
       ),
@@ -167,19 +174,22 @@ class Styles {
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(
-          color: primaryColor,
+          color: Colors.white,
         ),
       ),
     ),
   );
 
-  static final landingPageButton = ButtonStyle(
+  static final button = ButtonStyle(
       backgroundColor: MaterialStateProperty.all(Colors.white),
       shape: MaterialStateProperty.all(RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(9.6),
-      ))
-      // decoration: BoxDecoration(
-      //                                 borderRadius: BorderRadius.circular(9.6),
-      //                                 color: Colors.white),
-      );
+      )));
+
+  static final confirmButton = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Colors.green[800]),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(9.6),
+    )),
+  );
 }

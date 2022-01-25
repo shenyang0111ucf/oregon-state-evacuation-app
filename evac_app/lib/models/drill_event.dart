@@ -8,6 +8,10 @@ class DrillEvent {
   final Map<String, dynamic> duringDrillInstructionsJSON;
   String? preDrillResponses;
   String? postDrillResponses;
+  String? meetingLocationPlainText;
+  DateTime? meetingDateTime;
+  // double meetingLatitude;
+  // double meetingLongitude;
 
   DrillEvent({
     required this.startTime,
@@ -102,5 +106,7 @@ class DrillEvent {
             }
           ]
         },
-        publicKey = 'abc';
+        publicKey = 'abc',
+        meetingLocationPlainText = "Oceanside, Oregon",
+        meetingDateTime = DateTime.tryParse('2022-02-18 14:00');
 }
