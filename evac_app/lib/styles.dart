@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
   static final String _fontNameDefault = 'Lato';
-  static const Color backgroundColor = Color(0xFF241C35);
-  static const Color primaryColor = Color(0xFFF9A826);
+  static const Color backgroundColor = Color(0xFF7e7191);
+  static const Color primaryColor = Color(0xFFFFFFFF);
   static final Color _secondaryColor = Color(0xFFFF6584);
   static final Color _textColorStrong = Color(0xFFFFFFFF);
   static final Color _noInteractionMaterialColor = Colors.grey[800]!;
@@ -93,7 +93,7 @@ class Styles {
   );
 
   static final surveyHeader = GoogleFonts.getFont(
-    _fontNameDefault,
+    'Roboto',
     color: primaryColor,
     fontWeight: FontWeight.w800,
     fontSize: 32,
@@ -194,7 +194,7 @@ class Styles {
       )));
 
   static final confirmButton = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Colors.green[800]),
+    backgroundColor: MaterialStateProperty.all(Colors.deepPurple[300]),
     shape: MaterialStateProperty.all(RoundedRectangleBorder(
       borderRadius: new BorderRadius.circular(9.6),
     )),
