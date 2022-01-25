@@ -33,10 +33,10 @@ dependencies:
   permission_handler: ^8.1.6
   ### please leave here for david to practice with changes to survey_kit
   survey_kit: 
-    #path: ./lib/packages/survey_kit
-  #survey_kit:
-    git:
-      url: https://github.com/kaff-oregonstate/survey_kit
+    path: ./lib/packages/survey_kit
+  # survey_kit:
+    # git:
+    #   url: https://github.com/kaff-oregonstate/survey_kit
   sqflite: ^2.0.0+4
 
 dev_dependencies:
@@ -58,6 +58,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/coast.png
+    - assets/
 
   fonts:
     - family: Lato
