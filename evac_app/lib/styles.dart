@@ -60,7 +60,7 @@ class Styles {
         backgroundColor: backgroundColor,
       ),
       snackBarTheme: snackbar,
-      textTheme: TextTheme(headline2: surveyHeader));
+      textTheme: TextTheme(headline2: surveyHeader, bodyText2: surveyBody));
 
   static final darkCupertinoTheme = Styles.darkTheme.copyWith(
     cupertinoOverrideTheme: CupertinoThemeData(
@@ -97,6 +97,13 @@ class Styles {
     color: primaryColor,
     fontWeight: FontWeight.w800,
     fontSize: 32,
+  );
+
+  static final surveyBody = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w500,
+    fontSize: 24,
   );
 
   static final navBarTitle = GoogleFonts.getFont(

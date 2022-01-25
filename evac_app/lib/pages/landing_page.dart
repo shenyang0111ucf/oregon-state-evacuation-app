@@ -73,8 +73,10 @@ class LandingPage extends StatelessWidget {
                                     child: Text(
                                       'Are you ready?',
                                       style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -94,8 +96,9 @@ class LandingPage extends StatelessWidget {
                                     child: Text(
                                       "Enter Invite Code",
                                       style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.black),
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ),
