@@ -167,9 +167,13 @@ class Styles {
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(
-          color: Colors.white,
+          color: primaryColor,
         ),
       ),
     ),
+  );
+
+  static final landingPageButton = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Colors.white),
   );
 }

@@ -95,6 +95,7 @@ class LandingPage extends StatelessWidget {
                                             onPressed: () {
                                               _tryCode(context);
                                             },
+                                            style: Styles.landingPageButton,
                                             child: Text(
                                               "Enter Invite Code",
                                               style: GoogleFonts.lato(
