@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:evac_app/styles.dart';
 
 class LandingPage extends StatelessWidget {
   LandingPage({
@@ -86,17 +87,22 @@ class LandingPage extends StatelessWidget {
                                 child: Align(
                                     alignment: Alignment.center,
                                     child: Container(
-                                        padding: EdgeInsets.only(
-                                            left: 28.8, right: 28.8),
-                                        child: FittedBox(
+                                      padding: EdgeInsets.only(
+                                          left: 28.8, right: 28.8),
+                                      child: FittedBox(
+                                          child: Builder(builder: (context) {
+                                        return ElevatedButton(
+                                            onPressed: () {
+                                              _tryCode(context);
+                                            },
                                             child: Text(
-                                          "Enter Invite Code",
-                                          style: GoogleFonts.lato(
-                                              fontWeight: FontWeight.w800,
-                                              color: Colors.black),
-                                        ))
-                                        //})),
-                                        )))
+                                              "Enter Invite Code",
+                                              style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.w800,
+                                                  color: Colors.black),
+                                            ));
+                                      })),
+                                    )))
                           ])
                     ]),
               ),
@@ -105,5 +111,12 @@ class LandingPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _tryCode(BuildContext context) async {
+    var success = await tryInviteCode();
+    if (!success) {
+      // pop up
+    }
   }
 }

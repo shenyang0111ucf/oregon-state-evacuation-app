@@ -167,7 +167,7 @@ class Styles {
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(
-          color: Styles.primaryColor,
+          color: Colors.white,
         ),
       ),
     ),
