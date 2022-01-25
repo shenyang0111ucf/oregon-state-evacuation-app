@@ -14,10 +14,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      // home: DuringDrill(
-      //   drillEvent: DrillEvent.example(),
-      // ),
-      home: BasicDrillPresenter(),
+      home: DuringDrill(
+        drillEvent: DrillEvent.example(),
+      ),
+      // home: BasicDrillPresenter(),
       // home: ElevationTests(),
     );
   }

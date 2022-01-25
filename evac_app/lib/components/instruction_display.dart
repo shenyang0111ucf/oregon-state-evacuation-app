@@ -12,7 +12,13 @@ class InstructionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+        )
+      ],
+    );
     // return LayoutBuilder(builder: builder)
   }
 
