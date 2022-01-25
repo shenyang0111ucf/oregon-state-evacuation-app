@@ -20,6 +20,25 @@ class DuringDrill extends StatefulWidget {
 }
 
 class _DuringDrillState extends State<DuringDrill> {
+  var showColors = false;
+
+  double? distance;
+  int? elevation;
+
+  // TODO: track location
+
+  // TODO: calculate distance travelled
+
+  // TODO: round elevation
+
+  // TODO: on drill completed:
+  void completeDrill(BuildContext context) {
+    // stop tracking location
+    // async generate .gpx
+    // pop navigator
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return EvacAppScaffold(
@@ -31,13 +50,18 @@ class _DuringDrillState extends State<DuringDrill> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: height * .034),
             Container(
-              height: height * 0.4,
-              child: InstructionDisplay(drillEvent: widget.drillEvent),
+              height: height * (0.55 - .034),
+              child: InstructionDisplay(
+                width: width,
+                completeDrill: completeDrill,
+                drillEvent: widget.drillEvent,
+              ),
             ),
             Container(
-              height: height * 0.3,
-              color: Colors.white12,
+              height: height * 0.25,
+              color: showColors ? Colors.white12 : null,
               child: Center(
                 child: Text(
                   '23:45',
@@ -46,8 +70,8 @@ class _DuringDrillState extends State<DuringDrill> {
               ),
             ),
             Container(
-              height: height * 0.3,
-              color: Colors.white24,
+              height: height * 0.2,
+              color: showColors ? Colors.white24 : null,
               child: Row(
                 children: [
                   Container(
@@ -81,7 +105,7 @@ class _DuringDrillState extends State<DuringDrill> {
                   ),
                   Container(
                     width: width * 0.5,
-                    color: Colors.white24,
+                    color: showColors ? Colors.white24 : null,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

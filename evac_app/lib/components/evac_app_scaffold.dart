@@ -40,10 +40,8 @@ class EvacAppScaffold extends StatelessWidget {
             : null,
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
         child: child,
-      )),
+      ),
       endDrawer: endDrawer,
       floatingActionButton: (fAB != null)
           ? Builder(

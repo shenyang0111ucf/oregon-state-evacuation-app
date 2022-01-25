@@ -5,6 +5,7 @@ class DrillEvent {
   final String publicKey;
   final Map<String, dynamic> preDrillSurveyJSON;
   final Map<String, dynamic> postDrillSurveyJSON;
+  final Map<String, dynamic> duringDrillInstructionsJSON;
   String? preDrillResponses;
   String? postDrillResponses;
 
@@ -13,6 +14,7 @@ class DrillEvent {
     required this.publicKey,
     required this.preDrillSurveyJSON,
     required this.postDrillSurveyJSON,
+    required this.duringDrillInstructionsJSON,
   });
 
   DrillEvent.example()
@@ -58,6 +60,7 @@ class DrillEvent {
             }
           ]
         },
+        duringDrillInstructionsJSON = {},
         postDrillSurveyJSON = {
           'id': "456",
           'type': 'navigable',

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
-  static final String _fontNameDefault = 'Quicksand';
+  static final String _fontNameDefault = 'Lato';
   static const Color backgroundColor = Color(0xFF241C35);
   static const Color primaryColor = Color(0xFFF9A826);
   static final Color _secondaryColor = Color(0xFFFF6584);
@@ -99,7 +99,7 @@ class Styles {
   );
 
   static final timerText = GoogleFonts.getFont(
-    _fontNameDefault,
+    'Quicksand',
     color: _textColorStrong,
     fontWeight: FontWeight.w800,
     fontSize: 90,
