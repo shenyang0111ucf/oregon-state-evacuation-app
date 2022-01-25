@@ -174,6 +174,12 @@ class Styles {
   );
 
   static final landingPageButton = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Colors.white),
-  );
+      backgroundColor: MaterialStateProperty.all(Colors.white),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(9.6),
+      ))
+      // decoration: BoxDecoration(
+      //                                 borderRadius: BorderRadius.circular(9.6),
+      //                                 color: Colors.white),
+      );
 }
