@@ -89,6 +89,7 @@ class InstructionCard extends StatelessWidget {
                               });
                         },
                         child: Text('complete drill'),
+                        style: Styles.confirmButton,
                       ),
                     )
                   : Container(),
