@@ -68,7 +68,7 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                 Text(
                   (widget.drillEvent.meetingDateTime!.hour % 12).toString() +
                       ':' +
-                      ((widget.drillEvent.meetingDateTime!.hour % 12 <= 9)
+                      ((widget.drillEvent.meetingDateTime!.minute % 12 <= 9)
                           ? '0'
                           : '') +
                       widget.drillEvent.meetingDateTime!.minute.toString() +
