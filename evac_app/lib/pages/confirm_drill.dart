@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/components/future_built_text.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +79,8 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                           : ' PM'),
                   style: Styles.normalText.copyWith(fontSize: 32),
                 ),
+                SizedBox(height: 20),
+                FutureBuiltText('80QHQUwVCryGZmWt9iJp'),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
