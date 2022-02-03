@@ -1,3 +1,4 @@
+import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,10 @@ class App extends StatelessWidget {
       // home: DuringDrill(
       //   drillEvent: DrillEvent.example(),
       // ),
+
       home: BasicDrillPresenter(),
-      // home: ElevationTests(),
+
+      //home: ConfirmDrill(),
     );
   }
 }
