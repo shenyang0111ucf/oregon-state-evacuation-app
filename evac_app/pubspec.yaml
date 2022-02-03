@@ -22,7 +22,9 @@ environment:
 
 dependencies:
   bloc: ^7.2.1
+  cloud_firestore: ^3.1.7
   cupertino_icons: ^1.0.2
+  firebase_core: ^1.12.0
   flutter:
     sdk: flutter
   google_fonts: ^2.1.0
@@ -32,8 +34,8 @@ dependencies:
   path_provider: ^2.0.4
   permission_handler: ^8.1.6
   ### please leave here for david to practice with changes to survey_kit
-  #survey_kit: 
-   # path: ./lib/packages/survey_kit
+  # survey_kit: 
+  #  path: ./lib/packages/survey_kit
   survey_kit:
     git:
       url: https://github.com/kaff-oregonstate/survey_kit

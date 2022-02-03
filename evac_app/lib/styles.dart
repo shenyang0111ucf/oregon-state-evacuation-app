@@ -194,7 +194,7 @@ class Styles {
       )));
 
   static final confirmButton = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Colors.deepPurple[300]),
+    backgroundColor: MaterialStateProperty.all(Colors.green[500]),
     shape: MaterialStateProperty.all(RoundedRectangleBorder(
       borderRadius: new BorderRadius.circular(9.6),
     )),

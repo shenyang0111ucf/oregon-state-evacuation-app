@@ -20,7 +20,6 @@ class ConfirmDrill extends StatefulWidget {
 class _ConfirmDrillState extends State<ConfirmDrill> {
   @override
   Widget build(BuildContext context) {
-    // TODO: rebuild this without surveykit
     return EvacAppScaffold(
         title: 'confirm drill details',
         child: Column(
@@ -69,6 +68,9 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                 Text(
                   (widget.drillEvent.meetingDateTime!.hour % 12).toString() +
                       ':' +
+                      ((widget.drillEvent.meetingDateTime!.minute % 12 <= 9)
+                          ? '0'
+                          : '') +
                       widget.drillEvent.meetingDateTime!.minute.toString() +
                       ((widget.drillEvent.meetingDateTime!.hour <= 12)
                           ? ' AM'
