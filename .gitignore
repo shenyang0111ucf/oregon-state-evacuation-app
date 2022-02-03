@@ -94,3 +94,4 @@ evac_app/ios/Podfile
 evac_app/ios/Runner.xcodeproj/project.pbxproj
 evac_app/android/app/google-services.json
 evac_app/ios/Runner/GoogleService-Info.plist
+evac_app/lib/firebase_options.dart
