@@ -6,10 +6,10 @@ class DrillEvent {
   final Map<String, dynamic> preDrillSurveyJSON;
   final Map<String, dynamic> postDrillSurveyJSON;
   final Map<String, dynamic> duringDrillInstructionsJSON;
-  String? preDrillResponses;
-  String? postDrillResponses;
   String? meetingLocationPlainText;
   DateTime? meetingDateTime;
+  // String? preDrillResponses;
+  // String? postDrillResponses;
   // double meetingLatitude;
   // double meetingLongitude;
 
@@ -19,6 +19,8 @@ class DrillEvent {
     required this.preDrillSurveyJSON,
     required this.postDrillSurveyJSON,
     required this.duringDrillInstructionsJSON,
+    this.meetingDateTime,
+    this.meetingLocationPlainText,
   });
 
   DrillEvent.example()
@@ -109,4 +111,29 @@ class DrillEvent {
         publicKey = 'abc',
         meetingLocationPlainText = "Oceanside, Oregon",
         meetingDateTime = DateTime.tryParse('2022-02-18 14:00');
+
+  factory DrillEvent.fromJson(Map<String, dynamic> json) {
+    return DrillEvent(
+      startTime: DateTime.tryParse(json['startTime']) ?? DateTime.now(),
+      publicKey: json['publicKey'],
+      preDrillSurveyJSON: json['preDrillSurveyJSON'],
+      postDrillSurveyJSON: json['postDrillSurveyJSON'],
+      duringDrillInstructionsJSON: json['duringDrillInstructionsJSON'],
+      meetingLocationPlainText: json['meetingLocationPlainText'],
+      meetingDateTime:
+          DateTime.tryParse(json['meetingDateTime']) ?? DateTime.now(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'startTime': startTime.toString(),
+      'publicKey': publicKey,
+      'preDrillSurveyJSON': preDrillSurveyJSON.toString(),
+      'postDrillSurveyJSON': postDrillSurveyJSON.toString(),
+      'duringDrillInstructionsJSON': duringDrillInstructionsJSON.toString(),
+      'meetingLocationPlainText': meetingLocationPlainText,
+      'meetingDateTime': meetingDateTime.toString(),
+    };
+  }
 }
