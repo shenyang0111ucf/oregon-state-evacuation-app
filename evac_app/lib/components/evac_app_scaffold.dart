@@ -35,9 +35,11 @@ class EvacAppScaffold extends StatelessWidget {
                 if (backButtonFunc != null) {
                   backButtonFunc!();
                 }
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               })
             : null,
+        automaticallyImplyLeading:
+            (backButton != null && !backButton!) ? false : true,
       ),
       body: SafeArea(
         child: child,
