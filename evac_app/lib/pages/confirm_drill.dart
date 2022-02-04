@@ -79,8 +79,8 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                           : ' PM'),
                   style: Styles.normalText.copyWith(fontSize: 32),
                 ),
-                SizedBox(height: 20),
-                FutureBuiltText('80QHQUwVCryGZmWt9iJp'),
+                // SizedBox(height: 20),
+                // FutureBuiltText('80QHQUwVCryGZmWt9iJp'),
                 SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
