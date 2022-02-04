@@ -6,10 +6,10 @@ import 'package:evac_app/styles.dart';
 class LandingPage extends StatelessWidget {
   LandingPage({
     Key? key,
-    required this.tryInviteCode,
+    required this.pushInviteCodePage,
   }) : super(key: key);
 
-  final Function tryInviteCode;
+  final Function pushInviteCodePage;
   static const valueKey = ValueKey('LandingPage');
 
   @override
@@ -87,7 +87,7 @@ class LandingPage extends StatelessWidget {
                                   left: 28.8, right: 28.8),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _tryCode(context);
+                                  pushInviteCodePage();
                                 },
                                 style: Styles.button,
                                 child: SizedBox(
@@ -112,12 +112,5 @@ class LandingPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _tryCode(BuildContext context) async {
-    var success = await tryInviteCode();
-    if (!success) {
-      // pop up
-    }
   }
 }

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
+import 'package:evac_app/pages/invite_code_page.dart';
 import 'package:evac_app/pages/landing_page.dart';
 import 'package:evac_app/pages/post_drill_survey.dart';
 import 'package:evac_app/pages/pre_drill_survey.dart';
@@ -17,6 +19,7 @@ class BasicDrillPresenter extends StatefulWidget {
 
 class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   String? _researcherFirestoreDetails = null;
+  bool _tryingInviteCode = false;
   DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
   SurveyResult? _preDrillResults = null;
@@ -42,7 +45,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     return Navigator(
       pages: [
         MaterialPage(
-          child: LandingPage(tryInviteCode: tryInviteCode),
+          child: LandingPage(pushInviteCodePage: pushInviteCodePage),
           key: LandingPage.valueKey,
         ),
         if (_drillComplete)
@@ -70,10 +73,21 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           MaterialPage(
             child: ConfirmDrill(drillEvent: _drillEvent!),
             key: ConfirmDrill.valueKey,
+          )
+        else if (_tryingInviteCode)
+          MaterialPage(
+            child: InviteCodePage(tryInviteCode: tryInviteCode),
+            key: InviteCodePage.valueKey,
           ),
       ],
       onPopPage: (route, result) {
         final page = route.settings as MaterialPage;
+
+        if (page.key == InviteCodePage.valueKey) {
+          setState(() {
+            _tryingInviteCode = false;
+          });
+        }
 
         // if returning from ConfirmDrill Page
         if (page.key == ConfirmDrill.valueKey) {
@@ -113,10 +127,18 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
         if (page.key == DuringDrill.valueKey) {
           // do any storage after drill
-
-          setState(() {
-            _drillComplete = result;
-          });
+          if (result) {
+            setState(() {
+              _drillComplete = result;
+            });
+          } else {
+            setState(() {
+              _researcherStartReceived = false;
+              _preDrillResults = null;
+              _confirmedDrill = null;
+              _drillEvent = null;
+            });
+          }
         }
 
         if (page.key == PostDrillSurvey.valueKey) {
@@ -157,7 +179,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   void listenForStartSignal() async {
     // listen
     bool startSignal = await Future.delayed(
-      Duration(seconds: 8),
+      Duration(seconds: 3),
       () {
         return true;
       },
@@ -168,14 +190,20 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     });
   }
 
-  Future<bool> getDrillEvent() async {
+  Future<bool> getDrillEvent(documentID) async {
     if (_researcherFirestoreDetails != null) {
-      // query the secondary Researcher Firestore for DrillEvent object
-      twiddleThumbs();
+      // // query the secondary Researcher Firestore for DrillEvent object
+      // twiddleThumbs();
+
+      // query Firebase for DrillEvent object
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      firestore.collection('DrillEvents');
 
       // store it in local state
+      // and stop showing invite code page
       setState(() {
         _drillEvent = DrillEvent.example();
+        _tryingInviteCode = false;
       });
 
       // store it in persistent storage
@@ -185,7 +213,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     return false;
   }
 
-  Future<bool> tryInviteCode() async {
+  Future<bool> tryInviteCode(inputCode) async {
     /// "query firestore for second firestore details"
     /// "save second firestore details in volatile state"
 
@@ -198,11 +226,17 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
       // store result in state
       _researcherFirestoreDetails = firestoreDetails;
       // async get drill event from newly discovered firestore
-      getDrillEvent();
+      getDrillEvent('documentID');
       return true;
     } else {
       return false;
     }
+  }
+
+  void pushInviteCodePage() {
+    setState(() {
+      _tryingInviteCode = true;
+    });
   }
 
   bool? twiddleThumbs() => true;
