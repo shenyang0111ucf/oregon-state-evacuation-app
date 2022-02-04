@@ -41,8 +41,42 @@ class _DuringDrillState extends State<DuringDrill> {
 
   @override
   Widget build(BuildContext context) {
+    var bigContext = context;
+    void confirmEndDrillEarly() {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Wait!'),
+          content: const Text(
+              'Are you sure that you want to exit the drill early? This action cannot be undone.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                // pop dialog
+                Navigator.pop(context);
+              },
+              child: const Text('Stay'),
+            ),
+            TextButton(
+              onPressed: () {
+                // stop tracking location
+                // async generate .gpx
+                // pop dialog
+                Navigator.pop(context);
+                // pop during drill page
+                Navigator.pop(bigContext, false);
+              },
+              child: const Text('Exit'),
+            ),
+          ],
+        ),
+      );
+    }
+
     return EvacAppScaffold(
       title: 'example drill',
+      backButton: true,
+      backButtonFunc: confirmEndDrillEarly,
       child: LayoutBuilder(builder: (BuildContext context, constraints) {
         var height = constraints.maxHeight;
         var width = constraints.maxWidth;
