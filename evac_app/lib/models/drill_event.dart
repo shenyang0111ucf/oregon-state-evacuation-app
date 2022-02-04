@@ -1,5 +1,7 @@
 // This may be subsumed during our transition to "bloc"
 
+import 'dart:convert';
+
 class DrillEvent {
   final DateTime startTime;
   final String publicKey;
@@ -116,9 +118,10 @@ class DrillEvent {
     return DrillEvent(
       startTime: DateTime.tryParse(json['startTime']) ?? DateTime.now(),
       publicKey: json['publicKey'],
-      preDrillSurveyJSON: json['preDrillSurveyJSON'],
-      postDrillSurveyJSON: json['postDrillSurveyJSON'],
-      duringDrillInstructionsJSON: json['duringDrillInstructionsJSON'],
+      preDrillSurveyJSON: jsonDecode(json['preDrillSurveyJSON']),
+      postDrillSurveyJSON: jsonDecode(json['postDrillSurveyJSON']),
+      duringDrillInstructionsJSON:
+          jsonDecode(json['duringDrillInstructionsJSON']),
       meetingLocationPlainText: json['meetingLocationPlainText'],
       meetingDateTime:
           DateTime.tryParse(json['meetingDateTime']) ?? DateTime.now(),
@@ -129,9 +132,9 @@ class DrillEvent {
     return {
       'startTime': startTime.toString(),
       'publicKey': publicKey,
-      'preDrillSurveyJSON': preDrillSurveyJSON.toString(),
-      'postDrillSurveyJSON': postDrillSurveyJSON.toString(),
-      'duringDrillInstructionsJSON': duringDrillInstructionsJSON.toString(),
+      'preDrillSurveyJSON': jsonEncode(preDrillSurveyJSON),
+      'postDrillSurveyJSON': jsonEncode(postDrillSurveyJSON),
+      'duringDrillInstructionsJSON': jsonEncode(duringDrillInstructionsJSON),
       'meetingLocationPlainText': meetingLocationPlainText,
       'meetingDateTime': meetingDateTime.toString(),
     };

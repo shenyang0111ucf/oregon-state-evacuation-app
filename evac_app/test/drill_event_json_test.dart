@@ -1,5 +1,7 @@
 import 'package:evac_app/models/drill_event.dart';
 
 void main() {
-  print(DrillEvent.example().toJson().toString());
+  var drillEventJson = DrillEvent.example().toJson();
+  var drillEvent = DrillEvent.fromJson(drillEventJson);
+  print(drillEvent.toJson().toString());
 }
