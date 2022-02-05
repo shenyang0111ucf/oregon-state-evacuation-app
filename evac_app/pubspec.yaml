@@ -27,18 +27,16 @@ dependencies:
   firebase_core: ^1.12.0
   flutter:
     sdk: flutter
-  google_fonts: ^2.1.0
+  google_fonts: ^2.2.0
   hydrated_bloc: ^7.1.0
   json_annotation: ^4.0.1
   location: ^4.3.0
   path_provider: ^2.0.4
-  permission_handler: ^8.1.6
-  ### please leave here for david to practice with changes to survey_kit
-  # survey_kit: 
-  #  path: ./lib/packages/survey_kit
+  permission_handler: ^8.3.0
   survey_kit:
     git:
       url: https://github.com/kaff-oregonstate/survey_kit
+      ref: c1fc0f2798b4b5ac0f66a6276d8960a8fa0ea4df
   sqflite: ^2.0.0+4
 
 dev_dependencies:
