@@ -21,11 +21,7 @@ class EvacAppScaffoldNoAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: child,
-      )),
+      body: SafeArea(child: child),
       endDrawer: endDrawer,
       floatingActionButton: (fAB != null)
           ? Builder(

@@ -1,18 +1,28 @@
 // This may be subsumed during our transition to "bloc"
 
+import 'dart:convert';
+
 class DrillEvent {
   final DateTime startTime;
   final String publicKey;
   final Map<String, dynamic> preDrillSurveyJSON;
   final Map<String, dynamic> postDrillSurveyJSON;
-  String? preDrillResponses;
-  String? postDrillResponses;
+  final Map<String, dynamic> duringDrillInstructionsJSON;
+  String? meetingLocationPlainText;
+  DateTime? meetingDateTime;
+  // String? preDrillResponses;
+  // String? postDrillResponses;
+  // double meetingLatitude;
+  // double meetingLongitude;
 
   DrillEvent({
     required this.startTime,
     required this.publicKey,
     required this.preDrillSurveyJSON,
     required this.postDrillSurveyJSON,
+    required this.duringDrillInstructionsJSON,
+    this.meetingDateTime,
+    this.meetingLocationPlainText,
   });
 
   DrillEvent.example()
@@ -58,6 +68,7 @@ class DrillEvent {
             }
           ]
         },
+        duringDrillInstructionsJSON = {},
         postDrillSurveyJSON = {
           'id': "456",
           'type': 'navigable',
@@ -99,5 +110,33 @@ class DrillEvent {
             }
           ]
         },
-        publicKey = 'abc';
+        publicKey = 'abc',
+        meetingLocationPlainText = "Oceanside, Oregon",
+        meetingDateTime = DateTime.tryParse('2022-02-18 14:00');
+
+  factory DrillEvent.fromJson(Map<String, dynamic> json) {
+    return DrillEvent(
+      startTime: DateTime.tryParse(json['startTime']) ?? DateTime.now(),
+      publicKey: json['publicKey'],
+      preDrillSurveyJSON: jsonDecode(json['preDrillSurveyJSON']),
+      postDrillSurveyJSON: jsonDecode(json['postDrillSurveyJSON']),
+      duringDrillInstructionsJSON:
+          jsonDecode(json['duringDrillInstructionsJSON']),
+      meetingLocationPlainText: json['meetingLocationPlainText'],
+      meetingDateTime:
+          DateTime.tryParse(json['meetingDateTime']) ?? DateTime.now(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'startTime': startTime.toString(),
+      'publicKey': publicKey,
+      'preDrillSurveyJSON': jsonEncode(preDrillSurveyJSON),
+      'postDrillSurveyJSON': jsonEncode(postDrillSurveyJSON),
+      'duringDrillInstructionsJSON': jsonEncode(duringDrillInstructionsJSON),
+      'meetingLocationPlainText': meetingLocationPlainText,
+      'meetingDateTime': meetingDateTime.toString(),
+    };
+  }
 }

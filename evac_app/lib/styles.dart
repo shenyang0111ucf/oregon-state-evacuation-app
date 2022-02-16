@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
-  static final String _fontNameDefault = 'Quicksand';
-  static const Color backgroundColor = Color(0xFF241C35);
-  static const Color primaryColor = Color(0xFFF9A826);
+  static final String _fontNameDefault = 'Lato';
+  static const Color backgroundColor = Color(0xFF7e7191);
+  static const Color primaryColor = Color(0xFFFFFFFF);
   static final Color _secondaryColor = Color(0xFFFF6584);
   static final Color _textColorStrong = Color(0xFFFFFFFF);
   static final Color _noInteractionMaterialColor = Colors.grey[800]!;
@@ -49,18 +49,18 @@ class Styles {
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: backgroundColor,
-    primarySwatch: _primarySwatch,
-    primaryColor: primaryColor,
-    accentColor: _secondaryColor,
-    backgroundColor: backgroundColor,
-    appBarTheme: AppBarTheme(
-      titleTextStyle: navBarTitle,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: backgroundColor,
+      primarySwatch: _primarySwatch,
+      primaryColor: primaryColor,
+      accentColor: _secondaryColor,
       backgroundColor: backgroundColor,
-    ),
-    snackBarTheme: snackbar,
-  );
+      appBarTheme: AppBarTheme(
+        titleTextStyle: navBarTitle,
+        backgroundColor: backgroundColor,
+      ),
+      snackBarTheme: snackbar,
+      textTheme: TextTheme(headline2: surveyHeader, bodyText2: surveyBody));
 
   static final darkCupertinoTheme = Styles.darkTheme.copyWith(
     cupertinoOverrideTheme: CupertinoThemeData(
@@ -92,6 +92,20 @@ class Styles {
     fontWeight: FontWeight.w800,
   );
 
+  static final surveyHeader = GoogleFonts.getFont(
+    'Roboto',
+    color: primaryColor,
+    fontWeight: FontWeight.w800,
+    fontSize: 32,
+  );
+
+  static final surveyBody = GoogleFonts.getFont(
+    _fontNameDefault,
+    color: _textColorStrong,
+    fontWeight: FontWeight.w500,
+    fontSize: 24,
+  );
+
   static final navBarTitle = GoogleFonts.getFont(
     _fontNameDefault,
     color: primaryColor,
@@ -99,7 +113,7 @@ class Styles {
   );
 
   static final timerText = GoogleFonts.getFont(
-    _fontNameDefault,
+    'Quicksand',
     color: _textColorStrong,
     fontWeight: FontWeight.w800,
     fontSize: 90,
@@ -139,7 +153,7 @@ class Styles {
             );
           }
           return BorderSide(
-            color: primaryColor,
+            color: Colors.white,
           );
         },
       ),
@@ -156,7 +170,7 @@ class Styles {
             );
           }
           return normalText.copyWith(
-            color: primaryColor,
+            color: Colors.white,
           );
         },
       ),
@@ -167,9 +181,22 @@ class Styles {
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all(
         normalText.copyWith(
-          color: Styles.primaryColor,
+          color: Colors.white,
         ),
       ),
     ),
+  );
+
+  static final button = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(Colors.white),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(9.6),
+      )));
+
+  static final confirmButton = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(Colors.green[500]),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(9.6),
+    )),
   );
 }
