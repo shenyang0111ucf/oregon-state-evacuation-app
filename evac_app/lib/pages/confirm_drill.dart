@@ -24,6 +24,8 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
   Widget build(BuildContext context) {
     return EvacAppScaffold(
         title: 'confirm drill details',
+        backButton: true,
+        backButtonFunc: () => Navigator.pop(context, false),
         child: Column(
           children: [
             SizedBox(height: 36),
@@ -50,12 +52,15 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                 ),
               ),
             ),
-            SizedBox(height: 80),
+            Expanded(child: Container()),
             Column(
               children: [
                 Text(
                   widget.drillEvent.meetingLocationPlainText!,
-                  style: Styles.boldText.copyWith(fontSize: 36),
+                  style: Styles.boldText.copyWith(
+                    fontSize: 36,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 12),
                 Text(
@@ -92,7 +97,7 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                 ),
               ],
             ),
-            SizedBox(height: 72),
+            Expanded(child: Container()),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -138,7 +143,8 @@ class _ConfirmDrillState extends State<ConfirmDrill> {
                   style: Styles.confirmButton,
                 ),
               ],
-            )
+            ),
+            SizedBox(height: 20),
           ],
         ));
   }

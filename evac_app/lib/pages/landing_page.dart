@@ -14,6 +14,11 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageHeight = MediaQuery.of(context).size.height;
+    final pageWidth = MediaQuery.of(context).size.width;
+    // print('height:\t$pageHeight');
+    // print('width: \t$pageWidth');
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -27,15 +32,17 @@ class LandingPage extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(
-                constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height * 0.4,
-                    maxHeight: MediaQuery.of(context).size.height * 0.5),
-                padding: EdgeInsets.only(left: 28.8, bottom: 48, right: 28.8),
+                padding: EdgeInsets.only(
+                  left: pageWidth * 0.07,
+                  bottom: pageHeight * (0.055 + 0.0759),
+                  right: pageWidth * 0.07,
+                ),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 19.2),
+                        padding: EdgeInsets.only(top: pageHeight * 0.0235),
                         child: Text(
                           'Evacuation Drill Simulator App',
                           maxLines: 2,
@@ -47,7 +54,7 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 19.2),
+                        padding: EdgeInsets.only(top: pageHeight * 0.0235),
                         child: Text(
                           'The goal of this app is to help gather data to better prepare the Oregon Coastal Community in the event of an emergency.',
                           maxLines: 3,
@@ -59,7 +66,7 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 48,
+                        height: pageHeight * 0.059,
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,8 +90,10 @@ class LandingPage extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 28.8, right: 28.8),
+                              padding: EdgeInsets.only(
+                                left: pageWidth * 0.07,
+                                right: pageWidth * 0.07,
+                              ),
                               child: ElevatedButton(
                                 onPressed: () {
                                   pushInviteCodePage();
@@ -104,7 +113,7 @@ class LandingPage extends StatelessWidget {
                                 ),
                               ),
                             )
-                          ])
+                          ]),
                     ]),
               ),
             )
