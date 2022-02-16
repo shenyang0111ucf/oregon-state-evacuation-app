@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
@@ -191,42 +193,82 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   }
 
   Future<bool> getDrillEvent(documentID) async {
-    if (_researcherFirestoreDetails != null) {
-      // // query the secondary Researcher Firestore for DrillEvent object
-      // twiddleThumbs();
+    String? drillEventJson;
 
-      // query Firebase for DrillEvent object
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      firestore.collection('DrillEvents');
+    // query Firebase for DrillEvent json string
+    bool gotJson = await FirebaseFirestore.instance
+        .collection('DrillEvents')
+        .doc(documentID)
+        .get()
+        .then((DocumentSnapshot docSnapshot) {
+      if (docSnapshot.exists) {
+        try {
+          var docData = docSnapshot.data() as Map<String, dynamic>;
+          drillEventJson = docData['drillEventJson'];
+          print('obtained DrillEvent json string from firebase');
+          return true;
+        } on Exception catch (e) {
+          print(e);
+          return false;
+        }
+      }
+      print('DrillEvent json string not in firebase');
+      return false;
+    });
+
+    if (gotJson) {
+      // translate from string to DrillEvent
+      DrillEvent newDrillEvent =
+          DrillEvent.fromJson(jsonDecode(drillEventJson!));
 
       // store it in local state
       // and stop showing invite code page
       setState(() {
-        _drillEvent = DrillEvent.example();
+        _drillEvent = newDrillEvent;
         _tryingInviteCode = false;
       });
 
-      // store it in persistent storage
+      // store it in persistent storage (async, don't await)
       twiddleThumbs();
+
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   Future<bool> tryInviteCode(inputCode) async {
-    /// "query firestore for second firestore details"
-    /// "save second firestore details in volatile state"
+    String? drillEventDocID;
 
     // check initial invite code against app Firebase Firestore
-    bool valid = twiddleThumbs()!;
+    // if invite code exists, extract the correlated DrillEvent Document ID
+    bool valid = await FirebaseFirestore.instance
+        .collection('InviteCodes')
+        .where('inviteCode', isEqualTo: inputCode)
+        .get()
+        .then(
+      (QuerySnapshot querySnapshot) {
+        if (querySnapshot.size > 0) {
+          DocumentSnapshot docSnapshot = querySnapshot.docs.first;
+          if (docSnapshot.exists) {
+            try {
+              var docData = docSnapshot.data() as Map<String, dynamic>;
+              drillEventDocID = docData['drillEventDocID'];
+              print('invite code in firebase');
+              return true;
+            } on Exception catch (e) {
+              print(e);
+              return false;
+            }
+          }
+        }
+        print('invite code not in firebase');
+        return false;
+      },
+    );
 
     if (valid) {
-      // request the secondary Researcher Firestore details
-      var firestoreDetails = twiddleThumbs().toString();
-      // store result in state
-      _researcherFirestoreDetails = firestoreDetails;
-      // async get drill event from newly discovered firestore
-      getDrillEvent('documentID');
+      await getDrillEvent(drillEventDocID);
       return true;
     } else {
       return false;
