@@ -22,19 +22,19 @@ class BasicDrillPresenter extends StatefulWidget {
 class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   String? _researcherFirestoreDetails = null;
   bool _tryingInviteCode = false;
-  DrillEvent? _drillEvent = null;
+  DrillEvent? _drillEvent = DrillEvent.example();
   bool? _confirmedDrill = null;
-  SurveyResult? _preDrillResults = null;
-  bool _researcherStartReceived = false;
+  // SurveyResult? _preDrillResults = null;
+  bool _researcherStartReceived = true;
   bool _drillComplete = false;
 
   // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
-  // SurveyResult? _preDrillResults = SurveyResult(
-  //     id: Identifier(id: 'blah'),
-  //     startDate: DateTime.now(),
-  //     endDate: DateTime.now(),
-  //     finishReason: FinishReason.COMPLETED,
-  //     results: []);
+  SurveyResult? _preDrillResults = SurveyResult(
+      id: Identifier(id: 'blah'),
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      finishReason: FinishReason.COMPLETED,
+      results: []);
 
   @override
   void initState() {

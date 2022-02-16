@@ -24,30 +24,28 @@ class InstructionDisplay extends StatelessWidget {
     return ListView(
       scrollDirection: Axis.horizontal,
       children: [
-        SizedBox(width: width * 0.125),
+        SizedBox(width: width * 0.125 * (1 - 0.75 * 0.5)),
         InstructionCard(
           index: 1,
           instructionText: 'Get to high ground, minimum elevation: 200 ft.',
           width: width,
           completeDrill: completeDrill,
         ),
-        SizedBox(width: width * 0.125 * 0.75),
-        // InstructionCard(
-        //   index: 2,
-        //   instructionText:
-        //       'Very long instruction text. So long in fact, that it will need to be scrollable to be read. Hopefully we can write more succinct instructions for the real drills, but perhaps not…',
-        //   width: width,
-        //   completeDrill: completeDrill,
-        // ),
-        // SizedBox(width: width * 0.125 * 0.75),
         InstructionCard(
           index: 2,
+          instructionText:
+              'Very long instruction text. So long in fact, that it will need to be scrollable to be read. Hopefully we can write more succinct instructions for the real drills, but perhaps not…',
+          width: width,
+          completeDrill: completeDrill,
+        ),
+        InstructionCard(
+          index: 3,
           instructionText: 'Complete the drill by pressing the button below.',
           width: width,
           finalCard: true,
           completeDrill: completeDrill,
         ),
-        SizedBox(width: width * 0.125),
+        SizedBox(width: width * 0.125 * (1 - 0.75 * 0.5)),
       ],
     );
   }
