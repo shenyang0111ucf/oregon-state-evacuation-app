@@ -1,7 +1,6 @@
 import 'package:evac_app/components/evac_app_scaffold_no_app_bar.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';
 

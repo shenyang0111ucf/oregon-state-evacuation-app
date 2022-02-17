@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
-import 'package:evac_app/components/future_built_text.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_kit/survey_kit.dart';
 
 class ConfirmDrill extends StatefulWidget {
   const ConfirmDrill({

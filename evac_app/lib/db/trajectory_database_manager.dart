@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 import 'package:evac_app/models/participant_location.dart';
 
 class TrajectoryDatabaseManager {

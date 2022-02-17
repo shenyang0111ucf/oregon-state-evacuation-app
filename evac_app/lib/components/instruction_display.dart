@@ -1,6 +1,5 @@
 import 'package:evac_app/components/instruction_card.dart';
 import 'package:evac_app/models/drill_event.dart';
-import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
 class InstructionDisplay extends StatelessWidget {
