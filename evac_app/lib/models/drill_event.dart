@@ -28,7 +28,7 @@ class DrillEvent {
   DrillEvent.example()
       : startTime = DateTime.now(),
         preDrillSurveyJSON = {
-          'id': "123",
+          'id': "preDrillSurvey",
           'type': 'navigable',
           'steps': [
             {
@@ -58,6 +58,86 @@ class DrillEvent {
                 'result': 'POSITIVE',
               },
             },
+            // integer type does not remove keyboard display on entry...
+            {
+              "type": "question",
+              "title": "How old are you?",
+              "answerFormat": {
+                "type": "integer",
+                "hint": "Please enter your age"
+              }
+            },
+
+            {
+              "type": "question",
+              "title": "How old are you?",
+              "answerFormat": {
+                "type": "scale",
+                "step": 1,
+                "minimumValue": 1,
+                "maximumValue": 5,
+                "defaultValue": 3,
+                "minimumValueDescription": "1",
+                "maximumValueDescription": "5"
+              }
+            },
+            {
+              "type": "question",
+              "title": "Known allergies",
+              "answerFormat": {
+                "type": "multiple",
+                "textChoices": [
+                  {"text": "Penicillin", "value": "Penicillin"},
+                  {"text": "Latex", "value": "Latex"},
+                  {"text": "Pet", "value": "Pet"},
+                  {"text": "Pollen", "value": "Pollen"}
+                ]
+              }
+            },
+            {
+              "type": "question",
+              "title": "Done?",
+              "text":
+                  "We are done, do you mind to tell us more about yourself?",
+              "answerFormat": {
+                "type": "single",
+                "textChoices": [
+                  {"text": "Yes", "value": "Yes"},
+                  {"text": "No", "value": "No"}
+                ]
+              }
+            },
+            {
+              "type": "question",
+              "title": "Tell us about you",
+              "text":
+                  "Tell us about yourself and why you want to improve your health.",
+              "answerFormat": {
+                "type": "text",
+                "maxLines": 5,
+                "validationRegEx": "^(?!\s*\$).+"
+              }
+            },
+
+            /// doesn't work without defaultValue, but defaultValue doesn't display that value (instead displays current time, probably from DateTime.now()) however it DOES submit the defaultValue if form is not interacted with
+            // {
+            //   "type": "question",
+            //   "title": "When did you wake up?",
+            //   "answerFormat": {
+            //     "type": "time",
+            //     // "defaultValue": {"hour": 12, "minute": 0}
+            //   }
+            // },
+            {
+              "type": "question",
+              "title": "When was your last holiday?",
+              "answerFormat": {
+                "type": "date",
+                "minDate": "2015-06-25T04:08:16Z",
+                "maxDate": "2025-06-25T04:08:16Z",
+                "defaultDate": "2021-06-25T04:08:16Z"
+              }
+            },
             {
               "stepIdentifier": {"id": "10"},
               'type': 'completion',
@@ -70,7 +150,7 @@ class DrillEvent {
         },
         duringDrillInstructionsJSON = {},
         postDrillSurveyJSON = {
-          'id': "456",
+          'id': "postDrillSurvey",
           'type': 'navigable',
           'steps': [
             {

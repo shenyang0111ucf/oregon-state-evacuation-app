@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
 import 'package:evac_app/pages/invite_code_page.dart';
@@ -24,7 +25,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _tryingInviteCode = false;
   DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
-  SurveyResult? _preDrillResults = null;
+  DrillResult? _drillResult = null;
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
@@ -60,13 +61,14 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
             child: DuringDrill(drillEvent: _drillEvent!),
             key: DuringDrill.valueKey,
           )
-        else if (_preDrillResults != null)
+        else if (_drillResult != null && _drillResult!.hasPreDrillResult())
           MaterialPage(
             child: WaitScreen(),
           )
         else if (_confirmedDrill != null &&
             _confirmedDrill! &&
-            _preDrillResults == null)
+            (_drillResult == null ||
+                (_drillResult != null && !_drillResult!.hasPreDrillResult())))
           MaterialPage(
             child: PreDrillSurvey(drillEvent: _drillEvent!),
             key: PreDrillSurvey.valueKey,
@@ -96,6 +98,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           if (result) {
             setState(() {
               _confirmedDrill = result;
+              _drillResult = DrillResult();
             });
 
             // store results in persistent storage
@@ -116,7 +119,8 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           // store results in state
           // change to storing in DrillEvent object?
           setState(() {
-            _preDrillResults = result;
+            // _preDrillResults = result;
+            _drillResult!.addSurveyResult(result);
           });
 
           // store results in persistent storage
@@ -136,7 +140,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           } else {
             setState(() {
               _researcherStartReceived = false;
-              _preDrillResults = null;
+              // _preDrillResults = null;
               _confirmedDrill = null;
               _drillEvent = null;
             });
@@ -145,6 +149,9 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
         if (page.key == PostDrillSurvey.valueKey) {
           if (result != null) {
+            // store this survey result
+            _drillResult!.addSurveyResult(result);
+
             // store all results
             // export
 
@@ -153,7 +160,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
               _researcherFirestoreDetails = null;
               _drillEvent = null;
               _confirmedDrill = null;
-              _preDrillResults = null;
+              _drillResult = null;
               _researcherStartReceived = false;
               _drillComplete = false;
             });
@@ -224,7 +231,8 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
       // store it in local state
       // and stop showing invite code page
       setState(() {
-        _drillEvent = newDrillEvent;
+        // _drillEvent = newDrillEvent;
+        _drillEvent = DrillEvent.example();
         _tryingInviteCode = false;
       });
 

@@ -15,7 +15,7 @@ class PreDrillSurvey extends StatefulWidget {
 
   final DrillEvent drillEvent;
   static const valueKey = ValueKey('PreDrillSurvey');
-  static const printResults = true;
+  static const printResults = false;
 
   @override
   _PreDrillSurveyState createState() => _PreDrillSurveyState();
