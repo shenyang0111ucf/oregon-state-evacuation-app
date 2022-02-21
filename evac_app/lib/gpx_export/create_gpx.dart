@@ -16,6 +16,7 @@ class CreateGpx {
       sink.write(stringifyEntry(entry));
     }
     sink.write(footer);
+    await sink.flush();
     sink.close();
   }
 
