@@ -38,6 +38,7 @@ dependencies:
       url: https://github.com/kaff-oregonstate/survey_kit
       ref: c1fc0f2798b4b5ac0f66a6276d8960a8fa0ea4df
   sqflite: ^2.0.0+4
+  pointycastle: ^3.5.1
 
 dev_dependencies:
   flutter_test:

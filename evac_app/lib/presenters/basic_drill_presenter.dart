@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/location_tracking/location_tracker.dart';
 import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
@@ -11,6 +14,7 @@ import 'package:evac_app/pages/pre_drill_survey.dart';
 import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class BasicDrillPresenter extends StatefulWidget {
   const BasicDrillPresenter({Key? key}) : super(key: key);
@@ -26,6 +30,9 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   DrillResult? _drillResult = null;
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
+
+  LocationTracker? locTracker;
+  String filename = 'abc123-2022-02-20T144003';
 
   // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
   // SurveyResult? _preDrillResults = SurveyResult(
@@ -121,6 +128,8 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
             _drillResult!.addSurveyResult(result);
           });
 
+          print(_drillResult!.hasPreDrillResult());
+
           // store results in persistent storage
           twiddleThumbs();
 
@@ -130,11 +139,15 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         }
 
         if (page.key == DuringDrill.valueKey) {
+          // stop tracking location
+          locTracker!.stopLogging();
           // do any storage after drill
           if (result) {
             setState(() {
               _drillComplete = result;
             });
+            // export
+            _drillResult!.addGpxFile(locTracker!.createTrajectory(filename));
           } else {
             setState(() {
               _researcherStartReceived = false;
@@ -142,6 +155,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
               _confirmedDrill = null;
               _drillEvent = null;
             });
+            // right now we are throwing away any results if they back out. In the future we should have much more complex location logging, with pause+resume, etc.
           }
         }
 
@@ -194,6 +208,9 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     setState(() {
       _researcherStartReceived = startSignal;
     });
+    // start tracking location
+    locTracker = LocationTracker();
+    locTracker!.startLogging();
   }
 
   Future<bool> getDrillEvent(documentID) async {

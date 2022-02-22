@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:survey_kit/survey_kit.dart';
 
 class DrillResult {
-  File? _gpxFile;
+  String? _gpxFilePath;
   Map<String, dynamic>? _preDrillSurveyResults;
   Map<String, dynamic>? _postDrillSurveyResults;
 
@@ -12,7 +12,7 @@ class DrillResult {
   DrillResult();
 
   bool hasPreDrillResult() {
-    return _preDrillSurveyResults != null;
+    return (_preDrillSurveyResults != null);
   }
 
   bool hasPostDrillResult() {
@@ -80,8 +80,9 @@ class DrillResult {
     }
   }
 
-  Future addGpxFile(File gpxFile) async {
-    this._gpxFile = gpxFile;
+  Future addGpxFile(Future<String> gpxFile) async {
+    String filePath = await gpxFile;
+    this._gpxFilePath = filePath;
   }
 
   Map<String, dynamic>? exportSurveyResultsToJsonAndGetFile() {
@@ -89,7 +90,7 @@ class DrillResult {
     // like what if the predrillsurveyresults get boofed for some reason but we still have a gpxFile and postResults? gotta export what we have.................
     if (_preDrillSurveyResults != null && _postDrillSurveyResults != null) {
       // export the results
-      if (_gpxFile != null) {
+      if (_gpxFilePath != null) {
         // also export the file
       }
     } else {
