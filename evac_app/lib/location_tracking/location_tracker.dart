@@ -23,6 +23,10 @@ class LocationTracker {
       if (result == 'yes') {
         print('location available');
         locationService = LocationService();
+        // this line makes sure that if a second drill is run while app is still
+        // open, the data from the end of the last drill is not erroneously put
+        // into the results for the new drill
+        LocationService.stream!.drain();
         subscription = LocationService.stream!.listen(
             (newLocation) => _setCurrentLocation(databaseManager, newLocation));
         _running = true;
