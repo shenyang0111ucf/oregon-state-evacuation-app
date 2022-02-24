@@ -1,4 +1,5 @@
 // import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:survey_kit/survey_kit.dart';
@@ -15,8 +16,22 @@ class DrillResult {
     return (_preDrillSurveyResults != null);
   }
 
+  String printPreDrillResult() {
+    return jsonEncode(_preDrillSurveyResults);
+  }
+
   bool hasPostDrillResult() {
     return _postDrillSurveyResults != null;
+  }
+
+  String printPostDrillResult() {
+    return jsonEncode(_postDrillSurveyResults);
+  }
+
+  File getGpxFile() {
+    // DANGER! does not null check _gpxFilePath
+    // haphazard, please rearchitect results_exporter, etc.
+    return File(_gpxFilePath!);
   }
 
   void addSurveyResult(SurveyResult result) {
