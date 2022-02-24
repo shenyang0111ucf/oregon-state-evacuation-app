@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/gpx_export/results_exporter.dart';
 import 'package:evac_app/location_tracking/location_tracker.dart';
 import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
@@ -15,6 +16,7 @@ import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class BasicDrillPresenter extends StatefulWidget {
   const BasicDrillPresenter({Key? key}) : super(key: key);
@@ -27,6 +29,8 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _tryingInviteCode = false;
   DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
+  String? _drillEventDocID = null;
+  String? _userID = null;
   DrillResult? _drillResult = null;
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
@@ -110,7 +114,8 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
             twiddleThumbs();
 
             // Contact firestore, create user entry.
-            twiddleThumbs();
+            _userID = Uuid().v4();
+            addUser();
           } else {
             setState(() {
               _drillEvent = null;
@@ -166,6 +171,12 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
             // store all results
             // export
+            final exporter = ResultsExporter(
+                drillEventID: _drillEvent!.id,
+                publicKey: _drillEvent!.publicKey,
+                drillResult: _drillResult!,
+                userID: _userID!);
+            exporter.export();
 
             // reset state
             setState(() {
@@ -211,6 +222,24 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     // start tracking location
     locTracker = LocationTracker();
     locTracker!.startLogging();
+  }
+
+  Future<bool> addUser() async {
+    // query Firebase to add user to DrillEvent.participants
+    return FirebaseFirestore.instance
+        .collection('DrillEvents')
+        .doc(_drillEventDocID)
+        .collection('participants')
+        .add({
+          'uuid': _userID,
+          'completed': false,
+        })
+        .then((value) => true)
+        .catchError((error) {
+          _userID = Uuid().v4();
+          addUser();
+          return false;
+        });
   }
 
   Future<bool> getDrillEvent(documentID) async {
@@ -290,6 +319,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     );
 
     if (valid) {
+      _drillEventDocID = drillEventDocID;
       await getDrillEvent(drillEventDocID);
       return true;
     } else {
