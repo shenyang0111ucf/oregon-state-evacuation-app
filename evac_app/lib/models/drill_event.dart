@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 class DrillEvent {
+  final String id;
   final DateTime startTime;
   final String publicKey;
   final Map<String, dynamic> preDrillSurveyJSON;
@@ -16,6 +17,7 @@ class DrillEvent {
   // double meetingLongitude;
 
   DrillEvent({
+    required this.id,
     required this.startTime,
     required this.publicKey,
     required this.preDrillSurveyJSON,
@@ -26,7 +28,8 @@ class DrillEvent {
   });
 
   DrillEvent.example()
-      : startTime = DateTime.now(),
+      : id = 'abc',
+        startTime = DateTime.now(),
         preDrillSurveyJSON = {
           'id': "preDrillSurvey",
           'type': 'navigable',
@@ -196,6 +199,7 @@ class DrillEvent {
 
   factory DrillEvent.fromJson(Map<String, dynamic> json) {
     return DrillEvent(
+      id: json['id'],
       startTime: DateTime.tryParse(json['startTime']) ?? DateTime.now(),
       publicKey: json['publicKey'],
       preDrillSurveyJSON: jsonDecode(json['preDrillSurveyJSON']),
@@ -210,6 +214,7 @@ class DrillEvent {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'startTime': startTime.toString(),
       'publicKey': publicKey,
       'preDrillSurveyJSON': jsonEncode(preDrillSurveyJSON),
