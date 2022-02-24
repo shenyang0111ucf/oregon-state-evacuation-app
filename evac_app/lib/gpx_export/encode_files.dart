@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:evac_app/gpx_export/cryptography/rsa_implementation.dart';
 
-class EncodeGpx {
-  void encodeRSA({required String filePath, required pubKeyString}) async {
+class EncodeFiles {
+  Future<String> encodeRSA(
+      {required String filePath, required pubKeyString}) async {
     final publicKey = RSAimplement.rsaPublicKeyFromPem(pubKeyString);
 
     var file = File(filePath);
@@ -16,7 +17,7 @@ class EncodeGpx {
         RSAimplement.rsaEncrypt(publicKey, file.readAsBytesSync()),
         flush: true);
 
-    return;
+    return newFilePath;
   }
 
   Future<void> decodeRSA(
