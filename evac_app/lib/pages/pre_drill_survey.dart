@@ -1,7 +1,6 @@
 import 'package:evac_app/components/evac_app_scaffold_no_app_bar.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';
 
@@ -15,7 +14,7 @@ class PreDrillSurvey extends StatefulWidget {
 
   final DrillEvent drillEvent;
   static const valueKey = ValueKey('PreDrillSurvey');
-  static const printResults = true;
+  static const printResults = false;
 
   @override
   _PreDrillSurveyState createState() => _PreDrillSurveyState();
