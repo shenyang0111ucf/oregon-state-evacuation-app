@@ -1,6 +1,8 @@
+import 'dart:ui';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:evac_app/components/instruction_card.dart';
 import 'package:evac_app/models/drill_event.dart';
-import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
 class InstructionDisplay extends StatelessWidget {
@@ -21,32 +23,20 @@ class InstructionDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // need to find a way to have the scroll click into center of each InstructionCard
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: [
-        SizedBox(width: width * 0.125 * (1 - 0.75 * 0.5)),
-        InstructionCard(
-          index: 1,
-          instructionText: 'Get to high ground, minimum elevation: 200 ft.',
-          width: width,
-          completeDrill: completeDrill,
-        ),
-        InstructionCard(
-          index: 2,
-          instructionText:
-              'Very long instruction text. So long in fact, that it will need to be scrollable to be read. Hopefully we can write more succinct instructions for the real drills, but perhaps not…',
-          width: width,
-          completeDrill: completeDrill,
-        ),
-        InstructionCard(
-          index: 3,
-          instructionText: 'Complete the drill by pressing the button below.',
-          width: width,
-          finalCard: true,
-          completeDrill: completeDrill,
-        ),
-        SizedBox(width: width * 0.125 * (1 - 0.75 * 0.5)),
-      ],
-    );
+    return CarouselSlider(items: [
+      InstructionCard(
+        index: 1,
+        instructionText: 'Get to high ground, minimum elevation: 200 ft.',
+        width: width,
+        completeDrill: completeDrill,
+      ),
+      InstructionCard(
+        index: 2,
+        instructionText: 'Complete the drill by pressing the button below.',
+        width: width,
+        finalCard: true,
+        completeDrill: completeDrill,
+      ),
+    ], options: CarouselOptions(enableInfiniteScroll: false, height: 600));
   }
 }
