@@ -157,6 +157,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
             setState(() {
               _researcherStartReceived = false;
               // _preDrillResults = null;
+              _drillResult = null;
               _confirmedDrill = null;
               _drillEvent = null;
             });
