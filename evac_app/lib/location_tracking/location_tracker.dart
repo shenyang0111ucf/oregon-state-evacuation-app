@@ -25,9 +25,20 @@ class LocationTracker {
         locationService = LocationService();
         // this line makes sure that if a second drill is run while app is still
         // open, the data from the end of the last drill is not erroneously put
-        // into the results for the new drill
-        LocationService.stream!.drain();
-        subscription = LocationService.stream!.listen(
+        // into the results for the new drill…
+        //    FALSE! THIS LINE WAS MAKING THE LOCATION TRACKING NEVER STOP, AS
+        //    "DRAIN()" CREATES A NEW SUBSCRIPTION WHICH ONLY COMPLETES WHEN THE
+        //    STREAM IS EMPTIED, WHICH A LOCATION STREAM NEVER WILL BE!
+        // locationService!.stream.drain();
+
+        // so now we are trying this "skip(1)" business to avoid stale data, but
+        // it's not working yet...
+        // https://github.com/kaff-oregonstate/oregon-state-evacuation-app/issues/88
+        // also we are now using "geolocator" package instead of "location"
+        // because that was one of the attempts I made to fix the incessant
+        // location tracking. I genuinely think this improved it.
+        // https://github.com/kaff-oregonstate/oregon-state-evacuation-app/issues/89
+        subscription = locationService!.stream.skip(1).listen(
             (newLocation) => _setCurrentLocation(databaseManager, newLocation));
         _running = true;
       } else {
@@ -36,7 +47,7 @@ class LocationTracker {
     }
   }
 
-  void stopLogging() {
+  Future<void> stopLogging() async {
     if (_running) {
       subscription!.cancel();
       locationService = null;

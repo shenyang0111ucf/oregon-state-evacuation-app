@@ -41,6 +41,7 @@ dependencies:
   pointycastle: ^3.5.1
   firebase_storage: ^10.2.7
   uuid: ^3.0.6
+  geolocator: ^8.2.0
 
 dev_dependencies:
   flutter_test:

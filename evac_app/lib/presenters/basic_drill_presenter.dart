@@ -145,7 +145,11 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
         if (page.key == DuringDrill.valueKey) {
           // stop tracking location
-          locTracker!.stopLogging();
+          locTracker!.stopLogging().then((_) {
+            setState(() {
+              locTracker = null;
+            });
+          });
           // do any storage after drill
           if (result) {
             setState(() {
