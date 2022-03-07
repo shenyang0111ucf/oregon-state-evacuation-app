@@ -23,20 +23,27 @@ class InstructionDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // need to find a way to have the scroll click into center of each InstructionCard
-    return CarouselSlider(items: [
-      InstructionCard(
-        index: 1,
-        instructionText: 'Get to high ground, minimum elevation: 200 ft.',
-        width: width,
-        completeDrill: completeDrill,
+    return CarouselSlider(
+      items: [
+        InstructionCard(
+          index: 1,
+          instructionText: 'Get to high ground, minimum elevation: 200 ft.',
+          width: width,
+          completeDrill: completeDrill,
+        ),
+        InstructionCard(
+          index: 2,
+          instructionText: 'Complete the drill by pressing the button below.',
+          width: width,
+          finalCard: true,
+          completeDrill: completeDrill,
+        ),
+      ],
+      options: CarouselOptions(
+        enableInfiniteScroll: false,
+        height: 600,
+        enlargeCenterPage: true,
       ),
-      InstructionCard(
-        index: 2,
-        instructionText: 'Complete the drill by pressing the button below.',
-        width: width,
-        finalCard: true,
-        completeDrill: completeDrill,
-      ),
-    ], options: CarouselOptions(enableInfiniteScroll: false, height: 600));
+    );
   }
 }
