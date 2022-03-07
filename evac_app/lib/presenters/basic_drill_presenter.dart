@@ -1,6 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evac_app/components/evac_app_scaffold.dart';
+import 'package:evac_app/gpx_export/results_exporter.dart';
+import 'package:evac_app/location_tracking/location_tracker.dart';
+import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
 import 'package:evac_app/pages/invite_code_page.dart';
@@ -10,7 +15,8 @@ import 'package:evac_app/pages/pre_drill_survey.dart';
 import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
-import 'package:survey_kit/survey_kit.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class BasicDrillPresenter extends StatefulWidget {
   const BasicDrillPresenter({Key? key}) : super(key: key);
@@ -20,21 +26,17 @@ class BasicDrillPresenter extends StatefulWidget {
 }
 
 class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
-  String? _researcherFirestoreDetails = null;
   bool _tryingInviteCode = false;
   DrillEvent? _drillEvent = DrillEvent.example();
   bool? _confirmedDrill = null;
-  // SurveyResult? _preDrillResults = null;
-  bool _researcherStartReceived = true;
+  String? _drillEventDocID = null;
+  String? _userID = null;
+  DrillResult? _drillResult = null;
+  bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
-  // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
-  SurveyResult? _preDrillResults = SurveyResult(
-      id: Identifier(id: 'blah'),
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      finishReason: FinishReason.COMPLETED,
-      results: []);
+  LocationTracker? locTracker;
+  String filename = 'abc123-2022-02-20T144003';
 
   @override
   void initState() {
@@ -60,13 +62,14 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
             child: DuringDrill(drillEvent: _drillEvent!),
             key: DuringDrill.valueKey,
           )
-        else if (_preDrillResults != null)
+        else if (_drillResult != null && _drillResult!.hasPreDrillResult())
           MaterialPage(
             child: WaitScreen(),
           )
         else if (_confirmedDrill != null &&
             _confirmedDrill! &&
-            _preDrillResults == null)
+            (_drillResult == null ||
+                (_drillResult != null && !_drillResult!.hasPreDrillResult())))
           MaterialPage(
             child: PreDrillSurvey(drillEvent: _drillEvent!),
             key: PreDrillSurvey.valueKey,
@@ -96,13 +99,15 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           if (result) {
             setState(() {
               _confirmedDrill = result;
+              _drillResult = DrillResult();
             });
 
             // store results in persistent storage
             twiddleThumbs();
 
             // Contact firestore, create user entry.
-            twiddleThumbs();
+            _userID = Uuid().v4();
+            addUser();
           } else {
             setState(() {
               _drillEvent = null;
@@ -116,8 +121,11 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           // store results in state
           // change to storing in DrillEvent object?
           setState(() {
-            _preDrillResults = result;
+            // _preDrillResults = result;
+            _drillResult!.addSurveyResult(result);
           });
+
+          print(_drillResult!.hasPreDrillResult());
 
           // store results in persistent storage
           twiddleThumbs();
@@ -128,32 +136,45 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         }
 
         if (page.key == DuringDrill.valueKey) {
+          // stop tracking location
+          locTracker!.stopLogging();
           // do any storage after drill
           if (result) {
             setState(() {
               _drillComplete = result;
             });
+            // export
+            _drillResult!.addGpxFile(locTracker!.createTrajectory(filename));
           } else {
             setState(() {
               _researcherStartReceived = false;
-              _preDrillResults = null;
+              // _preDrillResults = null;
               _confirmedDrill = null;
               _drillEvent = null;
             });
+            // right now we are throwing away any results if they back out. In the future we should have much more complex location logging, with pause+resume, etc.
           }
         }
 
         if (page.key == PostDrillSurvey.valueKey) {
           if (result != null) {
+            // store this survey result
+            _drillResult!.addSurveyResult(result);
+
             // store all results
             // export
+            final exporter = ResultsExporter(
+                drillEventID: _drillEvent!.id,
+                publicKey: _drillEvent!.publicKey,
+                drillResult: _drillResult!,
+                userID: _userID!);
+            exporter.export();
 
             // reset state
             setState(() {
-              _researcherFirestoreDetails = null;
               _drillEvent = null;
               _confirmedDrill = null;
-              _preDrillResults = null;
+              _drillResult = null;
               _researcherStartReceived = false;
               _drillComplete = false;
             });
@@ -190,6 +211,27 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     setState(() {
       _researcherStartReceived = startSignal;
     });
+    // start tracking location
+    locTracker = LocationTracker();
+    locTracker!.startLogging();
+  }
+
+  Future<bool> addUser() async {
+    // query Firebase to add user to DrillEvent.participants
+    return FirebaseFirestore.instance
+        .collection('DrillEvents')
+        .doc(_drillEventDocID)
+        .collection('participants')
+        .add({
+          'uuid': _userID,
+          'completed': false,
+        })
+        .then((value) => true)
+        .catchError((error) {
+          _userID = Uuid().v4();
+          addUser();
+          return false;
+        });
   }
 
   Future<bool> getDrillEvent(documentID) async {
@@ -225,6 +267,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
       // and stop showing invite code page
       setState(() {
         _drillEvent = newDrillEvent;
+        // _drillEvent = DrillEvent.example();
         _tryingInviteCode = false;
       });
 
@@ -268,6 +311,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     );
 
     if (valid) {
+      _drillEventDocID = drillEventDocID;
       await getDrillEvent(drillEventDocID);
       return true;
     } else {
