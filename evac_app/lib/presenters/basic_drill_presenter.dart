@@ -27,7 +27,7 @@ class BasicDrillPresenter extends StatefulWidget {
 
 class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _tryingInviteCode = false;
-  DrillEvent? _drillEvent = DrillEvent.example();
+  DrillEvent? _drillEvent = null;
   bool? _confirmedDrill = null;
   String? _drillEventDocID = null;
   String? _userID = null;
