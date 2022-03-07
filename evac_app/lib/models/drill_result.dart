@@ -6,8 +6,9 @@ import 'package:survey_kit/survey_kit.dart';
 
 class DrillResult {
   String? _gpxFilePath;
-  Map<String, dynamic>? _preDrillSurveyResults;
-  Map<String, dynamic>? _postDrillSurveyResults;
+  List<Map<String, dynamic>>? _preDrillSurveyResults;
+  List<Map<String, dynamic>>? _postDrillSurveyResults;
+  Duration? _timeElapsed;
 
   // DrillResult should only be initialized empty! then add results as progress is made
   DrillResult();
@@ -18,6 +19,18 @@ class DrillResult {
 
   String printPreDrillResult() {
     return jsonEncode(_preDrillSurveyResults);
+  }
+
+  bool hasTimeElapsed() {
+    return _timeElapsed != null;
+  }
+
+  String printTimeElapsed() {
+    return _timeElapsed.toString();
+  }
+
+  Map<String, dynamic> _timeElapsedMap() {
+    return {"timeElapsed": printTimeElapsed()};
   }
 
   bool hasPostDrillResult() {
@@ -36,15 +49,25 @@ class DrillResult {
 
   void addSurveyResult(SurveyResult result) {
     if (result.finishReason == FinishReason.COMPLETED) {
-      Map<String, dynamic> surveyResults = {"answers": []};
+      var survey;
+      if (result.id == Identifier(id: 'preDrillSurvey')) {
+        survey = 'preDrillSurvey';
+      } else if (result.id == Identifier(id: 'postDrillSurvey')) {
+        survey = 'postDrillSurvey';
+      } else {
+        throw Exception('undefined survey result type, cannot save');
+      }
+      List<Map<String, dynamic>> surveyResults = [];
       for (var stepResult in result.results) {
-        Map<String, dynamic> answer = {};
+        Map<String, dynamic> answer = {"survey": survey};
         final questionResult = stepResult.results[0];
         if (stepResult.id != null) answer["id"] = stepResult.id!.id;
         switch (questionResult.runtimeType) {
           case InstructionStepResult:
+            continue;
             break;
           case CompletionStepResult:
+            continue;
             break;
           case BooleanQuestionResult:
             answer["type"] = 'bool';
@@ -82,13 +105,11 @@ class DrillResult {
             answer["response"] = 'An unrecognized error has occurred.';
           // do a default thing
         }
-        surveyResults["answers"] += [answer];
+        surveyResults += [answer];
       }
       if (result.id == Identifier(id: 'preDrillSurvey')) {
-        surveyResults["id"] = 'preDrillSurvey';
         _preDrillSurveyResults = surveyResults;
       } else if (result.id == Identifier(id: 'postDrillSurvey')) {
-        surveyResults["id"] = 'postDrillSurvey';
         _postDrillSurveyResults = surveyResults;
       }
       // print(jsonEncode(surveyResults));
@@ -100,14 +121,15 @@ class DrillResult {
     this._gpxFilePath = filePath;
   }
 
-  Map<String, dynamic>? exportSurveyResultsToJsonAndGetFile() {
-    // probably need better error handling here!!!
-    // like what if the predrillsurveyresults get boofed for some reason but we still have a gpxFile and postResults? gotta export what we have.................
+  String? exportSurveyResultsToJsonString() {
     if (_preDrillSurveyResults != null && _postDrillSurveyResults != null) {
-      // export the results
-      if (_gpxFilePath != null) {
-        // also export the file
-      }
+      List answers = _preDrillSurveyResults! + _postDrillSurveyResults!;
+      Map<String, dynamic> results = {
+        ...{'answers': answers},
+        ..._timeElapsedMap(),
+      };
+      print(jsonEncode(results));
+      return jsonEncode(results);
     } else {
       return null;
     }
