@@ -28,72 +28,75 @@ class InstructionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     BuildContext biggerContext = context;
     return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        height: constraints.maxHeight,
-        width: width * 0.75,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
-          color: Colors.white24,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(22.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Instruction #${index.toString()}',
-                style: Styles.normalText.copyWith(
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: 30),
-              Expanded(
-                child: SingleChildScrollView(
-                    child: Text(
-                  instructionText,
-                  style: Styles.boldText.copyWith(
-                    fontSize: 32,
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.125 * 0.75 * 0.5),
+        child: Container(
+          height: constraints.maxHeight,
+          width: width * 0.75,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.0),
+            color: Colors.white24,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(22.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Instruction #${index.toString()}',
+                  style: Styles.normalText.copyWith(
+                    fontSize: 20,
                   ),
-                )),
-              ),
-              (finalCard) ? SizedBox(height: 30) : Container(),
-              (finalCard)
-                  ? Center(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Complete Drill?'),
-                                  content:
-                                      Text('This action cannot be undone.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        // call upper level function to stop location tracking, etc, then that function calls:
-                                        if (completeDrill != null)
-                                          completeDrill!(biggerContext);
-                                      },
-                                      child: const Text('Yes, Complete'),
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                        child: Text('complete drill'),
-                        style: Styles.confirmButton,
-                      ),
-                    )
-                  : Container(),
-            ],
+                ),
+                SizedBox(height: 30),
+                Expanded(
+                  child: SingleChildScrollView(
+                      child: Text(
+                    instructionText,
+                    style: Styles.boldText.copyWith(
+                      fontSize: 32,
+                    ),
+                  )),
+                ),
+                (finalCard) ? SizedBox(height: 30) : Container(),
+                (finalCard)
+                    ? Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Complete Drill?'),
+                                    content:
+                                        Text('This action cannot be undone.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          // call upper level function to stop location tracking, etc, then that function calls:
+                                          if (completeDrill != null)
+                                            completeDrill!(biggerContext);
+                                        },
+                                        child: const Text('Yes, Complete'),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: Text('complete drill'),
+                          style: Styles.confirmButton,
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
           ),
         ),
       );

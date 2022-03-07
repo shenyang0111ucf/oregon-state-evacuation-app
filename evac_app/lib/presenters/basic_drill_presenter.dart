@@ -38,14 +38,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   LocationTracker? locTracker;
   String filename = 'abc123-2022-02-20T144003';
 
-  // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
-  // SurveyResult? _preDrillResults = SurveyResult(
-  //     id: Identifier(id: 'blah'),
-  //     startDate: DateTime.now(),
-  //     endDate: DateTime.now(),
-  //     finishReason: FinishReason.COMPLETED,
-  //     results: []);
-
   @override
   void initState() {
     super.initState();
