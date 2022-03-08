@@ -111,9 +111,9 @@ class Styles {
   );
 
   static final timerText = GoogleFonts.getFont(
-    'Quicksand',
+    'Courier Prime',
     color: _textColorStrong,
-    fontWeight: FontWeight.w800,
+    fontWeight: FontWeight.w400,
     fontSize: 90,
   );
 

@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:evac_app/components/evac_app_scaffold.dart';
 import 'package:evac_app/components/instruction_display.dart';
+import 'package:evac_app/location_tracking/location_tracker.dart';
 import 'package:evac_app/models/drill_event.dart';
+import 'package:evac_app/models/drill_stopwatch.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -8,12 +11,13 @@ class DuringDrill extends StatefulWidget {
   DuringDrill({
     Key? key,
     required this.drillEvent,
+    required this.userID,
   }) : super(key: key);
 
   final DrillEvent drillEvent;
+  final String userID;
   static const valueKey = ValueKey('DuringDrill');
   final DateTime startDateTime = DateTime.now();
-  // TODO: create stream for timer
 
   @override
   _DuringDrillState createState() => _DuringDrillState();
@@ -24,19 +28,50 @@ class _DuringDrillState extends State<DuringDrill> {
 
   double? distance;
   int? elevation;
+  // String representation of time elapsed
+  String minutesStr = '00', secondsStr = '00';
+  DrillStopwatch stopwatch = DrillStopwatch();
+  late StreamSubscription stopwatchSubscription;
 
-  // TODO: track location
+  LocationTracker locTracker = LocationTracker();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // start stopwatch
+    stopwatchSubscription = stopwatch.getStream().listen((int counter) {
+      setState(() {
+        minutesStr = ((counter / 60).floor() % 60).toString().padLeft(2, '0');
+        secondsStr = (counter % 60).toString().padLeft(2, '0');
+      });
+    });
+
+    // start tracking location
+    locTracker.startLogging();
+  }
 
   // TODO: calculate distance travelled
 
   // TODO: round elevation
 
-  // TODO: on drill completed:
-  void completeDrill(BuildContext context) {
+  void completeDrill(BuildContext context) async {
+    // create gpxFile
+    final gpxFileNameFuture = locTracker.createTrajectory(widget.userID);
+
     // stop tracking location
-    // async generate .gpx
+    await locTracker.stopLogging();
+
+    // cancel stopwatch stream subscription
+    stopwatchSubscription.cancel();
+
+    Map<String, dynamic> results = {
+      'result': true,
+      'gpxFileNameFuture': gpxFileNameFuture,
+    };
+
     // pop navigator
-    Navigator.pop(context, true);
+    Navigator.pop(context, results);
   }
 
   @override
@@ -64,7 +99,7 @@ class _DuringDrillState extends State<DuringDrill> {
                 // pop dialog
                 Navigator.pop(context);
                 // pop during drill page
-                Navigator.pop(bigContext, false);
+                Navigator.pop(bigContext, {'result': false});
               },
               child: const Text('Exit'),
             ),
@@ -98,7 +133,7 @@ class _DuringDrillState extends State<DuringDrill> {
               color: showColors ? Colors.white12 : null,
               child: Center(
                 child: Text(
-                  '23:45',
+                  '$minutesStr:$secondsStr',
                   style: Styles.timerText,
                 ),
               ),
@@ -127,7 +162,7 @@ class _DuringDrillState extends State<DuringDrill> {
                           ],
                         ),
                         Text(
-                          '0.89',
+                          locTracker.distanceTravelled.toStringAsFixed(2),
                           style: Styles.duringDrillDashData,
                         ),
                         Text(
@@ -155,7 +190,7 @@ class _DuringDrillState extends State<DuringDrill> {
                           ],
                         ),
                         Text(
-                          '~' + '80',
+                          '~' + locTracker.currentElevation.toString(),
                           style: Styles.duringDrillDashData,
                         ),
                         Text(

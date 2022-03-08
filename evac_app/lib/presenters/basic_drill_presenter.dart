@@ -35,17 +35,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
-  LocationTracker? locTracker;
-  String filename = 'abc123-2022-02-20T144003';
-
-  // fake _preDrillResults, uncomment to skip to DuringDrill in app flow
-  // SurveyResult? _preDrillResults = SurveyResult(
-  //     id: Identifier(id: 'blah'),
-  //     startDate: DateTime.now(),
-  //     endDate: DateTime.now(),
-  //     finishReason: FinishReason.COMPLETED,
-  //     results: []);
-
   @override
   void initState() {
     super.initState();
@@ -67,7 +56,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           )
         else if (_researcherStartReceived)
           MaterialPage(
-            child: DuringDrill(drillEvent: _drillEvent!),
+            child: DuringDrill(drillEvent: _drillEvent!, userID: _userID!),
             key: DuringDrill.valueKey,
           )
         else if (_drillResult != null && _drillResult!.hasPreDrillResult())
@@ -144,19 +133,13 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         }
 
         if (page.key == DuringDrill.valueKey) {
-          // stop tracking location
-          locTracker!.stopLogging().then((_) {
-            setState(() {
-              locTracker = null;
-            });
-          });
           // do any storage after drill
-          if (result) {
+          if (result['result']) {
             setState(() {
-              _drillComplete = result;
+              _drillComplete = result['result'];
             });
             // export
-            _drillResult!.addGpxFile(locTracker!.createTrajectory(filename));
+            _drillResult!.addGpxFile(result['gpxFileNameFuture']);
           } else {
             setState(() {
               _researcherStartReceived = false;
@@ -224,9 +207,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     setState(() {
       _researcherStartReceived = startSignal;
     });
-    // start tracking location
-    locTracker = LocationTracker();
-    locTracker!.startLogging();
   }
 
   Future<bool> addUser() async {
