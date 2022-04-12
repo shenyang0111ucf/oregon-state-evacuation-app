@@ -16,6 +16,7 @@ class App extends StatelessWidget {
       //   drillEvent: DrillEvent.example(),
       // ),
       home: BasicDrillPresenter(),
+      debugShowCheckedModeBanner: false,
       // home: ElevationTests(),
     );
   }

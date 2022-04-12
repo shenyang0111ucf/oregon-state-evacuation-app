@@ -16,6 +16,7 @@ import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:survey_kit/survey_kit.dart';
 import 'package:uuid/uuid.dart';
 
 class BasicDrillPresenter extends StatefulWidget {
@@ -35,10 +36,28 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
+  // if you want to bypass straight to the During Drill Screen, toggle this bool
+  final bypass = false;
+
   @override
   void initState() {
     super.initState();
-    syncDrillEvent();
+    // syncDrillEvent();
+    if (bypass) bypassToDuringDrill();
+  }
+
+  void bypassToDuringDrill() {
+    _drillEvent = DrillEvent.example();
+    _userID = Uuid().v4();
+    _confirmedDrill = true;
+    _drillResult = DrillResult();
+    _drillResult!.addSurveyResult(SurveyResult(
+        id: Identifier(id: 'preDrillSurvey'),
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        finishReason: FinishReason.COMPLETED,
+        results: []));
+    _researcherStartReceived = true;
   }
 
   @override
