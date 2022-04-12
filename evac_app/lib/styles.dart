@@ -4,12 +4,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
   static final String _fontNameDefault = 'Lato';
-  static const Color backgroundColor = Color(0xFF7e7191);
-  static const Color primaryColor = Color(0xFFFFFFFF);
-  static final Color _secondaryColor = Color(0xFFFF6584);
-  static final Color _textColorStrong = Color(0xFFFFFFFF);
-  static final Color _noInteractionMaterialColor = Colors.grey[800]!;
-  static final Color _snackbarBackground = Color(0xFF141414);
+
+  /// Color(0xFF7e7191);
+  static Color backgroundColor() => Color(0xFF7e7191);
+
+  /// Color(0xFFFFFFFF);
+  static Color primaryColor() => Color(0xFFFFFFFF);
+
+  /// Color(0xFFFF6584);
+  static Color _secondaryColor() => Color(0xFFFF6584);
+
+  /// Color(0xFFFFFFFF);
+  static Color _textColorStrong() => Color(0xFFFFFFFF);
+
+  /// Colors.grey[800
+  static Color _noInteractionMaterialColor() => Colors.grey[800]!;
+
+  /// Color(0xFF141414);
+  static Color _snackbarBackground() => Color(0xFF141414);
   // static final Color _highlightSwatch = Color(0xFFFFFFFF);
   // static final Color _shadowSwatch = Color(0x33000000);
 
@@ -46,16 +58,61 @@ class Styles {
   //   },
   // );
 
-  static final darkTheme = ThemeData(
-      brightness: Brightness.dark,
-      scaffoldBackgroundColor: backgroundColor,
-      primarySwatch: _primarySwatch,
-      primaryColor: primaryColor,
-      accentColor: _secondaryColor,
-      backgroundColor: backgroundColor,
+  static final highContrastTheme = ThemeData(
+      brightness: Brightness.light,
+      // scaffoldBackgroundColor: backgroundColor(),
+      // primarySwatch: _primarySwatch,
+      // primaryColor: primaryColor(),
+      // colorScheme: ColorScheme(
+      //   brightness: Brightness.light,
+      //   primary: primaryColor(),
+      //   onPrimary: Color.fromARGB(255, 21, 18, 46),
+      //   primaryContainer: null,
+      //   onPrimaryContainer: null,
+      //   secondary: _secondaryColor(),
+      //   onSecondary: Colors.black,
+      //   secondaryContainer: null,
+      //   onSecondaryContainer: null,
+      //   tertiary: null,
+      //   onTertiary: null,
+      //   tertiaryContainer: null,
+      //   onTertiaryContainer: null,
+      //   error: Color.fromARGB(255, 71, 8, 8),
+      //   onError: null,
+      //   errorContainer: null,
+      //   onErrorContainer: null,
+      //   background: backgroundColor(),
+      //   onBackground: Colors.white,
+      //   surface: Colors.white54,
+      //   onSurface: Colors.white,
+      //   surfaceVariant: null,
+      //   onSurfaceVariant: null,
+      //   outline: null,
+      //   shadow: null,
+      //   inverseSurface: null,
+      //   onInverseSurface: null,
+      //   inversePrimary: null,
+      // ),
+      colorSchemeSeed: Color.fromARGB(255, 28, 20, 143),
+      // accentColor: _secondaryColor(),
+      // backgroundColor: backgroundColor(),
       appBarTheme: AppBarTheme(
         titleTextStyle: navBarTitle,
-        backgroundColor: backgroundColor,
+        // backgroundColor: backgroundColor(),
+      ),
+      snackBarTheme: snackbar,
+      textTheme: TextTheme(headline2: surveyHeader, bodyText2: surveyBody));
+
+  static final darkTheme = ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: backgroundColor(),
+      primarySwatch: _primarySwatch,
+      primaryColor: primaryColor(),
+      accentColor: _secondaryColor(),
+      backgroundColor: backgroundColor(),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: navBarTitle,
+        backgroundColor: backgroundColor(),
       ),
       snackBarTheme: snackbar,
       textTheme: TextTheme(headline2: surveyHeader, bodyText2: surveyBody));
@@ -63,7 +120,7 @@ class Styles {
   static final darkCupertinoTheme = Styles.darkTheme.copyWith(
     cupertinoOverrideTheme: CupertinoThemeData(
       brightness: Brightness.dark,
-      barBackgroundColor: Styles.backgroundColor,
+      barBackgroundColor: Styles.backgroundColor(),
       textTheme: CupertinoTextThemeData(
         textStyle: Styles.normalText.copyWith(fontSize: 24),
       ),
@@ -74,66 +131,66 @@ class Styles {
 
   static final normalText = GoogleFonts.getFont(
     _fontNameDefault,
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w500,
   );
 
   static final boldText = GoogleFonts.getFont(
     _fontNameDefault,
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w800,
   );
 
   static final boldAccentText = GoogleFonts.getFont(
     _fontNameDefault,
-    color: primaryColor,
+    color: primaryColor(),
     fontWeight: FontWeight.w800,
   );
 
   static final surveyHeader = GoogleFonts.getFont(
     'Roboto',
-    color: primaryColor,
+    color: primaryColor(),
     fontWeight: FontWeight.w800,
     fontSize: 32,
   );
 
   static final surveyBody = GoogleFonts.getFont(
     _fontNameDefault,
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w500,
     fontSize: 24,
   );
 
   static final navBarTitle = GoogleFonts.getFont(
     _fontNameDefault,
-    color: primaryColor,
+    color: primaryColor(),
     fontWeight: FontWeight.w800,
   );
 
   static final timerText = GoogleFonts.getFont(
     'Courier Prime',
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w400,
     fontSize: 90,
   );
 
   static final duringDrillDashLabel = GoogleFonts.getFont(
     _fontNameDefault,
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w400,
     fontSize: 20,
   );
 
   static final duringDrillDashData = GoogleFonts.getFont(
     _fontNameDefault,
-    color: _textColorStrong,
+    color: _textColorStrong(),
     fontWeight: FontWeight.w800,
     fontSize: 48,
   );
 
   static final snackbar = SnackBarThemeData(
-    actionTextColor: _textColorStrong,
-    backgroundColor: _snackbarBackground,
+    actionTextColor: _textColorStrong(),
+    backgroundColor: _snackbarBackground(),
     contentTextStyle: Styles.boldAccentText,
     shape: RoundedRectangleBorder(),
   );
@@ -147,7 +204,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return BorderSide(
-              color: _noInteractionMaterialColor,
+              color: _noInteractionMaterialColor(),
             );
           }
           return BorderSide(
@@ -164,7 +221,7 @@ class Styles {
         (Set<MaterialState> state) {
           if (state.contains(MaterialState.disabled)) {
             return normalText.copyWith(
-              color: _noInteractionMaterialColor,
+              color: _noInteractionMaterialColor(),
             );
           }
           return normalText.copyWith(
