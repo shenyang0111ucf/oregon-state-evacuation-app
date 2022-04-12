@@ -92,3 +92,13 @@ evac_app/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 evac_app/ios/Podfile.lock
 evac_app/ios/Podfile
 evac_app/ios/Runner.xcodeproj/project.pbxproj
+evac_app/android/app/google-services.json
+evac_app/ios/Runner/GoogleService-Info.plist
+evac_app/lib/firebase_options.dart
+evac_app/functions/
+evac_app/.firebaserc
+evac_app/firebase.json
+evac_app/package.json
+evac_app/package-lock.json
+evac_app/node_modules/.package-lock.json
+evac_app/storage.rules
