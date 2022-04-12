@@ -16,7 +16,7 @@ class _UiUxDemoState extends State<UiUxDemo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Styles.backgroundColor,
+      // color: Styles.backgroundColor,
       child: Align(
         alignment: Alignment.center,
         child: FutureBuilder<Task>(
@@ -42,7 +42,7 @@ class _UiUxDemoState extends State<UiUxDemo> {
                   themeData: Styles.darkTheme.copyWith(
                     cupertinoOverrideTheme: CupertinoThemeData(
                       brightness: Brightness.dark,
-                      barBackgroundColor: Styles.backgroundColor,
+                      // barBackgroundColor: Styles.backgroundColor,
                       textTheme: CupertinoTextThemeData(
                         textStyle: Styles.normalText.copyWith(fontSize: 24),
                       ),

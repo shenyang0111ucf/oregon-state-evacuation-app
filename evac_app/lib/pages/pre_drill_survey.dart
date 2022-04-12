@@ -26,7 +26,7 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
     return EvacAppScaffoldNoAppBar(
       title: 'pre drill survey',
       child: Container(
-        color: Styles.backgroundColor,
+        // color: Styles.backgroundColor,
         child: Align(
           alignment: Alignment.center,
           child: FutureBuilder<Task>(

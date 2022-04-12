@@ -26,7 +26,7 @@ class _PostDrillSurveyState extends State<PostDrillSurvey> {
     return EvacAppScaffoldNoAppBar(
       title: 'post drill survey',
       child: Container(
-        color: Styles.backgroundColor,
+        // color: Styles.backgroundColor,
         child: Align(
           alignment: Alignment.center,
           child: FutureBuilder<Task>(
