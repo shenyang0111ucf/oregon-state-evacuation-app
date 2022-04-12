@@ -43,7 +43,7 @@ class LandingPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(top: pageHeight * 0.0235),
                         child: Text(
-                          'Evacuation Drill Simulator App',
+                          'Evacuation Drill Participation App',
                           maxLines: 2,
                           overflow: TextOverflow.fade,
                           style: GoogleFonts.playfairDisplay(

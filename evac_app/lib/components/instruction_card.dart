@@ -29,7 +29,7 @@ class InstructionCard extends StatelessWidget {
     BuildContext biggerContext = context;
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.125 * 0.75 * 0.5),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.125 * 0.75 * 0.25),
         child: Container(
           height: constraints.maxHeight,
           width: width * 0.75,
