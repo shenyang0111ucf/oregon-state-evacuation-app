@@ -17,7 +17,7 @@ class LocationTracker {
   LocationService? _locationService;
   StreamSubscription? _subscription;
 
-  int _counter = 0;
+  int _counter = 1;
   ParticipantLocation? _initialLocation;
   double distanceTravelled = 0.0;
   int currentElevation = 0;
@@ -87,7 +87,7 @@ class LocationTracker {
     _databaseManager,
     ParticipantLocation newLocation,
   ) async {
-    if (_initialLocation == null) {
+    if (_counter == 5 && _initialLocation == null) {
       _initialLocation = newLocation;
     }
     if (_counter == 0) {
