@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:evac_app/styles.dart';
@@ -114,6 +115,23 @@ class LandingPage extends StatelessWidget {
                             )
                           ]),
                     ]),
+              ),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.bottomRight.add(Alignment(-0.15, 0.0)),
+                child: GestureDetector(
+                  onTap: () {
+                    /// #101: This Icon should present app info "about dialog" on
+                    /// tap. Remove the "showSnackBar" when implementing.
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'info should appear instead of this snackbar')));
+                  },
+                  child: Icon(
+                    CupertinoIcons.info_circle_fill,
+                  ),
+                ),
               ),
             )
           ],
