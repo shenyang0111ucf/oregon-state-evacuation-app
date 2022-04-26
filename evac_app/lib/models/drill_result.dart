@@ -9,9 +9,30 @@ class DrillResult {
   List<Map<String, dynamic>>? _preDrillSurveyResults;
   List<Map<String, dynamic>>? _postDrillSurveyResults;
   Duration? _timeElapsed;
+  DateTime? _startTime;
+  DateTime? _endTime;
+  String? _operatingSystem;
 
   // DrillResult should only be initialized empty! then add results as progress is made
   DrillResult();
+
+  /// #100: This Function should add the current time to the _startTime field, if
+  /// _startTime is null.
+  void addStartTime() {
+    // could use DateTime.now() ?
+  }
+
+  /// #100: This Function should add the current time to the _endTime field, if
+  /// _endTime is null.
+  void addEndTime() {
+    // could use DateTime.now() ?
+  }
+
+  /// #100: This Function should add the running OS to the _operatingSystem
+  /// field.
+  void addOperatingSystem() {
+    // https://stackoverflow.com/a/50744481/14962174
+  }
 
   bool hasPreDrillResult() {
     return (_preDrillSurveyResults != null);
