@@ -1,4 +1,4 @@
-package com.example.evac_app
+package edu.oregonstate.eecs.evacuationDrillApp
 
 import io.flutter.embedding.android.FlutterActivity
 

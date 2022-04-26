@@ -1,10 +1,7 @@
-// import 'package:evac_app/components/demos/v0_0_2/demo_launcher.dart';
-import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
-import 'package:evac_app/components/demos/invite_code/invite_code_page.dart';
 import 'package:flutter/material.dart';
-
-import 'package:evac_app/components/demos/v0_0_3/rough_outline.dart';
+import 'package:evac_app/presenters/basic_drill_presenter.dart';
 import 'package:evac_app/styles.dart';
+// import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 
 class App extends StatelessWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -15,10 +12,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: Styles.darkTheme,
-      home: InviteCodePage(),
-      // home: RoughOutline(),
+      // home: DuringDrill(
+      //   drillEvent: DrillEvent.example(),
+      // ),
+      home: BasicDrillPresenter(),
+      debugShowCheckedModeBanner: false,
       // home: ElevationTests(),
-      // home: DemoLauncher(),
     );
   }
 }

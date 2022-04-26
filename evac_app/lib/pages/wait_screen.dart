@@ -9,6 +9,7 @@ class WaitScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return EvacAppScaffold(
         title: 'waiting...',
+        backButton: false,
         child: Center(
           child: Column(
             children: [

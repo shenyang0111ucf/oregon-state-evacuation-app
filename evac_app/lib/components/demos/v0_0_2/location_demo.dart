@@ -50,7 +50,8 @@ class _LocationDemoState extends State<LocationDemo> {
       if (result == 'yes') {
         print('location available');
         locationService = LocationService();
-        subscription = LocationService.stream!
+        // subscription = LocationService.stream!
+        subscription = locationService!.stream
             .listen((newLocation) => setCurrentLocation(newLocation));
         setState(() {
           _running = true;

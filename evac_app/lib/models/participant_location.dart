@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 
 class ParticipantLocation {
@@ -27,6 +28,16 @@ class ParticipantLocation {
       longitude: loc.longitude ?? 0.0,
       time: DateTime.fromMillisecondsSinceEpoch(loc.time?.toInt() ?? 0),
       elevation: loc.altitude ?? 0.0,
+    );
+  }
+
+  factory ParticipantLocation.fromPosition(Position loc) {
+    print(loc.altitude.toString());
+    return ParticipantLocation(
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+      time: loc.timestamp ?? DateTime.now(),
+      elevation: loc.altitude,
     );
   }
 

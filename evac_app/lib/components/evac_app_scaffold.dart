@@ -35,15 +35,15 @@ class EvacAppScaffold extends StatelessWidget {
                 if (backButtonFunc != null) {
                   backButtonFunc!();
                 }
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               })
             : null,
+        automaticallyImplyLeading:
+            (backButton != null && !backButton!) ? false : true,
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
         child: child,
-      )),
+      ),
       endDrawer: endDrawer,
       floatingActionButton: (fAB != null)
           ? Builder(

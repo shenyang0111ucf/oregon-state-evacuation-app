@@ -1,6 +1,6 @@
 import 'package:evac_app/components/evac_app_scaffold_no_app_bar.dart';
+import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_kit/survey_kit.dart';
 
@@ -9,12 +9,12 @@ import 'package:survey_kit/survey_kit.dart';
 class PreDrillSurvey extends StatefulWidget {
   PreDrillSurvey({
     Key? key,
-    required this.storePreDrillResults,
+    required this.drillEvent,
   }) : super(key: key);
 
-  final Function storePreDrillResults;
+  final DrillEvent drillEvent;
   static const valueKey = ValueKey('PreDrillSurvey');
-  static const printResults = true;
+  static const printResults = false;
 
   @override
   _PreDrillSurveyState createState() => _PreDrillSurveyState();
@@ -26,7 +26,7 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
     return EvacAppScaffoldNoAppBar(
       title: 'pre drill survey',
       child: Container(
-        color: Styles.backgroundColor,
+        // color: Styles.backgroundColor,
         child: Align(
           alignment: Alignment.center,
           child: FutureBuilder<Task>(
@@ -69,45 +69,11 @@ class _PreDrillSurveyState extends State<PreDrillSurvey> {
 
   Future<void> handlePreDrillResult(SurveyResult result) async {
     printPreDrillResults(result);
-    await widget.storePreDrillResults(result);
-    return;
+    Navigator.pop(context, result);
   }
 
   Future<Task> getTask() {
-    var task = NavigableTask(
-      id: TaskIdentifier(),
-      steps: [
-        InstructionStep(
-          title: 'Welcome to the\nEvacuation Drill',
-          text: 'Up first: Pre-Drill Survey',
-          buttonText: 'I\'m Ready!',
-        ),
-        // for (var j in json) {create QuestionStep.fromJson(j)},
-        QuestionStep(
-          title: 'Is this a survey?',
-          answerFormat: BooleanAnswerFormat(
-            positiveAnswer: 'Yes',
-            negativeAnswer: 'No',
-            result: BooleanResult.POSITIVE,
-          ),
-        ),
-        // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
-        QuestionStep(
-          title: 'Can we track your location?',
-          answerFormat: BooleanAnswerFormat(
-            positiveAnswer: 'Yes',
-            negativeAnswer: 'No',
-            result: BooleanResult.POSITIVE,
-          ),
-        ),
-        CompletionStep(
-          stepIdentifier: StepIdentifier(id: '321'),
-          text: 'Thanks for taking the survey, your drill will begin soon!',
-          title: 'Finished!',
-          buttonText: 'Submit survey',
-        ),
-      ],
-    );
+    var task = Task.fromJson(widget.drillEvent.preDrillSurveyJSON);
     return Future.value(task);
   }
 }
