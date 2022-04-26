@@ -242,35 +242,47 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         .catchError((error) {
           _userID = Uuid().v4();
           addUser();
+          print(error);
           return false;
         });
   }
 
-  Future<bool> getDrillEvent(documentID) async {
+  /// This function accepts and input invite code and checks if there is a
+  /// matching DrillEvent entry in the Firebase Firestore. If there is, it loads
+  /// it into local state, and changes local state such that the InviteCodePage
+  /// will no longer display.
+  Future<bool> tryInviteCode(inputCode) async {
     String? drillEventJson;
 
-    // query Firebase for DrillEvent json string
-    bool gotJson = await FirebaseFirestore.instance
+    // check initial invite code against app Firebase Firestore
+    // if invite code exists, extract the correlated DrillEvent Document ID
+    bool valid = await FirebaseFirestore.instance
         .collection('DrillEvents')
-        .doc(documentID)
+        .where('inviteCode', isEqualTo: inputCode)
         .get()
-        .then((DocumentSnapshot docSnapshot) {
-      if (docSnapshot.exists) {
-        try {
-          var docData = docSnapshot.data() as Map<String, dynamic>;
-          drillEventJson = docData['drillEventJson'];
-          print('obtained DrillEvent json string from firebase');
-          return true;
-        } on Exception catch (e) {
-          print(e);
-          return false;
+        .then(
+      (QuerySnapshot querySnapshot) {
+        if (querySnapshot.size > 0) {
+          DocumentSnapshot docSnapshot = querySnapshot.docs.first;
+          if (docSnapshot.exists) {
+            try {
+              var docData = docSnapshot.data() as Map<String, dynamic>;
+              _drillEventDocID = docSnapshot.id;
+              drillEventJson = docData['drillEventJson'];
+              print('invite code in firebase');
+              return true;
+            } on Exception catch (e) {
+              print(e);
+              return false;
+            }
+          }
         }
-      }
-      print('DrillEvent json string not in firebase');
-      return false;
-    });
+        print('invite code not in firebase');
+        return false;
+      },
+    );
 
-    if (gotJson) {
+    if (valid) {
       // translate from string to DrillEvent
       DrillEvent newDrillEvent =
           DrillEvent.fromJson(jsonDecode(drillEventJson!));
@@ -286,45 +298,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
       // store it in persistent storage (async, don't await)
       twiddleThumbs();
 
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> tryInviteCode(inputCode) async {
-    String? drillEventDocID;
-
-    // check initial invite code against app Firebase Firestore
-    // if invite code exists, extract the correlated DrillEvent Document ID
-    bool valid = await FirebaseFirestore.instance
-        .collection('InviteCodes')
-        .where('inviteCode', isEqualTo: inputCode)
-        .get()
-        .then(
-      (QuerySnapshot querySnapshot) {
-        if (querySnapshot.size > 0) {
-          DocumentSnapshot docSnapshot = querySnapshot.docs.first;
-          if (docSnapshot.exists) {
-            try {
-              var docData = docSnapshot.data() as Map<String, dynamic>;
-              drillEventDocID = docData['drillEventDocID'];
-              print('invite code in firebase');
-              return true;
-            } on Exception catch (e) {
-              print(e);
-              return false;
-            }
-          }
-        }
-        print('invite code not in firebase');
-        return false;
-      },
-    );
-
-    if (valid) {
-      _drillEventDocID = drillEventDocID;
-      await getDrillEvent(drillEventDocID);
       return true;
     } else {
       return false;
