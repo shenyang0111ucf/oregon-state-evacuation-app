@@ -4,6 +4,7 @@ import 'package:evac_app/components/instruction_display.dart';
 import 'package:evac_app/location_tracking/location_tracker.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:evac_app/models/drill_stopwatch.dart';
+import 'package:evac_app/models/instructions/instructions.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -50,10 +51,6 @@ class _DuringDrillState extends State<DuringDrill> {
     // start tracking location
     locTracker.startLogging();
   }
-
-  // TODO: calculate distance travelled
-
-  // TODO: round elevation
 
   void completeDrill(BuildContext context) async {
     // create gpxFile
@@ -125,7 +122,8 @@ class _DuringDrillState extends State<DuringDrill> {
               child: InstructionDisplay(
                 width: width,
                 completeDrill: completeDrill,
-                drillEvent: widget.drillEvent,
+                instructions: Instructions.fromJson(
+                    widget.drillEvent.duringDrillInstructionsJSON),
               ),
             ),
             Container(
