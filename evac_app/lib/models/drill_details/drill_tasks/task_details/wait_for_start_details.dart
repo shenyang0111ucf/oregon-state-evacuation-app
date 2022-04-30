@@ -41,7 +41,7 @@ class WaitForStartDetails extends TaskDetails {
   Map<String, dynamic> toJson() => {
         'taskID': taskID,
         'performDrillTaskID': performDrillTaskID,
-        'typeOfWait': typeOfWait,
+        'typeOfWait': typeOfWait.name,
         'content': content,
       };
 }

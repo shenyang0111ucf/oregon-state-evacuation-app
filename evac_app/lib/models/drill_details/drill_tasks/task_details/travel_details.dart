@@ -3,15 +3,15 @@ import 'package:evac_app/models/drill_details/drill_tasks/task_details/task_deta
 class TravelDetails extends TaskDetails {
   final String taskID;
   final String locationName;
-  final double latitude;
-  final double longitude;
+  final double? latitude;
+  final double? longitude;
   final String blurb;
   final String? explanation;
   final DateTime? meetingTime;
   final String? imageURL;
   final String? mapImageURL;
-  final String?
-      mapsLink; // can this be generated for google maps by latitude + longitude? yes, but maybe they want to link to a place, like a named building, google maps is the best database for this anyways let them link how they choose. Then if no link make a google maps link why not.
+  final String? mapsLink;
+  // can the above be generated for google maps by latitude + longitude? yes, but maybe they want to link to a place, like a named building, google maps is the best database for this anyways let them link how they choose. Then if no link make a google maps link why not.
 
   TravelDetails({
     required this.taskID,
@@ -26,17 +26,22 @@ class TravelDetails extends TaskDetails {
     required this.mapsLink,
   });
 
-  TravelDetails.example(this.locationName)
+  TravelDetails.example(this.locationName, this.blurb)
       : taskID = 'abc123',
         latitude = 45.460813,
         longitude = -123.970422,
-        blurb = 'A park in Oceanside.',
+        // blurb = 'A park in Oceanside.',
         explanation = null,
+        // explanation =
+        //     'A long ass explanation that needs to wrap and wrap and wrap and wrap and wrap and wrap to fit',
         meetingTime = null,
-        imageURL = null,
-        mapImageURL = null,
+        // meetingTime = DateTime.now(),
+        imageURL =
+            'https://upload.wikimedia.org/wikipedia/commons/1/12/Oceanside_Oregon.jpg',
+        mapImageURL =
+            'https://firebasestorage.googleapis.com/v0/b/evacuation-drill-app-osu.appspot.com/o/images%2FoceansideBeachStatePark.png?alt=media&token=0d96d273-29cd-4117-bca3-c5b942d12850',
         mapsLink =
-            'https://www.google.com/maps/dir//Oceanside,+Oregon+97141/@45.4606578,-123.9705637,18.46z/';
+            'https://www.google.com/maps/place/Oceanside+Beach+State+Park,+Oregon+97141/';
 
   factory TravelDetails.fromJson(Map<String, dynamic> json) => TravelDetails(
         taskID: json['taskID'],

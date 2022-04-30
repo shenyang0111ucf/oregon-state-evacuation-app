@@ -2,8 +2,9 @@ import 'package:evac_app/models/drill_details/drill_details_type_enums.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_results/task_result.dart';
 
 class PerformDrillResult extends TaskResult {
-  static const DrillTaskType taskType = DrillTaskType.PERFORM_DRILL;
-  final int taskID;
+  static const DrillTaskType _taskType = DrillTaskType.PERFORM_DRILL;
+  final String taskID;
+  final String title;
   final bool trackingLocation;
   final Map<String, dynamic> instructionsJson;
   DateTime startTime;
@@ -12,8 +13,11 @@ class PerformDrillResult extends TaskResult {
   double? distanceTravelled; // in (m)
   String? trajectoryFile;
 
+  DrillTaskType taskType() => _taskType;
+
   PerformDrillResult({
     required this.taskID,
+    required this.title,
     required this.trackingLocation,
     required this.instructionsJson,
     required this.startTime,
@@ -24,8 +28,9 @@ class PerformDrillResult extends TaskResult {
   });
 
   Map<String, dynamic> toJson() => {
-        'taskType': taskType,
+        'taskType': _taskType.name,
         'taskID': taskID,
+        'title': title,
         'trackingLocation': trackingLocation,
         'instructionsJson': instructionsJson,
         'startTime': startTime,

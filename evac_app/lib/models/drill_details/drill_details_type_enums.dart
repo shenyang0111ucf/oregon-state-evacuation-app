@@ -1,4 +1,4 @@
-/// If this app is developed further, there may be multiple types of tasks. Lets define the types as such:
+/// If this app is developed further, there may be multiple types of drills. Lets define the types as such:
 
 enum DrillType { TSUNAMI }
 

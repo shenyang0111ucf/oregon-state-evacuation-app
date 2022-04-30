@@ -59,7 +59,7 @@ class DrillTask {
   Map<String, dynamic> toJson() => {
         'index': index,
         'taskID': taskID,
-        'taskType': taskType,
+        'taskType': taskType.name,
         'details': details.toJson(),
       };
 }

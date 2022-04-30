@@ -17,7 +17,7 @@ class DrillDetails {
   final String inviteCode;
   final String title;
   final String meetingLocationPlainText;
-  final DateTime meetingDateTime;
+  final DateTime? meetingDateTime;
   final String? blurb;
   final String? description;
   final String publicKey;
@@ -41,8 +41,8 @@ class DrillDetails {
         inviteCode = '876543',
         title = 'Example Tsunami Evacuation Drill',
         meetingLocationPlainText = 'Oceanside, OR',
-        meetingDateTime =
-            DateTime.tryParse('2022-05-2 11:00') ?? DateTime.now(), // bad...
+        meetingDateTime = DateTime.tryParse('2022-05-2 11:00') ??
+            null, // forced nullable on .tryParse(), need to handle...
         blurb =
             'Help us evaluate the current evacuation infrastructure of Oceanside!',
         description = null,
@@ -52,7 +52,10 @@ class DrillDetails {
             index: 0,
             taskID: 'abc123-0',
             taskType: DrillTaskType.TRAVEL,
-            details: TravelDetails.example("Meet Researchers"),
+            details: TravelDetails.example(
+              'Oceanside Post Office',
+              'Meet Researchers',
+            ),
           ),
           DrillTask(
             index: 1,
@@ -64,13 +67,16 @@ class DrillDetails {
             index: 2,
             taskID: 'abc123-2',
             taskType: DrillTaskType.SURVEY,
-            details: SurveyDetails.examplePre("Pre-Drill"),
+            details: SurveyDetails.examplePre('Pre-Drill'),
           ),
           DrillTask(
             index: 3,
             taskID: 'abc123-3',
             taskType: DrillTaskType.TRAVEL,
-            details: TravelDetails.example("Go to Drill-Start Location"),
+            details: TravelDetails.example(
+              'Oceanside Beach State Park',
+              'Go to Drill-Start Location',
+            ),
           ),
           DrillTask(
             index: 4,
@@ -88,13 +94,16 @@ class DrillDetails {
             index: 6,
             taskID: 'abc123-6',
             taskType: DrillTaskType.SURVEY,
-            details: SurveyDetails.examplePost("Post-Drill"),
+            details: SurveyDetails.examplePost('Post-Drill'),
           ),
           DrillTask(
             index: 7,
             taskID: 'abc123-7',
             taskType: DrillTaskType.TRAVEL,
-            details: TravelDetails.example("Regroup with Researchers"),
+            details: TravelDetails.example(
+              'Oceanside Post Office',
+              'Regroup with Researchers',
+            ),
           ),
         ];
 
@@ -146,7 +155,7 @@ class DrillDetails {
       throw Exception('DrillDetails: could not parse tasks to jsons');
     }
     return {
-      'drillID': drillID, // fill in when parsing from Firestore
+      // 'drillID': drillID, // fill in when parsing from Firestore
       'inviteCode': inviteCode,
       'title': title,
       'meetingLocationPlainText': meetingLocationPlainText,
