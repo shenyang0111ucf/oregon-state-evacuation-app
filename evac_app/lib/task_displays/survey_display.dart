@@ -5,7 +5,10 @@ import 'package:survey_kit/survey_kit.dart';
 
 // borrowing heavily from https://github.com/quickbirdstudios/survey_kit/blob/main/example/lib/main.dart [accessed Nov 15 2021]
 
-/// This stateful widget displays (and thus administers) a survey based on a SurveyDetails object. When the survey is completed, it pops itself off of the Navigator, returning the results of the survey.
+/// This stateful widget displays (and thus administers) a survey based on a
+/// SurveyDetails object. When the survey is completed, it adds its results to
+/// the appropriate DrillResults.taskResults list, then pops itself off of the
+/// Navigator.
 
 class SurveyDisplay extends StatefulWidget {
   SurveyDisplay({
