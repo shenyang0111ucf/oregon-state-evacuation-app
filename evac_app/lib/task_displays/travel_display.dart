@@ -5,9 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TravelDisplay extends StatelessWidget {
-  const TravelDisplay(this.travelDetails, {Key? key}) : super(key: key);
+  const TravelDisplay({
+    Key? key,
+    required this.travelDetails,
+    required this.setTravelResult,
+  }) : super(key: key);
 
   final TravelDetails travelDetails;
+  final Function setTravelResult;
 
   void _launchMapsUrl() async {
     if (travelDetails.mapsLink != null) {
@@ -107,6 +112,7 @@ class TravelDisplay extends StatelessWidget {
         icon: Icon(CupertinoIcons.check_mark_circled),
         label: Text('I made it here!'),
         onPressed: () {
+          setTravelResult();
           Navigator.pop(context);
         },
       ),

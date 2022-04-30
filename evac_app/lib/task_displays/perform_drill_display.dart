@@ -13,10 +13,13 @@ class PerformDrillDisplay extends StatefulWidget {
     Key? key,
     required this.performDrillDetails,
     required this.userID,
+    required this.setPerformDrillResult,
   }) : super(key: key);
 
   final PerformDrillDetails performDrillDetails;
   final String userID;
+  final Function setPerformDrillResult;
+
   static const valueKey = ValueKey('PerformDrillDisplay');
   final DateTime startDateTime = DateTime.now();
 
@@ -25,7 +28,11 @@ class PerformDrillDisplay extends StatefulWidget {
 }
 
 class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
+  // TODO: Handle if user does not allow location tracking permissions
+
   var showColors = false;
+
+  final DateTime startTime = DateTime.now();
 
   double? distance;
   int? elevation;
@@ -55,6 +62,12 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
   // TODO: round elevation
 
   void completeDrill(BuildContext context) async {
+    // get time:
+    final DateTime endTime = DateTime.now();
+
+    // get difference between end and start
+    final Duration duration = endTime.difference(startTime);
+
     // create gpxFile
     final gpxFileNameFuture = locTracker.createTrajectory(widget.userID);
 
@@ -63,6 +76,10 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
 
     // cancel stopwatch stream subscription
     stopwatchSubscription.cancel();
+
+    // handle results:
+    widget.setPerformDrillResult(
+        startTime, endTime, duration, distance, gpxFileNameFuture);
 
     Map<String, dynamic> results = {
       'result': true,

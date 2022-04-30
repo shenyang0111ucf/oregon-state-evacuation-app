@@ -8,7 +8,11 @@ import 'package:evac_app/models/drill_details/drill_tasks/task_details/survey_de
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/travel_details.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/wait_for_start_details.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_results/allow_location_permissions_result.dart';
+import 'package:evac_app/models/drill_details/drill_tasks/task_results/perform_drill_result.dart';
+import 'package:evac_app/models/drill_details/drill_tasks/task_results/survey_task_result.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_results/task_result.dart';
+import 'package:evac_app/models/drill_details/drill_tasks/task_results/travel_result.dart';
+import 'package:evac_app/models/drill_details/drill_tasks/task_results/wait_for_start_result.dart';
 import 'package:evac_app/models/drill_results/drill_results.dart';
 import 'package:evac_app/task_displays/allow_location_permissions_display.dart';
 import 'package:evac_app/task_displays/perform_drill_display.dart';
@@ -16,6 +20,7 @@ import 'package:evac_app/task_displays/survey_display.dart';
 import 'package:evac_app/task_displays/travel_display.dart';
 import 'package:evac_app/task_displays/wait_for_start_display.dart';
 import 'package:flutter/material.dart';
+import 'package:survey_kit/survey_kit.dart';
 
 class TaskDisplayExperiment extends StatefulWidget {
   TaskDisplayExperiment({Key? key}) : super(key: key);
@@ -54,9 +59,7 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
             OutlinedButton(
               child: Text('Allow Location Permissions'),
               onPressed: () {
-                final allowLocPermTaskDetails = widget.drillDetails.tasks[1]
-                    .details as AllowLocationPermissionsDetails;
-                _allowLocPermButtonFunction(context, allowLocPermTaskDetails);
+                _allowLocPermButtonFunction(context);
               },
             ),
             OutlinedButton(
@@ -101,62 +104,27 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
         fullscreenDialog: true,
         builder: (context) =>
             // need to add back/exit button!!!
-            SurveyDisplay(surveyTaskDetails: surveyTaskDetails),
+            SurveyDisplay(
+          surveyTaskDetails: surveyTaskDetails,
+          setSurveyTaskResult:
+              makeSurveyTaskResultSetter(drillResults, surveyTaskDetails),
+        ),
       ),
     );
   }
 
-  void _allowLocPermButtonFunction(
-      BuildContext topContext, AllowLocationPermissionsDetails taskDetails) {
-    ///
-    /// This function handles the results of the AllowLocationPermissions task.
-    ///
-    void setLocationResult(bool result) {
-      // find out if there is already an `AllowLocationPermissionsResult` in `drillResults`
-      bool haveAllowLocPermResult = false;
-      int? indexOfAllowLocPermRes;
-      int index = 0;
-      for (TaskResult taskResult in drillResults.taskResults) {
-        if (taskResult.taskType == DrillTaskType.ALLOW_LOCATION_PERMISSIONS) {
-          haveAllowLocPermResult = true;
-          indexOfAllowLocPermRes = index;
-          break;
-        }
-        index++;
-      }
+  void _allowLocPermButtonFunction(BuildContext topContext) {
+    final taskDetails =
+        widget.drillDetails.tasks[1].details as AllowLocationPermissionsDetails;
 
-      // If there isn't a result yet, add one
-      if (!haveAllowLocPermResult) {
-        drillResults.taskResults.add(
-          AllowLocationPermissionsResult(
-            taskID: taskDetails.taskID,
-            allowed: result,
-          ),
-        );
-      }
-
-      // otherwise, overwrite the one we already have
-      else {
-        if (indexOfAllowLocPermRes == null) {
-          throw Exception(
-              'AllowLocation…Result: How did we not have an index set if there is already a result?');
-        }
-        drillResults.taskResults[indexOfAllowLocPermRes] =
-            AllowLocationPermissionsResult(
-          taskID: taskDetails.taskID,
-          allowed: result,
-        );
-      }
-    }
-
-    // do the actual button thing
+    // On TaskButton press: show the appropriate dialog
     showDialog(
       context: topContext,
       builder: (BuildContext context) {
         return StyledDialog(
           child: AllowLocationPermissionsDisplay(
             topContext,
-            setLocationResult: setLocationResult,
+            setLocationResult: makeALPResultSetter(drillResults, taskDetails),
           ),
         );
       },
@@ -164,10 +132,13 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
   }
 
   void _waitForStartButtonFunction(BuildContext context) {
+    // get the PerformDrillDetails from DrillDetails
+    final performDrillDetails =
+        widget.drillDetails.tasks[5].details as PerformDrillDetails;
+
+    // create the function which will be called inside WaitForStartDisplay that
+    // pushes the PerformDrillDisplay
     void pushPerformDrill() {
-      // get the PerformDrillDetails from DrillDetails
-      final performDrillDetails =
-          widget.drillDetails.tasks[5].details as PerformDrillDetails;
       // Navigator.push PerformDrill route
       Navigator.pushReplacement(
         context,
@@ -178,10 +149,16 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
               PerformDrillDisplay(
             performDrillDetails: performDrillDetails,
             userID: drillResults.userID,
+            setPerformDrillResult:
+                makePerformDrillResultSetter(drillResults, performDrillDetails),
           ),
         ),
       );
     }
+
+    // get the PerformDrillDetails from DrillDetails
+    final waitForStartDetails =
+        widget.drillDetails.tasks[4].details as WaitForStartDetails;
 
     // create Wait For Start Widget tree (start w Scaffold, no app bar)
     // Navigator.push WaitForStartDisplay route
@@ -191,7 +168,10 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
         fullscreenDialog: true,
         builder: (context) =>
             // need to add back/exit button!!!
-            WaitForStartDisplay(pushPerformDrill: pushPerformDrill),
+            WaitForStartDisplay(
+                pushPerformDrill: pushPerformDrill,
+                setWaitForStartResult: makeWaitForStartResultSetter(
+                    drillResults, waitForStartDetails)),
       ),
     );
   }
@@ -234,7 +214,10 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
         fullscreenDialog: true,
         builder: (context) =>
             // need to add back/exit button!!!
-            TravelDisplay(travelDetails),
+            TravelDisplay(
+          travelDetails: travelDetails,
+          setTravelResult: makeTravelResultSetter(drillResults, travelDetails),
+        ),
       ),
     );
   }

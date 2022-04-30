@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WaitForStartDisplay extends StatelessWidget {
-  const WaitForStartDisplay({Key? key, required this.pushPerformDrill})
+  const WaitForStartDisplay(
+      {Key? key,
+      required this.pushPerformDrill,
+      required this.setWaitForStartResult})
       : super(key: key);
 
   final Function pushPerformDrill;
+  final Function setWaitForStartResult;
+
+  // TODO: Add exit button
+  //  on exit: setWaitForStartResult(false);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +39,7 @@ class WaitForStartDisplay extends StatelessWidget {
               CupertinoButton.filled(
                 child: Text('Let\'s get started!'),
                 onPressed: () {
+                  setWaitForStartResult(true);
                   pushPerformDrill();
                 },
               ),

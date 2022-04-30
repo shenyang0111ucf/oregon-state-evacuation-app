@@ -4,4 +4,5 @@ abstract class TaskResult {
   Map<String, dynamic> toJson();
 
   DrillTaskType taskType();
+  String taskID();
 }

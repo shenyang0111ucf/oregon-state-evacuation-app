@@ -11,9 +11,11 @@ class SurveyDisplay extends StatefulWidget {
   SurveyDisplay({
     Key? key,
     required this.surveyTaskDetails,
+    required this.setSurveyTaskResult,
   }) : super(key: key);
 
   final SurveyDetails surveyTaskDetails;
+  final Function setSurveyTaskResult;
   static const valueKey = ValueKey('SurveyDisplay');
   static const printResults = true;
 
@@ -42,7 +44,7 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
                       style: Styles.normalText,
                       child: SurveyKit(
                         onResult: (SurveyResult result) async {
-                          await handlePreDrillResult(result);
+                          await handleSurveyResult(result);
                         },
                         task: task,
                         themeData: Styles.darkCupertinoTheme,
@@ -59,7 +61,7 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
     );
   }
 
-  void printPreDrillResults(SurveyResult result) {
+  void printSurveyResults(SurveyResult result) {
     print(result.finishReason);
     if (SurveyDisplay.printResults) {
       for (var stepResult in result.results) {
@@ -71,8 +73,9 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
     }
   }
 
-  Future<void> handlePreDrillResult(SurveyResult result) async {
-    printPreDrillResults(result);
+  Future<void> handleSurveyResult(SurveyResult result) async {
+    // printSurveyResults(result);
+    widget.setSurveyTaskResult(result);
     Navigator.pop(context, result);
   }
 
