@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
 import 'package:evac_app/gpx_export/results_exporter.dart';
-import 'package:evac_app/location_tracking/location_tracker.dart';
 import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
@@ -15,7 +12,6 @@ import 'package:evac_app/pages/pre_drill_survey.dart';
 import 'package:evac_app/pages/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:uuid/uuid.dart';
 

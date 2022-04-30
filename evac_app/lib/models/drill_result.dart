@@ -65,10 +65,8 @@ class DrillResult {
         switch (questionResult.runtimeType) {
           case InstructionStepResult:
             continue;
-            break;
           case CompletionStepResult:
             continue;
-            break;
           case BooleanQuestionResult:
             answer["type"] = 'bool';
             answer["response"] = questionResult.valueIdentifier;
