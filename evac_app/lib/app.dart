@@ -1,5 +1,6 @@
+import 'package:evac_app/task_displays/task_display_experiment.dart';
 import 'package:flutter/material.dart';
-import 'package:evac_app/presenters/basic_drill_presenter.dart';
+// import 'package:evac_app/presenters/basic_drill_presenter.dart';
 import 'package:evac_app/styles.dart';
 // import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 
@@ -15,7 +16,8 @@ class App extends StatelessWidget {
       // home: DuringDrill(
       //   drillEvent: DrillEvent.example(),
       // ),
-      home: BasicDrillPresenter(),
+      // home: BasicDrillPresenter(),
+      home: TaskDisplayExperiment(),
       debugShowCheckedModeBanner: false,
       // home: ElevationTests(),
     );
