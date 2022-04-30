@@ -1,3 +1,4 @@
+import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,9 @@ class InstructionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Instruction #${index.toString()}',
+                  (!finalCard)
+                      ? 'Instruction #${(index + 1).toString()}'
+                      : 'Final Instruction',
                   style: Styles.normalText.copyWith(
                     fontSize: 20,
                   ),
@@ -66,27 +69,21 @@ class InstructionCard extends StatelessWidget {
                             await showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Complete Drill?'),
-                                    content:
-                                        Text('This action cannot be undone.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          // call upper level function to stop location tracking, etc, then that function calls:
-                                          if (completeDrill != null)
-                                            completeDrill!(biggerContext);
-                                        },
-                                        child: const Text('Yes, Complete'),
-                                      ),
-                                    ],
+                                  return StyledAlertDialog(
+                                    context: context,
+                                    title: 'Complete Drill?',
+                                    subtitle: 'This action cannot be undone.',
+                                    cancelFunc: () {
+                                      Navigator.pop(context);
+                                    },
+                                    cancelText: 'Cancel',
+                                    confirmFunc: () {
+                                      Navigator.pop(context);
+                                      // call upper level function to stop location tracking, etc, then that function calls the `Nav.pop`s
+                                      if (completeDrill != null)
+                                        completeDrill!(biggerContext);
+                                    },
+                                    confirmText: 'Yes, Complete',
                                   );
                                 });
                           },
