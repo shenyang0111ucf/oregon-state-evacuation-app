@@ -81,7 +81,7 @@ class InstructionCard extends StatelessWidget {
                                       Navigator.pop(context);
                                       // call upper level function to stop location tracking, etc, then that function calls the `Nav.pop`s
                                       if (completeDrill != null)
-                                        completeDrill!(biggerContext);
+                                        completeDrill!(biggerContext, true);
                                     },
                                     confirmText: 'Yes, Complete',
                                   );

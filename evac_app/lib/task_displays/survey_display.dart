@@ -1,3 +1,4 @@
+import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/survey_details.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
                         },
                         task: task,
                         themeData: Styles.darkCupertinoTheme,
+                        confirmExitDialog: confirmExitDialog,
                       ),
                     );
                   }
@@ -61,6 +63,24 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
           ),
         ],
       ),
+    );
+  }
+
+  StyledAlertDialog confirmExitDialog(
+      BuildContext topContext, BuildContext context) {
+    return StyledAlertDialog(
+      context: context,
+      title: 'Exit ${widget.surveyTaskDetails.title}?',
+      subtitle: 'Any answers you have provided will be lost.',
+      cancelText: 'Stay Here',
+      cancelFunc: () {
+        Navigator.pop(context);
+      },
+      confirmText: 'Exit Survey',
+      confirmFunc: () {
+        Navigator.pop(context);
+        Navigator.pop(topContext);
+      },
     );
   }
 

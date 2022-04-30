@@ -37,8 +37,8 @@ Function makeTravelResultSetter(
     int? indexOfTravelRes;
     int index = 0;
     for (TaskResult taskResult in drillResults.taskResults) {
-      if (taskResult.taskType == DrillTaskType.TRAVEL) {
-        if (taskResult.taskID == travelDetails.taskID) {
+      if (taskResult.taskType() == DrillTaskType.TRAVEL) {
+        if (taskResult.taskID() == travelDetails.taskID) {
           haveTravelResult = true;
           indexOfTravelRes = index;
           break;

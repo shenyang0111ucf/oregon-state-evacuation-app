@@ -110,8 +110,8 @@ Function makeSurveyTaskResultSetter(
     int? indexOfSurveyTaskRes;
     int index = 0;
     for (TaskResult taskResult in drillResults.taskResults) {
-      if (taskResult.taskType == DrillTaskType.SURVEY) {
-        if (taskResult.taskID == surveyDetails.taskID) {
+      if (taskResult.taskType() == DrillTaskType.SURVEY) {
+        if (taskResult.taskID() == surveyDetails.taskID) {
           haveSurveyTaskResult = true;
           indexOfSurveyTaskRes = index;
           break;

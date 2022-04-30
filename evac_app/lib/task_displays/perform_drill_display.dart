@@ -6,7 +6,9 @@ import 'package:evac_app/models/drill_details/drill_tasks/task_details/perform_d
 import 'package:evac_app/models/drill_stopwatch.dart';
 import 'package:evac_app/models/instructions/instructions.dart';
 import 'package:evac_app/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PerformDrillDisplay extends StatefulWidget {
   PerformDrillDisplay({
@@ -61,7 +63,7 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
 
   // TODO: round elevation
 
-  void completeDrill(BuildContext context) async {
+  Future<void> completeDrill(BuildContext context, bool completed) async {
     // get time:
     final DateTime endTime = DateTime.now();
 
@@ -79,7 +81,7 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
 
     // handle results:
     widget.setPerformDrillResult(
-        startTime, endTime, duration, distance, gpxFileNameFuture);
+        startTime, endTime, duration, distance, gpxFileNameFuture, completed);
 
     Map<String, dynamic> results = {
       'result': true,
@@ -92,138 +94,154 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    var bigContext = context;
-    void confirmEndDrillEarly() {
-      showDialog(
-        context: context,
-        builder: (context) => StyledAlertDialog(
-          context: context,
-          title: 'Wait!',
-          subtitle:
-              'Are you sure that you want to exit the drill early? This action cannot be undone.',
-          cancelText: 'Continue Drill',
-          cancelFunc: () {
-            // pop dialog
-            Navigator.pop(context);
-          },
-          confirmText: 'Exit Drill',
-          confirmFunc: () async {
-            // stop tracking location
-            await locTracker.stopLogging();
-
-            // cancel stopwatch stream subscription
-            stopwatchSubscription.cancel();
-
-            // pop dialog
-            Navigator.pop(context);
-
-            // pop during drill page
-            Navigator.pop(bigContext, {'result': false});
-          },
-        ),
-      );
-    }
+    var topContext = context;
 
     return Scaffold(
       // title: 'example drill',
       // backButton: true,
       // backButtonFunc: confirmEndDrillEarly,
       body: SafeArea(
-        child: LayoutBuilder(builder: (BuildContext context, constraints) {
-          var height = constraints.maxHeight;
-          var width = constraints.maxWidth;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: height * .034),
-              Container(
-                height: height * (0.55 - .034),
-                child: InstructionDisplay(
-                  width: width,
-                  completeDrill: completeDrill,
-                  instructions: Instructions.fromJson(
-                      widget.performDrillDetails.instructionsJson),
-                ),
-              ),
-              Container(
-                height: height * 0.25,
-                color: showColors ? Colors.white12 : null,
-                child: Center(
-                  child: Text(
-                    '$minutesStr:$secondsStr',
-                    style: Styles.timerText,
+        child: Stack(
+          children: [
+            LayoutBuilder(builder: (BuildContext context, constraints) {
+              var height = constraints.maxHeight;
+              var width = constraints.maxWidth;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: height * .034),
+                  Container(
+                    height: height * (0.55 - .034),
+                    child: InstructionDisplay(
+                      width: width,
+                      completeDrill: completeDrill,
+                      instructions: Instructions.fromJson(
+                          widget.performDrillDetails.instructionsJson),
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                height: height * 0.2,
-                color: showColors ? Colors.white24 : null,
-                child: Row(
-                  children: [
-                    Container(
-                      width: width * 0.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // worried that walking icon is ableist, or insensitive
-                              // but still probably a better icon choice out there than "redo"
-                              Icon(Icons.redo_rounded),
-                              SizedBox(width: 8),
-                              Text(
-                                'Distance',
-                                style: Styles.duringDrillDashLabel,
-                              ),
-                            ],
-                          ),
-                          Text(
-                            locTracker.distanceTravelled.toStringAsFixed(2),
-                            style: Styles.duringDrillDashData,
-                          ),
-                          Text(
-                            'mi',
-                            style: Styles.duringDrillDashLabel,
-                          )
-                        ],
+                  Container(
+                    height: height * 0.25,
+                    color: showColors ? Colors.white12 : null,
+                    child: Center(
+                      child: Text(
+                        '$minutesStr:$secondsStr',
+                        style: Styles.timerText,
                       ),
                     ),
-                    Container(
-                      width: width * 0.5,
-                      color: showColors ? Colors.white24 : null,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
+                  ),
+                  Container(
+                    height: height * 0.2,
+                    color: showColors ? Colors.white24 : null,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: width * 0.5,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.landscape_rounded),
-                              SizedBox(width: 8),
-                              Text(
-                                'Elevation',
-                                style: Styles.duringDrillDashLabel,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // worried that walking icon is ableist, or insensitive
+                                  // but still probably a better icon choice out there than "redo"
+                                  Icon(Icons.redo_rounded),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Distance',
+                                    style: Styles.duringDrillDashLabel,
+                                  ),
+                                ],
                               ),
+                              Text(
+                                locTracker.distanceTravelled.toStringAsFixed(2),
+                                style: Styles.duringDrillDashData,
+                              ),
+                              Text(
+                                'mi',
+                                style: Styles.duringDrillDashLabel,
+                              )
                             ],
                           ),
-                          Text(
-                            '~' + locTracker.currentElevation.toString(),
-                            style: Styles.duringDrillDashData,
+                        ),
+                        Container(
+                          width: width * 0.5,
+                          color: showColors ? Colors.white24 : null,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.landscape_rounded),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Elevation',
+                                    style: Styles.duringDrillDashLabel,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                '~' + locTracker.currentElevation.toString(),
+                                style: Styles.duringDrillDashData,
+                              ),
+                              Text(
+                                'ft',
+                                style: Styles.duringDrillDashLabel,
+                              )
+                            ],
                           ),
-                          Text(
-                            'ft',
-                            style: Styles.duringDrillDashLabel,
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              );
+            }),
+            Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StyledAlertDialog(
+                            context: context,
+                            title: 'Wait!',
+                            subtitle:
+                                'Are you sure that you want to exit the drill early? This action cannot be undone.',
+                            cancelText: 'Continue Drill',
+                            cancelFunc: () {
+                              Navigator.pop(context);
+                            },
+                            confirmText: 'Exit Drill',
+                            confirmFunc: () async {
+                              // gather and save results, pop this dialog
+                              await completeDrill(context, false);
+                              // pop during drill page
+                              Navigator.pop(topContext, {'result': false});
+                            });
+                      });
+                },
+                child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(children: [
+                      Icon(CupertinoIcons.back, size: 32),
+                      // SizedBox(width: 4),
+                      // Text(
+                      //   'Tasks',
+                      //   style: GoogleFonts.getFont(
+                      //     'Roboto',
+                      //     color: Colors.white,
+                      //     fontWeight: FontWeight.w500,
+                      //     fontSize: 18,
+                      //   ),
+                      // )
+                    ])),
               ),
-            ],
-          );
-        }),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -41,7 +41,7 @@ Function makeALPResultSetter(
     int? indexOfSurveyTaskRes;
     int index = 0;
     for (TaskResult taskResult in drillResults.taskResults) {
-      if (taskResult.taskType == DrillTaskType.ALLOW_LOCATION_PERMISSIONS) {
+      if (taskResult.taskType() == DrillTaskType.ALLOW_LOCATION_PERMISSIONS) {
         haveSurveyTaskResult = true;
         indexOfSurveyTaskRes = index;
         break;

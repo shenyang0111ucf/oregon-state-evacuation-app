@@ -45,8 +45,9 @@ Function makeWaitForStartResultSetter(
     int? indexOfWaitForStartRes;
     int index = 0;
     for (TaskResult taskResult in drillResults.taskResults) {
-      if (taskResult.taskType == DrillTaskType.WAIT_FOR_START) {
-        if (taskResult.taskID == waitForStartDetails.taskID) {
+      print(taskResult.taskType());
+      if (taskResult.taskType() == DrillTaskType.WAIT_FOR_START) {
+        if (taskResult.taskID() == waitForStartDetails.taskID) {
           haveWaitForStartResult = true;
           indexOfWaitForStartRes = index;
           break;

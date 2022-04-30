@@ -14,21 +14,22 @@ class PerformDrillResult extends TaskResult {
   Duration duration;
   double? distanceTravelled; // in (m)
   String? trajectoryFile;
+  final bool completed;
 
   DrillTaskType taskType() => _taskType;
   String taskID() => _taskID;
 
-  PerformDrillResult({
-    required String taskID,
-    required this.title,
-    required this.trackingLocation,
-    required this.instructionsJson,
-    required this.startTime,
-    required this.endTime,
-    required this.duration,
-    required this.distanceTravelled,
-    Future<String>? gpxFilePathFuture,
-  }) {
+  PerformDrillResult(
+      {required String taskID,
+      required this.title,
+      required this.trackingLocation,
+      required this.instructionsJson,
+      required this.startTime,
+      required this.endTime,
+      required this.duration,
+      required this.distanceTravelled,
+      Future<String>? gpxFilePathFuture,
+      required this.completed}) {
     _taskID = taskID;
     if (gpxFilePathFuture != null)
       setTrajectoryFileFromFuture(gpxFilePathFuture);
@@ -50,6 +51,7 @@ class PerformDrillResult extends TaskResult {
         'duration': duration,
         'distanceTravelled': distanceTravelled,
         'trajectoryFile': trajectoryFile,
+        'completed': completed,
       };
 }
 
@@ -63,18 +65,20 @@ Function makePerformDrillResultSetter(
     DrillResults drillResults, PerformDrillDetails performDrillDetails) {
   // returned function
   void setPerformDrillResult(
-      DateTime startTime,
-      DateTime endTime,
-      Duration duration,
-      double? distanceTravelled,
-      Future<String> gpxFilePathFuture) {
+    DateTime startTime,
+    DateTime endTime,
+    Duration duration,
+    double? distanceTravelled,
+    Future<String> gpxFilePathFuture,
+    bool completed,
+  ) {
     // find out if there is already an `PerformDrillResult` in `drillResults` with `taskID`
     bool havePerformDrillResult = false;
     int? indexOfPerformDrillRes;
     int index = 0;
     for (TaskResult taskResult in drillResults.taskResults) {
-      if (taskResult.taskType == DrillTaskType.PERFORM_DRILL) {
-        if (taskResult.taskID == performDrillDetails.taskID) {
+      if (taskResult.taskType() == DrillTaskType.PERFORM_DRILL) {
+        if (taskResult.taskID() == performDrillDetails.taskID) {
           havePerformDrillResult = true;
           indexOfPerformDrillRes = index;
           break;
@@ -97,6 +101,7 @@ Function makePerformDrillResultSetter(
           duration: duration,
           distanceTravelled: distanceTravelled,
           gpxFilePathFuture: gpxFilePathFuture,
+          completed: completed,
         ),
       );
     }
@@ -118,6 +123,7 @@ Function makePerformDrillResultSetter(
         duration: duration,
         distanceTravelled: distanceTravelled,
         gpxFilePathFuture: gpxFilePathFuture,
+        completed: completed,
       );
     }
   }

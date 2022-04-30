@@ -104,10 +104,13 @@ class _TaskDisplayExperimentState extends State<TaskDisplayExperiment> {
         fullscreenDialog: true,
         builder: (context) =>
             // need to add back/exit button!!!
-            SurveyDisplay(
-          surveyTaskDetails: surveyTaskDetails,
-          setSurveyTaskResult:
-              makeSurveyTaskResultSetter(drillResults, surveyTaskDetails),
+            WillPopScope(
+          onWillPop: () async => false,
+          child: SurveyDisplay(
+            surveyTaskDetails: surveyTaskDetails,
+            setSurveyTaskResult:
+                makeSurveyTaskResultSetter(drillResults, surveyTaskDetails),
+          ),
         ),
       ),
     );
