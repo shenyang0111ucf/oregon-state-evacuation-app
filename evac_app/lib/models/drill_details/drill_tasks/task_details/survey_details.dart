@@ -55,37 +55,37 @@ Map<String, dynamic> preDrillSurveyExampleJson = {
         'result': 'POSITIVE',
       },
     },
-    // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
-    {
-      'type': 'question',
-      'title': 'Can we track your location?',
-      'answerFormat': {
-        'type': 'bool',
-        'positiveAnswer': 'Yes',
-        'negativeAnswer': 'No',
-        'result': 'POSITIVE',
-      },
-    },
-    // integer type does not remove keyboard display on entry...
-    {
-      "type": "question",
-      "title": "How old are you?",
-      "answerFormat": {"type": "integer", "hint": "Please enter your age"}
-    },
+    // // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
+    // {
+    //   'type': 'question',
+    //   'title': 'Can we track your location?',
+    //   'answerFormat': {
+    //     'type': 'bool',
+    //     'positiveAnswer': 'Yes',
+    //     'negativeAnswer': 'No',
+    //     'result': 'POSITIVE',
+    //   },
+    // },
+    // // integer type does not remove keyboard display on entry...
+    // {
+    //   "type": "question",
+    //   "title": "How old are you?",
+    //   "answerFormat": {"type": "integer", "hint": "Please enter your age"}
+    // },
 
-    {
-      "type": "question",
-      "title": "How old are you?",
-      "answerFormat": {
-        "type": "scale",
-        "step": 1,
-        "minimumValue": 1,
-        "maximumValue": 5,
-        "defaultValue": 3,
-        "minimumValueDescription": "1",
-        "maximumValueDescription": "5"
-      }
-    },
+    // {
+    //   "type": "question",
+    //   "title": "How old are you?",
+    //   "answerFormat": {
+    //     "type": "scale",
+    //     "step": 1,
+    //     "minimumValue": 1,
+    //     "maximumValue": 5,
+    //     "defaultValue": 3,
+    //     "minimumValueDescription": "1",
+    //     "maximumValueDescription": "5"
+    //   }
+    // },
     {
       "type": "question",
       "title": "Known allergies",
