@@ -124,9 +124,11 @@ class LandingPage extends StatelessWidget {
                   onTap: () {
                     /// #101: This Icon should present app info "about dialog" on
                     /// tap. Remove the "showSnackBar" when implementing.
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            'info should appear instead of this snackbar')));
+                    showAboutDialog(
+                        context: context,
+                        applicationName: 'Evac Drill',
+                        applicationVersion: '1.0.1',
+                        applicationLegalese:'This app is provided without warranty or guarantee of service.\n\nCreated 2021-22 by Jasmine Snyder, Dingguo Tang, David Kaff at Oregon State University.');
                   },
                   child: Icon(
                     CupertinoIcons.info_circle_fill,
