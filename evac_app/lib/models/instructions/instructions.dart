@@ -1,5 +1,5 @@
 class Instructions {
-  final List<String> instructions;
+  final List<dynamic> instructions;
 
   Instructions(this.instructions);
 

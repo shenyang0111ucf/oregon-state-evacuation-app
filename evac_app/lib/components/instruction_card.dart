@@ -1,6 +1,7 @@
 import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InstructionCard extends StatelessWidget {
   const InstructionCard({
@@ -87,8 +88,22 @@ class InstructionCard extends StatelessWidget {
                                   );
                                 });
                           },
-                          child: Text('complete drill'),
-                          style: Styles.confirmButton,
+                          child: Container(
+                            height: 45,
+                            width: 150,
+                            child: Center(
+                              child: Text(
+                                'Complete Drill',
+                                style: GoogleFonts.openSans(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          style: Styles.confirmButton.copyWith(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.deepOrange[600])),
                         ),
                       )
                     : Container(),
