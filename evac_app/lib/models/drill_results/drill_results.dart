@@ -5,12 +5,14 @@ import 'package:evac_app/models/drill_details/drill_tasks/task_results/task_resu
 class DrillResults {
   final String drillID;
   final String userID;
+  final String publicKey;
   List<TaskResult> taskResults;
 
-  DrillResults({
-    required this.drillID,
-    required this.userID,
-  }) : taskResults = [];
+  late List<String> gpxFiles;
+
+  DrillResults(
+      {required this.drillID, required this.userID, required this.publicKey})
+      : taskResults = [];
 
   Map<String, dynamic> toJson() {
     List<Map<String, dynamic>> taskResultsJsonList = [];
