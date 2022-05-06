@@ -32,8 +32,8 @@ class AllowLocationPermissionsResult extends TaskResult {
 /// function call) in the widget tree.
 
 // top-level function
-Function makeALPResultSetter(
-    DrillResults drillResults, AllowLocationPermissionsDetails taskDetails) {
+Function makeALPResultSetter(DrillResults drillResults,
+    AllowLocationPermissionsDetails taskDetails, Function pumpState) {
   // returned function
   void setAllowLocationPermissionsResult(bool result) {
     // find out if there is already an `AllowLocationPermissionsResult` in `drillResults`
@@ -71,6 +71,7 @@ Function makeALPResultSetter(
         allowed: result,
       );
     }
+    pumpState(() => null);
   }
 
   return setAllowLocationPermissionsResult;

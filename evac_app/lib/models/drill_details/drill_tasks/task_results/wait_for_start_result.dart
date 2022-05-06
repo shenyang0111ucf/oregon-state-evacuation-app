@@ -36,8 +36,8 @@ class WaitForStartResult extends TaskResult {
 /// function call) in the widget tree.
 
 // top-level function:
-Function makeWaitForStartResultSetter(
-    DrillResults drillResults, WaitForStartDetails waitForStartDetails) {
+Function makeWaitForStartResultSetter(DrillResults drillResults,
+    WaitForStartDetails waitForStartDetails, Function pumpState) {
   // returned function:
   void setWaitForStartResult(bool result) {
     // find out if there is already an `WaitForStartResult` in `drillResults` with `taskID`
@@ -79,6 +79,7 @@ Function makeWaitForStartResultSetter(
         complete: result,
       );
     }
+    pumpState(() => null);
   }
 
   return setWaitForStartResult;

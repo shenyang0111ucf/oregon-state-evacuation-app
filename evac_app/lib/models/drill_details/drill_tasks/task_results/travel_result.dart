@@ -28,8 +28,8 @@ class TravelResult extends TaskResult {
 /// function call) in the widget tree.
 
 // top-level function:
-Function makeTravelResultSetter(
-    DrillResults drillResults, TravelDetails travelDetails) {
+Function makeTravelResultSetter(DrillResults drillResults,
+    TravelDetails travelDetails, Function pumpState) {
   // returned function:
   void setTravelResult() {
     // find out if there is already an `TravelResult` in `drillResults` with `taskID`
@@ -63,6 +63,7 @@ Function makeTravelResultSetter(
       drillResults.taskResults[indexOfTravelRes] =
           TravelResult(taskID: travelDetails.taskID);
     }
+    pumpState(() => null);
   }
 
   return setTravelResult;

@@ -61,8 +61,8 @@ class PerformDrillResult extends TaskResult {
 /// function call) in the widget tree.
 
 // top-level function
-Function makePerformDrillResultSetter(
-    DrillResults drillResults, PerformDrillDetails performDrillDetails) {
+Function makePerformDrillResultSetter(DrillResults drillResults,
+    PerformDrillDetails performDrillDetails, Function pumpState) {
   // returned function
   void setPerformDrillResult(
     DateTime startTime,
@@ -126,6 +126,7 @@ Function makePerformDrillResultSetter(
         completed: completed,
       );
     }
+    pumpState(() => null);
   }
 
   return setPerformDrillResult;

@@ -10,6 +10,7 @@ class SurveyTaskResult extends TaskResult {
   final String title;
   final Map<String, dynamic> surveyKitJson;
   late List<Map<String, dynamic>> _surveyAnswersJson;
+  late bool completed;
 
   DrillTaskType taskType() => _taskType;
   String taskID() => _taskID;
@@ -34,6 +35,7 @@ class SurveyTaskResult extends TaskResult {
 
   List<Map<String, dynamic>> addSurveyResult(SurveyResult result) {
     if (result.finishReason == FinishReason.COMPLETED) {
+      completed = true;
       List<Map<String, dynamic>> surveyResults = [];
       for (var stepResult in result.results) {
         Map<String, dynamic> answer = {
@@ -88,6 +90,7 @@ class SurveyTaskResult extends TaskResult {
       // print(jsonEncode(surveyResults));
     } else {
       // handle non completed survey result
+      completed = false;
       return [
         {'Error': 'Survey "$title" was not completed normally'}
       ];
@@ -101,8 +104,10 @@ class SurveyTaskResult extends TaskResult {
 /// function call) in the widget tree.
 
 // top-level function
-Function makeSurveyTaskResultSetter(
-    DrillResults drillResults, SurveyDetails surveyDetails) {
+void Function(SurveyResult) makeSurveyTaskResultSetter(
+    DrillResults drillResults,
+    SurveyDetails surveyDetails,
+    Function pumpState) {
   // returned function
   void setSurveyTaskResult(SurveyResult result) {
     // find out if there is already an `SurveyTaskResult` in `drillResults` with `taskID`
@@ -145,6 +150,7 @@ Function makeSurveyTaskResultSetter(
         surveyResult: result,
       );
     }
+    pumpState(() => null);
   }
 
   return setSurveyTaskResult;
