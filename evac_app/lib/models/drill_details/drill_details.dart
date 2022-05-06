@@ -41,7 +41,7 @@ class DrillDetails {
         inviteCode = '876543',
         title = 'Example Tsunami Evacuation Drill',
         meetingLocationPlainText = 'Oceanside, OR',
-        meetingDateTime = DateTime.tryParse('2022-05-2 11:00') ??
+        meetingDateTime = DateTime.tryParse('2022-05-02T13:00:00.000001') ??
             null, // forced nullable on .tryParse(), need to handle...
         blurb =
             'Help us evaluate the current evacuation infrastructure of Oceanside!',
@@ -52,58 +52,115 @@ class DrillDetails {
             index: 0,
             taskID: 'abc123-0',
             taskType: DrillTaskType.TRAVEL,
+            title: 'Meet Researchers at Post Office',
             details: TravelDetails.example(
-              'Oceanside Post Office',
-              'Meet Researchers',
-            ),
+                'Oceanside Post Office', 'Meet Researchers', 'abc123-0'),
           ),
           DrillTask(
             index: 1,
             taskID: 'abc123-1',
+            title: 'Allow App to Track Location',
             taskType: DrillTaskType.ALLOW_LOCATION_PERMISSIONS,
-            details: AllowLocationPermissionsDetails.example(),
+            details: AllowLocationPermissionsDetails.example('abc123-1'),
           ),
           DrillTask(
             index: 2,
             taskID: 'abc123-2',
+            title: 'Complete Pre-Drill Survey',
             taskType: DrillTaskType.SURVEY,
-            details: SurveyDetails.examplePre('Pre-Drill'),
+            details: SurveyDetails.examplePre('Pre-Drill', 'abc123-2'),
           ),
           DrillTask(
             index: 3,
             taskID: 'abc123-3',
+            title: 'Go to Drill Start Location',
             taskType: DrillTaskType.TRAVEL,
             details: TravelDetails.example(
               'Oceanside Beach State Park',
               'Go to Drill-Start Location',
+              'abc123-3',
             ),
           ),
           DrillTask(
             index: 4,
             taskID: 'abc123-4',
+            title: 'Acquire GPS prior to Drill Start',
             taskType: DrillTaskType.WAIT_FOR_START,
-            details: WaitForStartDetails.example(),
+            details: WaitForStartDetails.example('abc123-4'),
           ),
           DrillTask(
             index: 5,
             taskID: 'abc123-5',
+            title: 'Perform the Tsunami Evacuation Drill',
             taskType: DrillTaskType.PERFORM_DRILL,
-            details: PerformDrillDetails.example(),
+            details: PerformDrillDetails.example('abc123-5'),
           ),
           DrillTask(
             index: 6,
             taskID: 'abc123-6',
+            title: 'Complete Post-Drill Survey',
             taskType: DrillTaskType.SURVEY,
-            details: SurveyDetails.examplePost('Post-Drill'),
+            details: SurveyDetails.examplePost('Post-Drill', 'abc123-6'),
           ),
           DrillTask(
             index: 7,
             taskID: 'abc123-7',
             taskType: DrillTaskType.TRAVEL,
+            title: 'Meet Researchers back at Post Office',
             details: TravelDetails.example(
               'Oceanside Post Office',
               'Regroup with Researchers',
+              'abc123-7',
             ),
+          ),
+        ];
+
+  DrillDetails.example2()
+      : drillID = '123abc',
+        inviteCode = '876542',
+        title = 'Example Tsunami Evacuation Drill',
+        meetingLocationPlainText = 'Oceanside, OR',
+        meetingDateTime = DateTime.tryParse('2022-05-02T13:00:00.000001') ??
+            null, // forced nullable on .tryParse(), need to handle...
+        blurb =
+            'Help us evaluate the current evacuation infrastructure of Oceanside!',
+        description = null,
+        publicKey = 'abc123',
+        tasks = [
+          DrillTask(
+            index: 0,
+            taskID: 'abc123-0',
+            title: 'Allow App to Track Location',
+            taskType: DrillTaskType.ALLOW_LOCATION_PERMISSIONS,
+            details: AllowLocationPermissionsDetails.example('abc123-0'),
+          ),
+          DrillTask(
+            index: 1,
+            taskID: 'abc123-1',
+            title: 'Complete Pre-Drill Survey',
+            taskType: DrillTaskType.SURVEY,
+            details: SurveyDetails.examplePre('Pre-Drill', 'abc123-1'),
+          ),
+          DrillTask(
+            index: 2,
+            taskID: 'abc123-2',
+            title: 'Acquire GPS prior to Drill Start',
+            taskType: DrillTaskType.WAIT_FOR_START,
+            details: WaitForStartDetails.example('abc123-2'),
+          ),
+          DrillTask(
+            index: 3,
+            taskID: 'abc123-3',
+            title: 'Perform the Tsunami Evacuation Drill',
+            taskType: DrillTaskType.PERFORM_DRILL,
+            details: PerformDrillDetails.example('abc123-3'),
+          ),
+          DrillTask(
+            index: 4,
+            taskID: 'abc123-4',
+            title: 'Complete Post-Drill Survey',
+            taskType: DrillTaskType.SURVEY,
+            details: SurveyDetails.examplePost('Post-Drill', 'abc123-4'),
           ),
         ];
 
@@ -121,15 +178,17 @@ class DrillDetails {
 
     // parse the meeting DateTime
     DateTime? meetingDateTime;
-    try {
-      meetingDateTime = DateTime.tryParse(json['startTime']);
-    } catch (e) {
-      throw Exception(
-          'DrillDetails: could not parse meetingDatTime from json value:\n$e');
-    }
-    if (meetingDateTime == null) {
-      throw Exception(
-          'DrillDetails: could not parse meetingDatTime from json value');
+    if (json['meetingDateTime'] != null) {
+      try {
+        meetingDateTime = DateTime.tryParse(json['meetingDateTime']);
+      } catch (e) {
+        throw Exception(
+            'DrillDetails: could not parse meetingDatTime from json value:\n$e');
+      }
+      if (meetingDateTime == null) {
+        throw Exception(
+            'DrillDetails: could not parse meetingDatTime from json value');
+      }
     }
 
     // return the actual object
@@ -159,7 +218,7 @@ class DrillDetails {
       'inviteCode': inviteCode,
       'title': title,
       'meetingLocationPlainText': meetingLocationPlainText,
-      'meetingDateTime': meetingDateTime,
+      'meetingDateTime': meetingDateTime?.toIso8601String(),
       'blurb': blurb,
       'description': description,
       'publicKey': publicKey,

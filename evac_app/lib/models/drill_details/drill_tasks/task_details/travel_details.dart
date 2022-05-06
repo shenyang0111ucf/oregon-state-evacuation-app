@@ -26,9 +26,8 @@ class TravelDetails extends TaskDetails {
     required this.mapsLink,
   });
 
-  TravelDetails.example(this.locationName, this.blurb)
-      : taskID = 'abc123',
-        latitude = 45.460813,
+  TravelDetails.example(this.locationName, this.blurb, this.taskID)
+      : latitude = 45.460813,
         longitude = -123.970422,
         // blurb = 'A park in Oceanside.',
         explanation = null,

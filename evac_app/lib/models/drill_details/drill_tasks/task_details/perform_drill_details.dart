@@ -16,9 +16,8 @@ class PerformDrillDetails extends TaskDetails {
     required this.instructionsJson,
   });
 
-  PerformDrillDetails.example()
-      : taskID = 'abc123',
-        title = 'Tsunami Evacuation Drill from Beach',
+  PerformDrillDetails.example(this.taskID)
+      : title = 'Tsunami Evacuation Drill from Beach',
         trackingLocation = true,
         instructionsJson = Instructions.example().toJson();
 

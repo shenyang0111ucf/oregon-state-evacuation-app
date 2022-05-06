@@ -24,19 +24,21 @@ class WaitForStartDetails extends TaskDetails {
   })  : content = null,
         typeOfWait = TypeOfWait.SELF;
 
-  WaitForStartDetails.example()
-      : taskID = 'abc123',
-        performDrillTaskID = 'abc123',
+  WaitForStartDetails.example(this.taskID)
+      : performDrillTaskID = 'abc123',
         content = null,
         typeOfWait = TypeOfWait.SELF;
 
-  factory WaitForStartDetails.fromJson(Map<String, dynamic> json) =>
-      WaitForStartDetails(
-        taskID: json['taskID'],
-        performDrillTaskID: json['performDrillTaskID'],
-        typeOfWait: json['typeOfWait'],
-        content: json['content'],
-      );
+  factory WaitForStartDetails.fromJson(Map<String, dynamic> json) {
+    TypeOfWait thisType = TypeOfWait.values
+        .firstWhere((e) => e.toString() == 'TypeOfWait.' + json['typeOfWait']);
+    return WaitForStartDetails(
+      taskID: json['taskID'],
+      performDrillTaskID: json['performDrillTaskID'],
+      typeOfWait: thisType,
+      content: json['content'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'taskID': taskID,

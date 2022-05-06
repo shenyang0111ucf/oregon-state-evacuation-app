@@ -11,17 +11,14 @@ class SurveyDetails extends TaskDetails {
     required this.surveyKitJson,
   });
 
-  SurveyDetails.example(this.title)
-      : taskID = 'abc123',
-        surveyKitJson = preDrillSurveyExampleJson;
+  SurveyDetails.example(this.title, this.taskID)
+      : surveyKitJson = preDrillSurveyExampleJson;
 
-  SurveyDetails.examplePre(this.title)
-      : taskID = 'abc123',
-        surveyKitJson = preDrillSurveyExampleJson;
+  SurveyDetails.examplePre(this.title, this.taskID)
+      : surveyKitJson = preDrillSurveyExampleJson;
 
-  SurveyDetails.examplePost(this.title)
-      : taskID = 'abc123',
-        surveyKitJson = postDrillSurveyExampleJson;
+  SurveyDetails.examplePost(this.title, this.taskID)
+      : surveyKitJson = postDrillSurveyExampleJson;
 
   factory SurveyDetails.fromJson(Map<String, dynamic> json) => SurveyDetails(
       taskID: json['taskID'],
@@ -47,7 +44,7 @@ Map<String, dynamic> preDrillSurveyExampleJson = {
     },
     {
       'type': 'question',
-      'title': 'Is this a survey?',
+      'title': 'Have you participated in an Evacuation Drill before?',
       'answerFormat': {
         'type': 'bool',
         'positiveAnswer': 'Yes',
@@ -55,90 +52,32 @@ Map<String, dynamic> preDrillSurveyExampleJson = {
         'result': 'POSITIVE',
       },
     },
-    // // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
-    // {
-    //   'type': 'question',
-    //   'title': 'Can we track your location?',
-    //   'answerFormat': {
-    //     'type': 'bool',
-    //     'positiveAnswer': 'Yes',
-    //     'negativeAnswer': 'No',
-    //     'result': 'POSITIVE',
-    //   },
-    // },
-    // // integer type does not remove keyboard display on entry...
-    // {
-    //   "type": "question",
-    //   "title": "How old are you?",
-    //   "answerFormat": {"type": "integer", "hint": "Please enter your age"}
-    // },
-
-    // {
-    //   "type": "question",
-    //   "title": "How old are you?",
-    //   "answerFormat": {
-    //     "type": "scale",
-    //     "step": 1,
-    //     "minimumValue": 1,
-    //     "maximumValue": 5,
-    //     "defaultValue": 3,
-    //     "minimumValueDescription": "1",
-    //     "maximumValueDescription": "5"
-    //   }
-    // },
     {
       "type": "question",
-      "title": "Known allergies",
+      "title":
+          "How familiar are you with the location of this Evacuation Drill?",
       "answerFormat": {
-        "type": "multiple",
-        "textChoices": [
-          {"text": "Penicillin", "value": "Penicillin"},
-          {"text": "Latex", "value": "Latex"},
-          {"text": "Pet", "value": "Pet"},
-          {"text": "Pollen", "value": "Pollen"}
-        ]
+        "type": "scale",
+        "step": 1,
+        "minimumValue": 1,
+        "maximumValue": 5,
+        "defaultValue": 3,
+        "minimumValueDescription": "1",
+        "maximumValueDescription": "5"
       }
     },
     {
       "type": "question",
-      "title": "Done?",
-      "text": "We are done, do you mind to tell us more about yourself?",
+      "title":
+          "How prepared do you feel to perform the Evacuation Drill described by the Drill Coordinator?",
       "answerFormat": {
-        "type": "single",
-        "textChoices": [
-          {"text": "Yes", "value": "Yes"},
-          {"text": "No", "value": "No"}
-        ]
-      }
-    },
-    {
-      "type": "question",
-      "title": "Tell us about you",
-      "text": "Tell us about yourself and why you want to improve your health.",
-      "answerFormat": {
-        "type": "text",
-        "maxLines": 5,
-        "validationRegEx": "^(?!\s*\$).+"
-      }
-    },
-
-    /// doesn't work without defaultValue, but defaultValue doesn't display that value (instead displays current time, probably from DateTime.now()) however it DOES submit the defaultValue if form is not interacted with
-    // {
-    //   "type": "question",
-    //   "title": "When did you wake up?",
-    //   "answerFormat": {
-    //     "type": "time",
-    //     // "defaultValue": {"hour": 12, "minute": 0}
-    //   }
-    // },
-    {
-      "type": "question",
-      "title": "When was your last holiday?",
-      "answerFormat": {
-        "type": "date",
-        "minDate": "2015-06-25T04:08:16Z",
-        "maxDate": "2025-06-25T04:08:16Z",
-        "defaultDate": "2021-06-25T04:08:16Z"
+        "type": "scale",
+        "step": 1,
+        "minimumValue": 1,
+        "maximumValue": 5,
+        "defaultValue": 3,
+        "minimumValueDescription": "1",
+        "maximumValueDescription": "5"
       }
     },
     {
@@ -163,7 +102,7 @@ Map<String, dynamic> postDrillSurveyExampleJson = {
     },
     {
       'type': 'question',
-      'title': 'Is this a survey?',
+      'title': 'Were you able to complete the Evacuation Drill successfully?',
       'answerFormat': {
         'type': 'bool',
         'positiveAnswer': 'Yes',
@@ -171,16 +110,30 @@ Map<String, dynamic> postDrillSurveyExampleJson = {
         'result': 'POSITIVE',
       },
     },
-    // cannot grab location permissions yet from QuestionStep as no ability to pass function. Maybe navigation rule?
     {
-      'type': 'question',
-      'title': 'Did we track your location?',
-      'answerFormat': {
-        'type': 'bool',
-        'positiveAnswer': 'Yes',
-        'negativeAnswer': 'No',
-        'result': 'POSITIVE',
-      },
+      "type": "question",
+      "title":
+          "How prepared do you feel to evacuate from the Drill location, now that you've had a practice run?",
+      "answerFormat": {
+        "type": "scale",
+        "step": 1,
+        "minimumValue": 1,
+        "maximumValue": 5,
+        "defaultValue": 3,
+        "minimumValueDescription": "1",
+        "maximumValueDescription": "5"
+      }
+    },
+    {
+      "type": "question",
+      "title": "Did anything interesting happen?",
+      "text":
+          "Is there anything you want your Drill Coordinator to know about your drill participation? Anything that went right or wrong, good or bad?",
+      "answerFormat": {
+        "type": "text",
+        "maxLines": 5,
+        "validationRegEx": "^(?!\s*\$).+"
+      }
     },
     {
       "stepIdentifier": {"id": "10"},

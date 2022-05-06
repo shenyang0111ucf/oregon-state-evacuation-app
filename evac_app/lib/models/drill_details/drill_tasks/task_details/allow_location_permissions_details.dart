@@ -7,7 +7,7 @@ class AllowLocationPermissionsDetails extends TaskDetails {
     required this.taskID,
   });
 
-  AllowLocationPermissionsDetails.example() : taskID = 'abc123';
+  AllowLocationPermissionsDetails.example(this.taskID);
 
   factory AllowLocationPermissionsDetails.fromJson(Map<String, dynamic> json) =>
       AllowLocationPermissionsDetails(taskID: json['taskID']);
