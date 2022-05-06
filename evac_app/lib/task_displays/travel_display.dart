@@ -129,7 +129,7 @@ class TravelDisplay extends StatelessWidget {
                     Text(
                       'Tasks',
                       style: GoogleFonts.getFont(
-                        'Roboto',
+                        'Open Sans',
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
