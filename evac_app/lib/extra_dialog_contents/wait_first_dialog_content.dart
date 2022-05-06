@@ -23,7 +23,7 @@ class WaitFirstDialogContent extends StatelessWidget {
         Text(
           'Hold on!',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -34,7 +34,7 @@ class WaitFirstDialogContent extends StatelessWidget {
         Text(
           'You need to complete "$taskTitle" task first!',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,

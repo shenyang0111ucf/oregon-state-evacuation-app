@@ -22,7 +22,7 @@ class StyledAlertDialog extends StatelessWidget {
   final String confirmText;
   final Function confirmFunc;
 
-  static const _fontNameDefault = 'Roboto';
+  static const _fontNameDefault = 'Open Sans';
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +51,22 @@ class StyledAlertDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            cancelFunc();
-          },
-          child: Text(
-            cancelText,
-            style: GoogleFonts.getFont(
-              _fontNameDefault,
-              color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 14,
-            ),
-          ),
-        ),
+        (cancelText.isNotEmpty)
+            ? TextButton(
+                onPressed: () {
+                  cancelFunc();
+                },
+                child: Text(
+                  cancelText,
+                  style: GoogleFonts.getFont(
+                    _fontNameDefault,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            : Container(),
         TextButton(
           onPressed: () {
             confirmFunc();

@@ -1,7 +1,10 @@
 import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/survey_details.dart';
+import 'package:evac_app/new_styles.dart';
 import 'package:evac_app/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 // borrowing heavily from https://github.com/quickbirdstudios/survey_kit/blob/main/example/lib/main.dart [accessed Nov 15 2021]
@@ -51,7 +54,22 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
                           await handleSurveyResult(result);
                         },
                         task: task,
-                        themeData: Styles.darkCupertinoTheme,
+                        themeData: Theme.of(context).copyWith(
+                          cupertinoOverrideTheme: CupertinoThemeData(
+                            brightness: Theme.of(context).brightness,
+                            scaffoldBackgroundColor:
+                                Theme.of(context).backgroundColor,
+                            barBackgroundColor:
+                                Theme.of(context).appBarTheme.backgroundColor,
+                            textTheme: CupertinoTextThemeData(
+                              textStyle: GoogleFonts.getFont(
+                                'Open Sans',
+                              ),
+                            ),
+                          ),
+                          outlinedButtonTheme: NewStyles.outlinedButtonTheme,
+                          // textButtonTheme: Styles.textButtonTheme,
+                        ),
                         confirmExitDialog: confirmExitDialog,
                       ),
                     );

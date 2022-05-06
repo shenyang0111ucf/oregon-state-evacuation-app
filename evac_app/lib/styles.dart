@@ -148,7 +148,7 @@ class Styles {
   );
 
   static final surveyHeader = GoogleFonts.getFont(
-    'Roboto',
+    'Open Sans',
     color: primaryColor(),
     fontWeight: FontWeight.w800,
     fontSize: 32,
@@ -249,7 +249,7 @@ class Styles {
       )));
 
   static final confirmButton = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Colors.green[500]),
+    backgroundColor: MaterialStateProperty.all(Colors.deepOrange[800]),
     shape: MaterialStateProperty.all(RoundedRectangleBorder(
       borderRadius: new BorderRadius.circular(9.6),
     )),

@@ -8,7 +8,6 @@ import 'package:evac_app/models/instructions/instructions.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PerformDrillDisplay extends StatefulWidget {
   PerformDrillDisplay({
@@ -71,7 +70,8 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
     final Duration duration = endTime.difference(startTime);
 
     // create gpxFile
-    final gpxFileNameFuture = locTracker.createTrajectory(widget.userID);
+    final gpxFileNameFuture = locTracker.createTrajectory(
+        widget.userID + '_' + widget.performDrillDetails.taskID);
 
     // stop tracking location
     await locTracker.stopLogging();
@@ -100,6 +100,7 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
       // title: 'example drill',
       // backButton: true,
       // backButtonFunc: confirmEndDrillEarly,
+      backgroundColor: Colors.blue[400],
       body: SafeArea(
         child: Stack(
           children: [
@@ -231,7 +232,7 @@ class _PerformDrillDisplayState extends State<PerformDrillDisplay> {
                       // Text(
                       //   'Tasks',
                       //   style: GoogleFonts.getFont(
-                      //     'Roboto',
+                      //     'Open Sans',
                       //     color: Colors.white,
                       //     fontWeight: FontWeight.w500,
                       //     fontSize: 18,

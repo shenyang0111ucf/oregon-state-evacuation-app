@@ -65,11 +65,12 @@ class _AllowLocationPermissionsDisplayState
       // set result to true
       widget.setLocationResult(true);
 
-      // wait 1.8 seconds
-      await Future.delayed(Duration(milliseconds: 1800));
+      // this would be nice, but dialog would need to disallow tap on edge to pop as this will cause double pop and black screen if they tap out first
+      // // wait 1.8 seconds
+      // await Future.delayed(Duration(milliseconds: 1800));
 
-      // pop
-      Navigator.pop(widget.topContext, true);
+      // // pop
+      // Navigator.pop(widget.topContext, true);
     } else {
       // set result to false
       widget.setLocationResult(false);
@@ -106,7 +107,7 @@ class RequestPermissionDialogContent extends StatelessWidget {
         Text(
           'Allow us to track your location?',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -117,7 +118,7 @@ class RequestPermissionDialogContent extends StatelessWidget {
         Text(
           'One of the purposes of this drill is for Civil Engineering Researchers to gather data. You can generate the most value for your Drill Coordinators if you allow your location to be tracked while you perform you drill.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -157,7 +158,7 @@ class LoadingDialogContent extends StatelessWidget {
         Text(
           'loading…',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -187,7 +188,7 @@ class PermissionGrantedDialogContent extends StatelessWidget {
         Text(
           'Thanks!',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -198,11 +199,18 @@ class PermissionGrantedDialogContent extends StatelessWidget {
         Text(
           'We will track your location while you perform your drill.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
+        ),
+        SizedBox(height: 12),
+        CupertinoButton.filled(
+          child: Text('Ok'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ],
       mainAxisSize: MainAxisSize.min,
@@ -227,7 +235,7 @@ class NotifyNoPermissionDialogContent extends StatelessWidget {
         Text(
           'Location Permissions Denied.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -238,7 +246,7 @@ class NotifyNoPermissionDialogContent extends StatelessWidget {
         Text(
           'We understand, and will not track your location.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -248,7 +256,7 @@ class NotifyNoPermissionDialogContent extends StatelessWidget {
         Text(
           'If you change your mind, please go to you phone\'s settings and allow location permissions for our app, then re-complete this task.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -285,7 +293,7 @@ class NotifyLocationServiceOffDialogContent extends StatelessWidget {
         Text(
           'Location Services Currently Disabled.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 36,
@@ -296,7 +304,7 @@ class NotifyLocationServiceOffDialogContent extends StatelessWidget {
         Text(
           'Thanks for giving us permission to track your location!',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -306,7 +314,7 @@ class NotifyLocationServiceOffDialogContent extends StatelessWidget {
         Text(
           'Unfortunately, location services are currently disabled on your device.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -316,7 +324,7 @@ class NotifyLocationServiceOffDialogContent extends StatelessWidget {
         Text(
           'Please go to your Settings to enable location services, then re-complete this task.',
           style: GoogleFonts.getFont(
-            'Roboto',
+            'Open Sans',
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
