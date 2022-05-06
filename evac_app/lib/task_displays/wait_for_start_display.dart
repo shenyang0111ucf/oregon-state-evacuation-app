@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WaitForStartDisplay extends StatelessWidget {
+class WaitForStartDisplay extends StatefulWidget {
   const WaitForStartDisplay(
       {Key? key,
       required this.pushPerformDrill,
@@ -13,40 +13,38 @@ class WaitForStartDisplay extends StatelessWidget {
   final Function pushPerformDrill;
   final Function setWaitForStartResult;
 
-  // TODO: Add exit button
-  //  on exit: setWaitForStartResult(false);
+  @override
+  State<WaitForStartDisplay> createState() => _WaitForStartDisplayState();
+}
+
+class _WaitForStartDisplayState extends State<WaitForStartDisplay> {
+  late List<Widget> displayedContent;
+
+  @override
+  void initState() {
+    displayedContent = stillWaitingContent();
+    changeDisplayedContent();
+    super.initState();
+  }
+
+  void changeDisplayedContent() async {
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      displayedContent = waitCompleteContent();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final topContext = context;
     return Scaffold(
+      backgroundColor: Colors.blue[200],
       body: SafeArea(
         child: Stack(children: [
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    'You\'re all set to perform your drill, whenever you\'re ready 👍',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 36,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                CupertinoButton.filled(
-                  child: Text('Let\'s get started!'),
-                  onPressed: () {
-                    setWaitForStartResult(true);
-                    pushPerformDrill();
-                  },
-                ),
-              ],
+              children: displayedContent,
             ),
           ),
           Align(
@@ -67,7 +65,7 @@ class WaitForStartDisplay extends StatelessWidget {
                           },
                           confirmText: 'Exit to Tasks',
                           confirmFunc: () {
-                            setWaitForStartResult(false);
+                            widget.setWaitForStartResult(false);
                             Navigator.pop(context);
                             Navigator.pop(topContext);
                           });
@@ -76,13 +74,17 @@ class WaitForStartDisplay extends StatelessWidget {
               child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Row(children: [
-                    Icon(CupertinoIcons.back, size: 32),
+                    Icon(
+                      CupertinoIcons.back,
+                      size: 32,
+                      color: Colors.grey[800],
+                    ),
                     SizedBox(width: 4),
                     Text(
                       'Tasks',
                       style: GoogleFonts.getFont(
-                        'Roboto',
-                        color: Colors.white,
+                        'Open Sans',
+                        color: Colors.grey[800],
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
                       ),
@@ -93,5 +95,67 @@ class WaitForStartDisplay extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  List<Widget> stillWaitingContent() {
+    return [
+      SizedBox(
+        child: CupertinoActivityIndicator(
+          radius: 64,
+        ),
+        height: 128,
+        width: 128,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 40),
+        child: Text(
+          'Acquiring GPS Signal...',
+          style: GoogleFonts.openSans(
+            color: Colors.grey[800],
+            fontWeight: FontWeight.w700,
+            fontSize: 28,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> waitCompleteContent() {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 40),
+        child: Text(
+          'Acquired GPS Signal',
+          style: GoogleFonts.openSans(
+            color: Colors.grey[800],
+            fontWeight: FontWeight.w700,
+            fontSize: 28,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withAlpha(51),
+                blurRadius: 6,
+                offset: Offset(0, 2))
+          ],
+        ),
+        child: CupertinoButton.filled(
+          child: Text(
+            'Let\'s get started!',
+            style: GoogleFonts.openSans(),
+          ),
+          onPressed: () {
+            widget.setWaitForStartResult(true);
+            widget.pushPerformDrill();
+          },
+        ),
+      ),
+    ];
   }
 }
