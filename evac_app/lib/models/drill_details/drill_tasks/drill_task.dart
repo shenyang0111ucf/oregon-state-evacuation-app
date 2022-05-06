@@ -12,12 +12,14 @@ class DrillTask {
   final int index; // add during parse on mobile
   final String taskID;
   final DrillTaskType taskType;
+  final String title;
   final TaskDetails details;
 
   DrillTask({
     required this.index,
     required this.taskID,
     required this.taskType,
+    required this.title,
     required this.details,
   });
 
@@ -25,29 +27,32 @@ class DrillTask {
     TaskDetails? taskDetails;
     // not sure if this works...
     switch (json['taskType']) {
-      case DrillTaskType.ALLOW_LOCATION_PERMISSIONS:
+      case 'ALLOW_LOCATION_PERMISSIONS':
         taskDetails = AllowLocationPermissionsDetails.fromJson(json['details']);
         break;
-      case DrillTaskType.PERFORM_DRILL:
+      case 'PERFORM_DRILL':
         taskDetails = PerformDrillDetails.fromJson(json['details']);
         break;
-      case DrillTaskType.SURVEY:
+      case 'SURVEY':
         taskDetails = SurveyDetails.fromJson(json['details']);
         break;
-      case DrillTaskType.TRAVEL:
+      case 'TRAVEL':
         taskDetails = TravelDetails.fromJson(json['details']);
         break;
-      case DrillTaskType.WAIT_FOR_START:
+      case 'WAIT_FOR_START':
         taskDetails = WaitForStartDetails.fromJson(json['details']);
         break;
     }
 
     if (taskDetails != null) {
+      DrillTaskType thisType = DrillTaskType.values.firstWhere(
+          (e) => e.toString() == 'DrillTaskType.' + json['taskType']);
       return DrillTask(
         index: index,
+        title: json['title'],
         taskID: json['taskID'],
         // not sure if this works...
-        taskType: json['taskType'],
+        taskType: thisType,
         details: taskDetails,
       );
     } else {
@@ -60,6 +65,7 @@ class DrillTask {
         'index': index,
         'taskID': taskID,
         'taskType': taskType.name,
+        'title': title,
         'details': details.toJson(),
       };
 }
