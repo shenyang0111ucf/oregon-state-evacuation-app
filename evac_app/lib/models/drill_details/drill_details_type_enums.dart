@@ -10,6 +10,7 @@ enum DrillTaskType {
   WAIT_FOR_START,
   PERFORM_DRILL,
   TRAVEL,
+  UPLOAD,
 }
 
 /// We want to give researchers options on how they start their participants performing drills. Let's define the types of starts as such:
