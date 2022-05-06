@@ -63,7 +63,7 @@ class LocationTracker {
     }
   }
 
-  Future<String> createTrajectory(filename) async {
+  Future<String> createTrajectory(String filename) async {
     // if able to create gpx
     final directory = await getApplicationDocumentsDirectory();
     var exists = Directory(directory.path + '/gpxFiles/').existsSync();
