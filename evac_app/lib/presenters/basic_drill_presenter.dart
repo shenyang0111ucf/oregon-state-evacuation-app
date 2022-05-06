@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evac_app/gpx_export/results_exporter.dart';
+import 'package:evac_app/gpx_export/result_exporter.dart';
 import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
@@ -174,7 +174,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
             // store all results
             // export
-            final exporter = ResultsExporter(
+            final exporter = ResultExporter(
                 drillEventID: _drillEvent!.id,
                 publicKey: _drillEvent!.publicKey,
                 drillResult: _drillResult!,
