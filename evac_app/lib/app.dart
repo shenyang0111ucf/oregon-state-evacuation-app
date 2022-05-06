@@ -1,7 +1,7 @@
+import 'package:evac_app/new_styles.dart';
+import 'package:evac_app/presenters/page_presenter.dart';
 import 'package:evac_app/task_displays/task_display_experiment.dart';
 import 'package:flutter/material.dart';
-// import 'package:evac_app/presenters/basic_drill_presenter.dart';
-import 'package:evac_app/styles.dart';
 // import 'package:evac_app/components/demos/elevation_tests/elevation_tests.dart';
 
 class App extends StatelessWidget {
@@ -12,14 +12,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: title,
-      theme: Styles.darkTheme,
-      // home: DuringDrill(
-      //   drillEvent: DrillEvent.example(),
-      // ),
-      // home: BasicDrillPresenter(),
-      home: TaskDisplayExperiment(),
+      // theme: Styles.darkTheme,
+      theme: NewStyles.lightTheme,
+      // home: TaskDisplayExperiment(),
+      home: PagePresenter(),
       debugShowCheckedModeBanner: false,
-      // home: ElevationTests(),
     );
   }
 }
