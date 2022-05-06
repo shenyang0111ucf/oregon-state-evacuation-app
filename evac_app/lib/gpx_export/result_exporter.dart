@@ -1,20 +1,22 @@
 import 'dart:io';
 
 import 'package:evac_app/gpx_export/encode_files.dart';
-import 'package:evac_app/models/drill_results/drill_results.dart';
+import 'package:evac_app/models/drill_result.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 
-class ResultsExporter {
+class ResultExporter {
+  String drillEventID;
   String publicKey;
-  DrillResults drillResults;
+  DrillResult drillResult;
   String userID;
 
-  ResultsExporter({
-    required this.drillResults,
-  })  : publicKey = drillResults.publicKey,
-        userID = drillResults.userID;
+  ResultExporter({
+    required this.drillEventID,
+    required this.publicKey,
+    required this.drillResult,
+    required this.userID,
+  });
 
   Future<void> export() async {
     // create relevant files
@@ -24,22 +26,17 @@ class ResultsExporter {
     }
 
     final resultsCipher = await _encodeFile(publicKey, resultsPlain);
-    await _uploadFile(resultsCipher, '/$userID-results.json.enc');
+    final gpxCipher = await _encodeFile(publicKey, drillResult.getGpxFile());
 
-    for (var gpx in drillResults.gpxFiles) {
-      if (File(gpx).existsSync()) {
-        final gpxPlain = File(gpx);
-        final gpxCipher = await _encodeFile(publicKey, File(gpx));
-        await _uploadFile(gpxCipher, basename(gpxPlain.path) + '.enc');
-      }
-    }
+    await _uploadFile(resultsCipher, '/$userID-results.json.enc');
+    await _uploadFile(gpxCipher, '/$userID.gpx.enc');
   }
 
   Future<void> _uploadFile(File file, String filePath) async {
     await firebase_storage.FirebaseStorage.instance
         .ref()
         .child('DrillResults')
-        .child(drillResults.drillID)
+        .child(drillEventID)
         .child(userID)
         .child(filePath)
         .putFile(file);
@@ -57,15 +54,18 @@ class ResultsExporter {
     if (!exists) {
       Directory('${directory.path}/jsonFiles/').createSync();
     }
-    final result = drillResults.toJson();
+    final result = drillResult.exportSurveyResultsToJsonString();
+
+    if (result == null) {
+      return null;
+    }
 
     // does not specify results for drill/user id
     // haphazard, please rearchitect
-    var file = File(
-        '${directory.path}/jsonFiles/${drillResults.userID}_${drillResults.drillID}.json');
+    var file = File('${directory.path}/jsonFiles/results.json');
     if (file.existsSync()) file.deleteSync();
 
-    file.writeAsStringSync(result.toString());
+    file.writeAsStringSync(result);
     return file;
   }
 }
