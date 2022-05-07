@@ -1,3 +1,4 @@
+import 'package:evac_app/components/progress_button.dart';
 import 'package:evac_app/components/utility/gradient_background_container.dart';
 import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,6 +62,8 @@ Future<void> tryCode(
 
 class _InviteCodePageState extends State<InviteCodePage> {
   final _formKey = GlobalKey<FormState>();
+  String inviteCode = '';
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +108,12 @@ class _InviteCodePageState extends State<InviteCodePage> {
                           return 'Invite codes must be 6 digits';
                         }
                       },
-                      onSaved: (value) => tryCode(
-                        context,
-                        value!,
-                        widget.tryInviteCode,
-                      ),
+                      onSaved: (value) => this.inviteCode = value!,
+                      // tryCode(
+                      //   context,
+                      //   value!,
+                      //   widget.tryInviteCode,
+                      // ),
                       style: const TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
                           errorStyle: TextStyle(height: 0, fontSize: 0),
@@ -128,35 +132,54 @@ class _InviteCodePageState extends State<InviteCodePage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withAlpha(51),
-                              blurRadius: 6,
-                              offset: Offset(0, 2))
-                        ]),
-                    child: CupertinoButton.filled(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Text(
-                        'enter',
-                        style: GoogleFonts.openSans(),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          // dismiss keyboard: https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
-                          FocusScopeNode currentFocus = FocusScope.of(context);
-                          if (!currentFocus.hasPrimaryFocus) {
-                            currentFocus.unfocus();
-                          }
-                        }
-                      },
-                    ),
-                  )
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 60.0),
+                        child: Container(
+                          width: 100,
+                          height: 40,
+                          child: ProgressButton(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            strokeWidth: 2,
+                            child: Text(
+                              'enter',
+                              style: GoogleFonts.openSans(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black54,
+                                      blurRadius: 3,
+                                      offset: Offset(0, 1),
+                                    )
+                                  ]),
+                            ),
+                            onPressed: (AnimationController controller) async {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                // dismiss keyboard: https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
+                                FocusScopeNode currentFocus =
+                                    FocusScope.of(context);
+                                if (!currentFocus.hasPrimaryFocus)
+                                  currentFocus.unfocus();
+                                if (!_isLoading) {
+                                  _isLoading = true;
+                                  controller.forward();
+                                  await tryCode(
+                                    context,
+                                    inviteCode,
+                                    widget.tryInviteCode,
+                                  );
+                                  controller.reset();
+                                  _isLoading = false;
+                                }
+                              }
+                            },
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      )),
                 ],
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ButtonStaggerAnimation extends StatelessWidget {
   // Animation fields
-  final  controller;
+  final controller;
 
   // Display fields
   final Color? color;
@@ -77,6 +77,7 @@ class ButtonStaggerAnimation extends StatelessWidget {
           height: buttonHeight,
           width: widthAnimation.value,
           child: RaisedButton(
+            elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: borderRadiusAnimation.value,
             ),
