@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:evac_app/components/evac_app_scaffold.dart';
+import '../components/progress_button.dart';
 
 class InviteCodePage extends StatefulWidget {
   const InviteCodePage({
@@ -16,6 +17,9 @@ class InviteCodePage extends StatefulWidget {
 
 class _InviteCodePageState extends State<InviteCodePage> {
   final _formKey = GlobalKey<FormState>();
+  String inviteCode = '';
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return EvacAppScaffold(
@@ -39,18 +43,39 @@ class _InviteCodePageState extends State<InviteCodePage> {
                   return 'error: code must be 6 digits';
                 }
               },
-              onSaved: (value) => _tryCode(context, value),
+              onSaved: (value) => {this.inviteCode = value!},
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Invite Code',
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate())
-                    _formKey.currentState!.save();
-                },
-                child: Text('enter')),
+            Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  width: 100,
+                  height: 40,
+                  margin: const EdgeInsets.only(top: 10.0),
+                  child: ProgressButton(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    strokeWidth: 2,
+                    child: Text(
+                      "Enter",
+                    ),
+                    onPressed: (AnimationController controller) async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        if (!_isLoading) {
+                          _isLoading = true;
+                          controller.forward();
+                          await _tryCode(context, inviteCode);
+                          controller.reset();
+                          _isLoading = false;
+                        }
+                      }
+                    },
+                    color: Color.fromARGB(0xa0, 0xff, 0xa5, 0x00),
+                  ),
+                ))
           ]),
         ),
       ),

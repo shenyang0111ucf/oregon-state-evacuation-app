@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:evac_app/models/drill_details/drill_details_type_enums.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/drill_task.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/allow_location_permissions_details.dart';
@@ -164,6 +166,33 @@ class DrillDetails {
           ),
         ];
 
+  DrillDetails.testTelemetry()
+      : drillID = 'testTelemetry',
+        inviteCode = '777777',
+        title = 'Telemetry Test for Evac. Drill App',
+        meetingLocationPlainText = 'San Diego, CA',
+        meetingDateTime = DateTime.tryParse('2022-05-10T13:00:00.000001') ??
+            null, // forced nullable on .tryParse(), need to handle...
+        blurb = 'lettuce get this bread',
+        description = null,
+        publicKey = 'abc123',
+        tasks = [
+          DrillTask(
+            index: 0,
+            taskID: 'acq-telemetryTest',
+            title: '"aCqUiRe GpS"',
+            taskType: DrillTaskType.WAIT_FOR_START,
+            details: WaitForStartDetails.example('acq-telemetryTest'),
+          ),
+          DrillTask(
+            index: 1,
+            taskID: 'perform-telemetryTest',
+            title: 'Telemetry Test 🏃‍♂️',
+            taskType: DrillTaskType.PERFORM_DRILL,
+            details: PerformDrillDetails.example('perform-telemetryTest'),
+          ),
+        ];
+
   factory DrillDetails.fromJson(Map<String, dynamic> json, String drillID) {
     // parse the drillTasks
     List<DrillTask> drillTasks = [];
@@ -191,6 +220,16 @@ class DrillDetails {
       }
     }
 
+    // // parse public key (why doesn't just loading in the string work??)
+    // // not sure why, but this does work 🤔 🤷‍♂️ 👍
+    // try {
+    //   final newPublicKey = jsonDecode(json['publicKeyJSONString'])['publicKey'];
+    //   print(newPublicKey);
+    // } catch (e) {
+    //   print(e);
+    //   throw Exception();
+    // }
+
     // return the actual object
     return DrillDetails(
       drillID: drillID, // fill in when parsing from Firestore
@@ -200,7 +239,7 @@ class DrillDetails {
       meetingDateTime: meetingDateTime,
       blurb: json['blurb'],
       description: json['description'],
-      publicKey: json['publicKey'],
+      publicKey: jsonDecode(json['publicKeyJSONString'])['publicKey'],
       tasks: drillTasks,
     );
   }
@@ -221,7 +260,7 @@ class DrillDetails {
       'meetingDateTime': meetingDateTime?.toIso8601String(),
       'blurb': blurb,
       'description': description,
-      'publicKey': publicKey,
+      'publicKeyJSONString': jsonEncode({"publicKey": publicKey}),
       'tasks': tasksJsonList,
     };
   }

@@ -44,8 +44,8 @@ class _UploadDisplayState extends State<UploadDisplay> {
     });
 
     // this is completely screwed up right now, not parsing string like before...
-    // // upload the results
-    // await _uploadResults();
+    // upload the results
+    await _uploadResults();
 
     await Future.delayed(Duration(seconds: 2));
 
@@ -72,34 +72,36 @@ class UploadDialogContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          CupertinoIcons.share,
-          size: 128,
-          color: Colors.black,
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Ready to complete the Evacuation Drill and upload your results?',
-          style: GoogleFonts.getFont(
-            'Open Sans',
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Icon(
+            CupertinoIcons.share,
+            size: 128,
             color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 36,
           ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 12),
-        CupertinoButton.filled(
-          child: Text('Yes!'),
-          onPressed: () {
-            onOk();
-          },
-        ),
-      ],
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+          SizedBox(height: 20),
+          Text(
+            'Ready to complete the Evacuation Drill and upload your results?',
+            style: GoogleFonts.getFont(
+              'Open Sans',
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 36,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 12),
+          CupertinoButton.filled(
+            child: Text('Yes!'),
+            onPressed: () {
+              onOk();
+            },
+          ),
+        ],
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
     );
   }
 }
