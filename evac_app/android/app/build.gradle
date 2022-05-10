@@ -47,6 +47,7 @@ android {
         applicationId "edu.oregonstate.eecs.evacuationDrillApp"
         minSdkVersion 19
         targetSdkVersion 31
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
