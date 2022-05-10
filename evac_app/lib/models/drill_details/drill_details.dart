@@ -166,6 +166,33 @@ class DrillDetails {
           ),
         ];
 
+  DrillDetails.testTelemetry()
+      : drillID = 'testTelemetry',
+        inviteCode = '777777',
+        title = 'Telemetry Test for Evac. Drill App',
+        meetingLocationPlainText = 'San Diego, CA',
+        meetingDateTime = DateTime.tryParse('2022-05-10T13:00:00.000001') ??
+            null, // forced nullable on .tryParse(), need to handle...
+        blurb = 'lettuce get this bread',
+        description = null,
+        publicKey = 'abc123',
+        tasks = [
+          DrillTask(
+            index: 0,
+            taskID: 'acq-telemetryTest',
+            title: '"aCqUiRe GpS"',
+            taskType: DrillTaskType.WAIT_FOR_START,
+            details: WaitForStartDetails.example('acq-telemetryTest'),
+          ),
+          DrillTask(
+            index: 1,
+            taskID: 'perform-telemetryTest',
+            title: 'Telemetry Test 🏃‍♂️',
+            taskType: DrillTaskType.PERFORM_DRILL,
+            details: PerformDrillDetails.example('perform-telemetryTest'),
+          ),
+        ];
+
   factory DrillDetails.fromJson(Map<String, dynamic> json, String drillID) {
     // parse the drillTasks
     List<DrillTask> drillTasks = [];
