@@ -17,7 +17,7 @@ class ResultsExporter {
         userID = drillResults.userID;
 
   Future<void> export() async {
-    // create relevant files
+    // create relevant results file
     final resultsPlain = await _createJsonFile();
     if (resultsPlain == null) {
       throw Exception('results were not ready to export');
@@ -25,6 +25,9 @@ class ResultsExporter {
 
     final resultsCipher = await _encodeFile(publicKey, resultsPlain);
     await _uploadFile(resultsCipher, '/$userID-results.json.enc');
+
+    // pull gpx file names into list
+    drillResults.assembleGpxFilesList();
 
     for (var gpx in drillResults.gpxFiles) {
       if (File(gpx).existsSync()) {

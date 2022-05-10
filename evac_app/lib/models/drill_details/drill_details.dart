@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:evac_app/models/drill_details/drill_details_type_enums.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/drill_task.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_details/allow_location_permissions_details.dart';
@@ -191,6 +193,16 @@ class DrillDetails {
       }
     }
 
+    // // parse public key (why doesn't just loading in the string work??)
+    // // not sure why, but this does work 🤔 🤷‍♂️ 👍
+    // try {
+    //   final newPublicKey = jsonDecode(json['publicKeyJSONString'])['publicKey'];
+    //   print(newPublicKey);
+    // } catch (e) {
+    //   print(e);
+    //   throw Exception();
+    // }
+
     // return the actual object
     return DrillDetails(
       drillID: drillID, // fill in when parsing from Firestore
@@ -200,7 +212,7 @@ class DrillDetails {
       meetingDateTime: meetingDateTime,
       blurb: json['blurb'],
       description: json['description'],
-      publicKey: json['publicKey'],
+      publicKey: jsonDecode(json['publicKeyJSONString'])['publicKey'],
       tasks: drillTasks,
     );
   }
@@ -221,7 +233,7 @@ class DrillDetails {
       'meetingDateTime': meetingDateTime?.toIso8601String(),
       'blurb': blurb,
       'description': description,
-      'publicKey': publicKey,
+      'publicKeyJSONString': jsonEncode({"publicKey": publicKey}),
       'tasks': tasksJsonList,
     };
   }

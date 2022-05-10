@@ -1,3 +1,5 @@
+import 'package:evac_app/models/drill_details/drill_details_type_enums.dart';
+import 'package:evac_app/models/drill_details/drill_tasks/task_results/perform_drill_result.dart';
 import 'package:evac_app/models/drill_details/drill_tasks/task_results/task_result.dart';
 
 /// To hold all of these `[_task_]Result`s, along with meta-info (userID, drillID), we will redefine the DrillResults model as follows
@@ -13,6 +15,17 @@ class DrillResults {
   DrillResults(
       {required this.drillID, required this.userID, required this.publicKey})
       : taskResults = [];
+
+  void assembleGpxFilesList() {
+    gpxFiles = [];
+    for (var result in taskResults) {
+      if (result.taskType() == DrillTaskType.PERFORM_DRILL) {
+        final performDrillResult = result as PerformDrillResult;
+        if (performDrillResult.trajectoryFile != null)
+          gpxFiles.add(performDrillResult.trajectoryFile!);
+      }
+    }
+  }
 
   Map<String, dynamic> toJson() {
     List<Map<String, dynamic>> taskResultsJsonList = [];
