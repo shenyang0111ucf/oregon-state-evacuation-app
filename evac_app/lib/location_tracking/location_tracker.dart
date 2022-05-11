@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:evac_app/db/trajectory_database_manager.dart';
-import 'package:evac_app/gpx_export/create_gpx.dart';
+import 'package:evac_app/export/create_gpx.dart';
 import 'package:evac_app/location_tracking/location_permissions.dart';
 import 'package:evac_app/location_tracking/location_service.dart';
 import 'package:evac_app/models/participant_location.dart';

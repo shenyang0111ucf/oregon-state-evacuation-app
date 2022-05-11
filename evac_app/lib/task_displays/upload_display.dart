@@ -1,4 +1,4 @@
-import 'package:evac_app/gpx_export/results_exporter.dart';
+import 'package:evac_app/export/results_exporter.dart';
 import 'package:evac_app/models/drill_results/drill_results.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

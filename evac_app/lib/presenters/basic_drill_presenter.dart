@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evac_app/gpx_export/result_exporter.dart';
+import 'package:evac_app/export/result_exporter.dart';
 import 'package:evac_app/models/drill_result.dart';
 import 'package:evac_app/pages/confirm_drill.dart';
 import 'package:evac_app/pages/during_drill.dart';
