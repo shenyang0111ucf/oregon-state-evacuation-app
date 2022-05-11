@@ -2,10 +2,6 @@
 
 This document discusses improvements to the mobile Evacuation Drill Participation App which the initial development team can foresee but does not have the resources to implement. There is some overlap with the documented [Issues](issues), but there are also complex improvements which have not yet been documented as Issues.
 
-## Request Location Tracking Permission before Drill Start
-
-Currently requesting location tracking permission at the start of drill as this is the first time we track location. Improvement described below may resolve this.
-
 ## Acquire GPS Signal before Drill Start
 
 Currently the trajectory data has significant errors from beginning location tracking at the same moment as Drill Start. Begin location tracking before Drill Start, and only signal "ready" to server once noise in location data stream is below a threshold (5 meters? 10?).
@@ -17,12 +13,6 @@ Currently the trajectory data has significant errors from beginning location tra
 ## Manually Handle Upload Errors when No Connectivity
 
 Firebase handles lack of connectivity when attempting to upload and syncs once connectivity restored, but we should not rely on this (and should inform user if results did not successfully upload).
-
-## Pre- & Post-Drill Instructions
-
-(where to meet researchers day of event, after drill completion) (maps link, copy address to keyboard) (optional?)
-
-(add to DrillEvent Model)(create display page for new info)(add to app flow)
 
 ## Allow Drill Event to be Joined Prior to Time of Event
 
