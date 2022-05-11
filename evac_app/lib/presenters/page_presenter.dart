@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evac_app/components/waves.dart';
 import 'package:evac_app/models/drill_details/drill_details.dart';
 import 'package:evac_app/models/drill_results/drill_results.dart';
-import 'package:evac_app/pages/new/invite_code_page.dart';
-import 'package:evac_app/pages/new/tasks_page.dart';
+import 'package:evac_app/pages/invite_code_page.dart';
+import 'package:evac_app/pages/tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
