@@ -26,6 +26,8 @@ Currently, participants should be invited to join the drill event from their mob
 
 ## Send **Start Signal** to Participants
 
+**Currently the app does not allow for this, so instead they will need to be synchronized via some other method: timed-start, text or call from researchers/drill coordinators, etc.*
+
 ## Regroup with Participants and Have Them Complete Post-Drill Survey
 
 ## Have Participants Upload Drill Results
