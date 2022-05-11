@@ -1,5 +1,7 @@
+import 'package:evac_app/components/utility/styled_alert_dialog.dart';
 import 'package:evac_app/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InstructionCard extends StatelessWidget {
   const InstructionCard({
@@ -29,7 +31,7 @@ class InstructionCard extends StatelessWidget {
     BuildContext biggerContext = context;
     return LayoutBuilder(builder: (context, constraints) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.125 * 0.75 * 0.5),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.125 * 0.75 * 0.25),
         child: Container(
           height: constraints.maxHeight,
           width: width * 0.75,
@@ -43,7 +45,9 @@ class InstructionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Instruction #${index.toString()}',
+                  (!finalCard)
+                      ? 'Instruction #${(index + 1).toString()}'
+                      : 'Final Instruction',
                   style: Styles.normalText.copyWith(
                     fontSize: 20,
                   ),
@@ -66,32 +70,40 @@ class InstructionCard extends StatelessWidget {
                             await showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Complete Drill?'),
-                                    content:
-                                        Text('This action cannot be undone.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          // call upper level function to stop location tracking, etc, then that function calls:
-                                          if (completeDrill != null)
-                                            completeDrill!(biggerContext);
-                                        },
-                                        child: const Text('Yes, Complete'),
-                                      ),
-                                    ],
+                                  return StyledAlertDialog(
+                                    context: context,
+                                    title: 'Complete Drill?',
+                                    subtitle: 'This action cannot be undone.',
+                                    cancelFunc: () {
+                                      Navigator.pop(context);
+                                    },
+                                    cancelText: 'Cancel',
+                                    confirmFunc: () {
+                                      Navigator.pop(context);
+                                      // call upper level function to stop location tracking, etc, then that function calls the `Nav.pop`s
+                                      if (completeDrill != null)
+                                        completeDrill!(biggerContext, true);
+                                    },
+                                    confirmText: 'Yes, Complete',
                                   );
                                 });
                           },
-                          child: Text('complete drill'),
-                          style: Styles.confirmButton,
+                          child: Container(
+                            height: 45,
+                            width: 150,
+                            child: Center(
+                              child: Text(
+                                'Complete Drill',
+                                style: GoogleFonts.openSans(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          style: Styles.confirmButton.copyWith(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.deepOrange[600])),
                         ),
                       )
                     : Container(),

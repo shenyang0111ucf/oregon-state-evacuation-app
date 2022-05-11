@@ -1,6 +1,21 @@
+import 'package:evac_app/components/progress_button.dart';
+import 'package:evac_app/components/utility/gradient_background_container.dart';
+import 'package:evac_app/components/utility/styled_alert_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
-import '../components/progress_button.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+/// Add logo text to bottom:
+/// Stack: Align.bottomCenter: Padd.only.bottom(12): LogoText()
+///
+/// Add invite code f'n'l'ty:
+/// Get code from old invite code page
+/// Add button to submit
+/// calls onInviteCodeEntered
+/// need to fully implemnet in page presenter the firestore access
+/// also need to implement the DrillResults upload to Cloud Storage
+/// also need an UPLOAD_RESULTS task, should popup dialog
 
 class InviteCodePage extends StatefulWidget {
   const InviteCodePage({
@@ -8,12 +23,43 @@ class InviteCodePage extends StatefulWidget {
     required this.tryInviteCode,
   }) : super(key: key);
 
-  static const valueKey = ValueKey('InviteCodePage');
   final Function tryInviteCode;
 
   @override
-  State<InviteCodePage> createState() => _InviteCodePageState();
+  _InviteCodePageState createState() => _InviteCodePageState();
 }
+
+Future<void> tryCode(
+  BuildContext topContext,
+  String inputCode,
+  Function tryInviteCode,
+) async {
+  var success = await tryInviteCode(inputCode);
+  if (!success) {
+    // pop up error
+    await showDialog<void>(
+        context: topContext,
+        builder: (BuildContext context) {
+          return StyledAlertDialog(
+            context: context,
+            title: 'Error!',
+            subtitle:
+                'The entered invite code is invalid. Please contact your drill leader.',
+            cancelFunc: () {},
+            cancelText: '',
+            confirmFunc: () {
+              Navigator.pop(context);
+            },
+            confirmText: 'OK',
+          );
+        });
+  }
+}
+
+// Widget inviteBuild(BuildContext context, Function tryInviteCode,
+//     Function onInviteCodeEntered) {
+//   return
+// }
 
 class _InviteCodePageState extends State<InviteCodePage> {
   final _formKey = GlobalKey<FormState>();
@@ -22,87 +68,200 @@ class _InviteCodePageState extends State<InviteCodePage> {
 
   @override
   Widget build(BuildContext context) {
-    return EvacAppScaffold(
-      title: "invite code page",
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          top: 20.0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            TextFormField(
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                final codeExp = RegExp(r'^[0-9]{6}$');
-                if (value != null && codeExp.hasMatch(value)) {
-                  return null;
-                } else {
-                  return 'error: code must be 6 digits';
-                }
-              },
-              onSaved: (value) => {this.inviteCode = value!},
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Invite Code',
-              ),
-            ),
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  width: 100,
-                  height: 40,
-                  margin: const EdgeInsets.only(top: 10.0),
-                  child: ProgressButton(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    strokeWidth: 2,
-                    child: Text(
-                      "Enter",
+    final fullHeight = MediaQuery.of(context).size.height;
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
+        },
+        child: GradientBackgroundContainer(
+          child: Stack(
+            children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('Welcome Participant',
+                        style: TextStyle(
+                            fontFamily: "Open Sans",
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold)),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: 22),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 6,
+                                      offset: Offset(0, 2))
+                                ]),
+                            width: 300,
+                            height: 50,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                final codeExp = RegExp(r'^[0-9]{6}$');
+                                if (value != null && codeExp.hasMatch(value)) {
+                                  return null;
+                                } else {
+                                  showInviteCodeErrorDialog(
+                                      context, 'Invite codes must be 6 digits');
+                                  return 'Invite codes must be 6 digits';
+                                }
+                              },
+                              onSaved: (value) => this.inviteCode = value!,
+                              // tryCode(
+                              //   context,
+                              //   value!,
+                              //   widget.tryInviteCode,
+                              // ),
+                              style: const TextStyle(color: Colors.black87),
+                              decoration: InputDecoration(
+                                  errorStyle: TextStyle(height: 0, fontSize: 0),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(top: 1),
+                                  // icon: SvgPicture.asset("assets/icons/plus.svg"),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Icon(CupertinoIcons.add),
+                                  ),
+                                  iconColor: const Color(0xFFF3643b),
+                                  hintText: 'Invite code',
+                                  hintStyle: GoogleFonts.openSans(
+                                    color: Colors.black38,
+                                  )),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 60.0),
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  child: ProgressButton(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    strokeWidth: 2,
+                                    child: Text(
+                                      'enter',
+                                      style: GoogleFonts.openSans(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          shadows: [
+                                            Shadow(
+                                              color: Colors.black54,
+                                              blurRadius: 3,
+                                              offset: Offset(0, 1),
+                                            )
+                                          ]),
+                                    ),
+                                    onPressed:
+                                        (AnimationController controller) async {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        // dismiss keyboard: https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
+                                        FocusScopeNode currentFocus =
+                                            FocusScope.of(context);
+                                        if (!currentFocus.hasPrimaryFocus)
+                                          currentFocus.unfocus();
+                                        if (!_isLoading) {
+                                          _isLoading = true;
+                                          controller.forward();
+                                          await tryCode(
+                                            context,
+                                            inviteCode,
+                                            widget.tryInviteCode,
+                                          );
+                                          controller.reset();
+                                          _isLoading = false;
+                                        }
+                                      }
+                                    },
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
-                    onPressed: (AnimationController controller) async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        if (!_isLoading) {
-                          _isLoading = true;
-                          controller.forward();
-                          await _tryCode(context, inviteCode);
-                          controller.reset();
-                          _isLoading = false;
-                        }
-                      }
-                    },
-                    color: Color.fromARGB(0xa0, 0xff, 0xa5, 0x00),
+                  ]),
+              GestureDetector(
+                onDoubleTap: () {
+                  showAboutDialog(
+                    context: context,
+                    applicationName: 'Evacuation Drill Participation App',
+                    applicationVersion: '1.0.1',
+                    applicationLegalese:
+                        'This app is provided without warranty or guarantee of service.\n\nCreated 2021-22 by Jasmine Snyder, Dingguo Tang, & David Kaff at:',
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: Container(
+                          // decoration: BoxDecoration(
+                          //   borderRadius: BorderRadius.circular(9.6),
+                          //   color: Colors.black.withAlpha(220),
+                          // ),
+                          height: 78,
+                          // padding: const EdgeInsets.symmetric(
+                          //     vertical: 80, horizontal: 14),
+                          child: SvgPicture.asset(
+                            'assets/icons/oregonState2ColorFullLogo.svg',
+                            semanticsLabel: 'Oregon State University Logo',
+                            clipBehavior: Clip.antiAlias,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: fullHeight - 119,
+                    bottom: 32.0,
                   ),
-                ))
-          ]),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _tryCode(BuildContext context, inputCode) async {
-    var success = await widget.tryInviteCode(inputCode);
-    if (!success) {
-      // pop up error
-      await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Error!'),
-              content: const Text(
-                  'The entered invite code is invalid. Please contact your drill leader.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK'),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.loose(Size(80, 80)),
+                      child: SvgPicture.asset(
+                        'assets/icons/logoText.svg',
+                        fit: BoxFit.contain,
+                        color: Colors.white.withAlpha(204),
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            );
-          });
-    }
+              ),
+            ],
+          ),
+        ));
   }
+}
+
+void showInviteCodeErrorDialog(BuildContext topContext, String message) async {
+  await showDialog<void>(
+      context: topContext,
+      builder: (BuildContext context) {
+        return StyledAlertDialog(
+          context: context,
+          title: 'Error!',
+          subtitle: message,
+          cancelFunc: () {},
+          cancelText: '',
+          confirmFunc: () {
+            Navigator.pop(context);
+          },
+          confirmText: 'OK',
+        );
+      });
 }

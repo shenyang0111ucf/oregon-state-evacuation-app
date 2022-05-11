@@ -1,21 +1,18 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evac_app/components/evac_app_scaffold.dart';
-import 'package:evac_app/gpx_export/results_exporter.dart';
-import 'package:evac_app/location_tracking/location_tracker.dart';
+import 'package:evac_app/export/result_exporter.dart';
 import 'package:evac_app/models/drill_result.dart';
-import 'package:evac_app/pages/confirm_drill.dart';
-import 'package:evac_app/pages/during_drill.dart';
-import 'package:evac_app/pages/invite_code_page.dart';
-import 'package:evac_app/pages/landing_page.dart';
-import 'package:evac_app/pages/post_drill_survey.dart';
-import 'package:evac_app/pages/pre_drill_survey.dart';
-import 'package:evac_app/pages/wait_screen.dart';
+import 'package:evac_app/pages/legacy/confirm_drill.dart';
+import 'package:evac_app/pages/legacy/during_drill.dart';
+import 'package:evac_app/pages/legacy/invite_code_page.dart';
+import 'package:evac_app/pages/legacy/landing_page.dart';
+import 'package:evac_app/pages/legacy/post_drill_survey.dart';
+import 'package:evac_app/pages/legacy/pre_drill_survey.dart';
+import 'package:evac_app/pages/legacy/wait_screen.dart';
 import 'package:evac_app/models/drill_event.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:survey_kit/survey_kit.dart';
 import 'package:uuid/uuid.dart';
 
 class BasicDrillPresenter extends StatefulWidget {
@@ -35,13 +32,28 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
   bool _researcherStartReceived = false;
   bool _drillComplete = false;
 
-  LocationTracker? locTracker;
-  String filename = 'abc123-2022-02-20T144003';
+  // if you want to bypass straight to the During Drill Screen, toggle this bool
+  final bypass = false;
 
   @override
   void initState() {
     super.initState();
-    syncDrillEvent();
+    // syncDrillEvent();
+    if (bypass) bypassToDuringDrill();
+  }
+
+  void bypassToDuringDrill() {
+    _drillEvent = DrillEvent.example();
+    _userID = Uuid().v4();
+    _confirmedDrill = true;
+    _drillResult = DrillResult();
+    _drillResult!.addSurveyResult(SurveyResult(
+        id: Identifier(id: 'preDrillSurvey'),
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        finishReason: FinishReason.COMPLETED,
+        results: []));
+    _researcherStartReceived = true;
   }
 
   @override
@@ -59,7 +71,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
           )
         else if (_researcherStartReceived)
           MaterialPage(
-            child: DuringDrill(drillEvent: _drillEvent!),
+            child: DuringDrill(drillEvent: _drillEvent!, userID: _userID!),
             key: DuringDrill.valueKey,
           )
         else if (_drillResult != null && _drillResult!.hasPreDrillResult())
@@ -136,19 +148,18 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         }
 
         if (page.key == DuringDrill.valueKey) {
-          // stop tracking location
-          locTracker!.stopLogging();
           // do any storage after drill
-          if (result) {
+          if (result['result']) {
             setState(() {
-              _drillComplete = result;
+              _drillComplete = result['result'];
             });
             // export
-            _drillResult!.addGpxFile(locTracker!.createTrajectory(filename));
+            _drillResult!.addGpxFile(result['gpxFileNameFuture']);
           } else {
             setState(() {
               _researcherStartReceived = false;
               // _preDrillResults = null;
+              _drillResult = null;
               _confirmedDrill = null;
               _drillEvent = null;
             });
@@ -163,7 +174,7 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
 
             // store all results
             // export
-            final exporter = ResultsExporter(
+            final exporter = ResultExporter(
                 drillEventID: _drillEvent!.id,
                 publicKey: _drillEvent!.publicKey,
                 drillResult: _drillResult!,
@@ -211,9 +222,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
     setState(() {
       _researcherStartReceived = startSignal;
     });
-    // start tracking location
-    locTracker = LocationTracker();
-    locTracker!.startLogging();
   }
 
   Future<bool> addUser() async {
@@ -230,35 +238,47 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
         .catchError((error) {
           _userID = Uuid().v4();
           addUser();
+          print(error);
           return false;
         });
   }
 
-  Future<bool> getDrillEvent(documentID) async {
+  /// This function accepts and input invite code and checks if there is a
+  /// matching DrillEvent entry in the Firebase Firestore. If there is, it loads
+  /// it into local state, and changes local state such that the InviteCodePage
+  /// will no longer display.
+  Future<bool> tryInviteCode(inputCode) async {
     String? drillEventJson;
 
-    // query Firebase for DrillEvent json string
-    bool gotJson = await FirebaseFirestore.instance
+    // check initial invite code against app Firebase Firestore
+    // if invite code exists, extract the correlated DrillEvent Document ID
+    bool valid = await FirebaseFirestore.instance
         .collection('DrillEvents')
-        .doc(documentID)
+        .where('inviteCode', isEqualTo: inputCode)
         .get()
-        .then((DocumentSnapshot docSnapshot) {
-      if (docSnapshot.exists) {
-        try {
-          var docData = docSnapshot.data() as Map<String, dynamic>;
-          drillEventJson = docData['drillEventJson'];
-          print('obtained DrillEvent json string from firebase');
-          return true;
-        } on Exception catch (e) {
-          print(e);
-          return false;
+        .then(
+      (QuerySnapshot querySnapshot) {
+        if (querySnapshot.size > 0) {
+          DocumentSnapshot docSnapshot = querySnapshot.docs.first;
+          if (docSnapshot.exists) {
+            try {
+              var docData = docSnapshot.data() as Map<String, dynamic>;
+              _drillEventDocID = docSnapshot.id;
+              drillEventJson = docData['drillEventJson'];
+              print('invite code in firebase');
+              return true;
+            } on Exception catch (e) {
+              print(e);
+              return false;
+            }
+          }
         }
-      }
-      print('DrillEvent json string not in firebase');
-      return false;
-    });
+        print('invite code not in firebase');
+        return false;
+      },
+    );
 
-    if (gotJson) {
+    if (valid) {
       // translate from string to DrillEvent
       DrillEvent newDrillEvent =
           DrillEvent.fromJson(jsonDecode(drillEventJson!));
@@ -274,45 +294,6 @@ class _BasicDrillPresenterState extends State<BasicDrillPresenter> {
       // store it in persistent storage (async, don't await)
       twiddleThumbs();
 
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> tryInviteCode(inputCode) async {
-    String? drillEventDocID;
-
-    // check initial invite code against app Firebase Firestore
-    // if invite code exists, extract the correlated DrillEvent Document ID
-    bool valid = await FirebaseFirestore.instance
-        .collection('InviteCodes')
-        .where('inviteCode', isEqualTo: inputCode)
-        .get()
-        .then(
-      (QuerySnapshot querySnapshot) {
-        if (querySnapshot.size > 0) {
-          DocumentSnapshot docSnapshot = querySnapshot.docs.first;
-          if (docSnapshot.exists) {
-            try {
-              var docData = docSnapshot.data() as Map<String, dynamic>;
-              drillEventDocID = docData['drillEventDocID'];
-              print('invite code in firebase');
-              return true;
-            } on Exception catch (e) {
-              print(e);
-              return false;
-            }
-          }
-        }
-        print('invite code not in firebase');
-        return false;
-      },
-    );
-
-    if (valid) {
-      _drillEventDocID = drillEventDocID;
-      await getDrillEvent(drillEventDocID);
       return true;
     } else {
       return false;
