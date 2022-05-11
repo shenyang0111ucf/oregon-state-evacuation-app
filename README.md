@@ -14,16 +14,22 @@ Please see the README in each subdirectory for more detailed descriptions of the
 
 ## Motivation
 
-*insert description from previous writing, maybe design document?*
+Our Evacuation Drill Participation App was designed to gather data from users who participate in drill events hosted by Dr. Haizhong Wang and his research team at Oregon State University. These drills are performed to understand the level of tsunami evacuation preparedness in coastal communities, and how best to serve these communities in the event of a such a disaster.
+
+To support the mobile Participation App, we also created: 
+1. a server-less backend using Firebase to transfer and store data, and 
+1. a desktop Researcher Console to download, decrypt, and parse drill results
+
+We hope that this project will be extended for use in a variety of evacuation scenarios for communities of all sorts.
 
 <br>
 
 ### Contributors 
 
-- Jasmine Snyder
+- Jasmine Snyder, Undergraduate Computer Science Student, [snydejas@oregonstate.edu](mailto:snydejas@oregonstate.edu)
 
-- David Kaff
+- Dingguo Tang, Undergraduate Computer Science Student, [767435676@qq.com](mailto:767435676@qq.com)
 
-- Dingguo Tang
+- David Kaff, Undergraduate Computer Science Student, [kaffs@oregonstate.edu](mailto:kaffs@oregonstate.edu)
 
 *link to emails?/github profiles?*
