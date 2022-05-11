@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:evac_app/gpx_export/cryptography/rsa_implementation.dart';
+import 'package:evac_app/export/cryptography/rsa_implementation.dart';
 
 class EncodeFiles {
   Future<String> encodeRSA(
