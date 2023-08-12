@@ -18,39 +18,33 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  bloc: ^7.2.1
-  cloud_firestore: ^3.1.7
-  cupertino_icons: ^1.0.2
-  firebase_core: ^1.12.0
+  carousel_slider: ^4.2.1
+  cloud_firestore: ^4.8.1
+  cupertino_icons: ^1.0.5
+  expansion_tile_card: ^3.0.0
+  firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
-  google_fonts: ^2.2.0
-  hydrated_bloc: ^7.1.0
-  json_annotation: ^4.0.1
-  location: ^4.3.0
-  path_provider: ^2.0.4
-  permission_handler: ^9.2.0
-  survey_kit:
-    git:
-      url: https://github.com/kaff-oregonstate/survey_kit
-      ref: 8131725244e
-  sqflite: ^2.0.0+4
-  pointycastle: ^3.5.1
-  firebase_storage: ^10.2.7
-  uuid: ^3.0.6
-  geolocator: ^8.2.0
-  carousel_slider: ^4.0.0
-  url_launcher: ^6.1.0
-  expansion_tile_card: ^2.0.0
-  flutter_svg: ^1.0.3
+  flutter_svg: ^2.0.7
+  geolocator: ^9.0.2
+  google_fonts: ^4.0.4
+  flutter_platform_widgets: ^3.3.0
+  location: ^4.4.0
+  permission_handler: ^10.3.0
+  sqflite: ^2.2.8+4
+  url_launcher: ^6.1.11
+  intl: ^0.18.1
+  survey_kit: ^0.1.2
+  image_picker:
+  google_maps_flutter: ^2.4.0
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.1.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

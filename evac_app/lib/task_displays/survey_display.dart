@@ -70,7 +70,6 @@ class _SurveyDisplayState extends State<SurveyDisplay> {
                           outlinedButtonTheme: NewStyles.outlinedButtonTheme,
                           // textButtonTheme: Styles.textButtonTheme,
                         ),
-                        confirmExitDialog: confirmExitDialog,
                       ),
                     );
                   }

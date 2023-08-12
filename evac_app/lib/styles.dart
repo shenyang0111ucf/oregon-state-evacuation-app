@@ -108,7 +108,7 @@ class Styles {
       scaffoldBackgroundColor: backgroundColor(),
       primarySwatch: _primarySwatch,
       primaryColor: primaryColor(),
-      accentColor: _secondaryColor(),
+      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: _secondaryColor()),
       backgroundColor: backgroundColor(),
       appBarTheme: AppBarTheme(
         titleTextStyle: navBarTitle,
