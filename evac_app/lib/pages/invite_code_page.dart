@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:evac_app/components/data_gathering.dart';
 
 /// Add logo text to bottom:
 /// Stack: Align.bottomCenter: Padd.only.bottom(12): LogoText()
@@ -186,6 +187,41 @@ class _InviteCodePageState extends State<InviteCodePage> {
                                           _isLoading = false;
                                         }
                                       }
+                                    },
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              )),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 60.0),
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  child: ProgressButton(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                    strokeWidth: 2,
+                                    child: Text(
+                                      'gather data',
+                                      style: GoogleFonts.openSans(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                          shadows: [
+                                            Shadow(
+                                              color: Colors.black54,
+                                              blurRadius: 3,
+                                              offset: Offset(0, 1),
+                                            )
+                                          ]),
+                                    ),
+                                    onPressed:
+                                        (AnimationController controller) async {
+                                          Navigator.push(
+                                              context, MaterialPageRoute(
+                                              builder: (context) => DataGathering(title: "Data Gathering"))
+                                          );
                                     },
                                     color: Theme.of(context).primaryColor,
                                   ),

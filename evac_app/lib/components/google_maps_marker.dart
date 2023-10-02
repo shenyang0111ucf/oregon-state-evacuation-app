@@ -5,7 +5,9 @@ import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platf
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:path_provider_android/path_provider_android.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 
 class MyPosition {
@@ -37,6 +39,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   LatLng initialLocation = const LatLng(37.422131, -122.084801);
   Set<Marker> _marker = {};
+
   // final Set<Marker> _list = {};
 
 
@@ -46,7 +49,31 @@ class _MapScreenState extends State<MapScreen> {
     //getData();
   }
 
- Future<void> fetchPosition(GoogleMapController controller) async {
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/Proximity_Schools.txt');
+  }
+
+  Future<List<String>> readtxtFile() async {
+    try {
+      final result = await loadAsset();
+      List<String> final_result = result.split("\n");
+
+      return final_result;
+    } catch (e) {
+      // If encountering an error, return 0
+      return [];
+    }
+  }
+
+  Future<void> fetchKMLPosition(GoogleMapController controller) async {
+    List<String> result = await readtxtFile();
+    // add list to set markers method here:
+
+  }
+  // need to add fixed size container for google map and markers for different kml files.
+  // need to find out how to wipe out google map markers.
+
+  Future<void> fetchPosition(GoogleMapController controller) async {
     final response = await http
         .get(Uri.parse('https://us-central1-subtle-torus-393918.cloudfunctions.net/get-geoinfo'));
 
